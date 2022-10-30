@@ -12,6 +12,9 @@ public class Setup {
 	public static Color bgLightGray = new Color(240, 240, 240);
 	public static Color magenta = new Color(232, 70, 77);
 	public static Color white = Color.white;
+	public static Color textFieldBorderColor = new Color(230, 230, 230);
+	public static Color buttonOver = new Color(222, 60, 77);
+	public static Color buttonClick = new Color(202, 40, 57);
 	public static String font = "¸¼Àº °íµñ";
 	
 	

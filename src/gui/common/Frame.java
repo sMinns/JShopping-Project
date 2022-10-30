@@ -46,24 +46,17 @@ import system.Setup;
 				mainPanel.add(new BarPanel(), mainBagConstraints);
 			
 			//MenuPanel
-			mainBagConstraints.gridy = 1;
-			mainBagConstraints.gridwidth = 1;
-			mainBagConstraints.gridheight = 2;
-			mainPanel.add(new GuestPanel(), mainBagConstraints);
-			
-			mainPanel.add(contentPanel);
+				mainBagConstraints.gridy = 1;
+				mainBagConstraints.gridwidth = 1;
+				mainBagConstraints.gridheight = 2;
+				mainPanel.add(new GuestPanel(), mainBagConstraints);
 			
 			//ContentPanel
-			GridBagConstraints gbc_panel = new GridBagConstraints();
-			gbc_panel.gridheight = 2;
-			gbc_panel.insets = new Insets(10, 10, 10, 10);
-			gbc_panel.fill = GridBagConstraints.BOTH;
-			gbc_panel.gridx = 1;
-			gbc_panel.gridy = 1;
-			mainPanel.add(contentPanel, gbc_panel);
-			
-			contentPanel.setLayout(new CardLayout());
-			contentPanel.add(new HomePanel());
+				mainBagConstraints.insets = new Insets(10, 10, 10, 10);
+				mainBagConstraints.gridx = 1;
+				mainPanel.add(contentPanel, mainBagConstraints);
+				contentPanel.setLayout(new CardLayout());
+				contentPanel.add(new HomePanel());
 			
 			
 		}
