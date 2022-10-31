@@ -9,8 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import gui.main.HomePanel;
-import gui.menu.GuestPanel;
+import gui.contents.main.Home;
+import gui.menu.CustomerMenu;
+import gui.menu.GuestMenu;
 import system.Setup;
 
 
@@ -18,7 +19,9 @@ import system.Setup;
 		public static Frame frame;
 		public static JPanel mainPanel = new JPanel();
 		public static JPanel menuPanel = new JPanel();
-		public static JLayeredPane contentPanel;
+		public static JLayeredPane contentLayeredPanel;
+		public static JLayeredPane menuLayeredPanel;
+		
 		public Frame() {
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,7 +38,8 @@ import system.Setup;
 			mainPanel.setLayout(gbl_mainPanel);
 			
 			
-			contentPanel = new JLayeredPane();
+			contentLayeredPanel = new JLayeredPane();
+			menuLayeredPanel = new JLayeredPane();
 			
 			//BarPanel
 				GridBagConstraints mainBagConstraints = new GridBagConstraints();
@@ -49,14 +53,16 @@ import system.Setup;
 				mainBagConstraints.gridy = 1;
 				mainBagConstraints.gridwidth = 1;
 				mainBagConstraints.gridheight = 2;
-				mainPanel.add(new GuestPanel(), mainBagConstraints);
+				mainPanel.add(menuLayeredPanel, mainBagConstraints);
+				menuLayeredPanel.setLayout(new CardLayout());
+				menuLayeredPanel.add(new GuestMenu());
 			
 			//ContentPanel
 				mainBagConstraints.insets = new Insets(10, 10, 10, 10);
 				mainBagConstraints.gridx = 1;
-				mainPanel.add(contentPanel, mainBagConstraints);
-				contentPanel.setLayout(new CardLayout());
-				contentPanel.add(new HomePanel());
+				mainPanel.add(contentLayeredPanel, mainBagConstraints);
+				contentLayeredPanel.setLayout(new CardLayout());
+				contentLayeredPanel.add(new Home());
 			
 			
 		}

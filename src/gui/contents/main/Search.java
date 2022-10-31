@@ -1,4 +1,4 @@
-package gui.main;
+package gui.contents.main;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,9 +13,9 @@ import javax.swing.JTextArea;
 
 import system.ScrollBarUI;
 
-public class SearchPanel extends JPanel {
+public class Search extends JPanel {
 	
-	public SearchPanel() {
+	public Search() {
 		this.setOpaque(false);
 		this.setBackground(new Color(255, 255, 255));
 		

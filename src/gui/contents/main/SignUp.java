@@ -1,4 +1,4 @@
-package gui.main;
+package gui.contents.main;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -12,9 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class LoginPanel extends JPanel {
+public class SignUp extends JPanel {
 
-	public LoginPanel() {
+	public SignUp() {
 		this.setOpaque(false);
 		this.setBackground(new Color(255, 255, 255));
 		GridBagLayout gbl_panel = new GridBagLayout();
@@ -103,5 +103,6 @@ public class LoginPanel extends JPanel {
 		gbc_panel_2.gridx = 1;
 		gbc_panel_2.gridy = 6;
 		this.add(panel_2, gbc_panel_2);
+		
 	}
 }

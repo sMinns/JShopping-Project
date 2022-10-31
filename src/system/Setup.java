@@ -2,6 +2,7 @@ package system;
 
 import java.awt.Color;
 
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import gui.common.BarPanel;
@@ -15,8 +16,9 @@ public class Setup {
 	public static Color textFieldBorderColor = new Color(230, 230, 230);
 	public static Color buttonOver = new Color(222, 60, 77);
 	public static Color buttonClick = new Color(202, 40, 57);
+	public static Color Gray = new Color(140, 140, 140);
 	public static String font = "¸¼Àº °íµñ";
-	
+	public static JPanel lastClickPanel = null;
 	
 	public static void exit() {
 		try {
@@ -32,11 +34,17 @@ public class Setup {
 	      }
 	}
 	
-	public static void changePanel(JPanel panel, String str) {
-		BarPanel.titleTextLabel.setText(str);
-		gui.common.Frame.contentPanel.removeAll();
-		Frame.contentPanel.add(panel);
-		Frame.contentPanel.repaint();
-		Frame.contentPanel.revalidate();
+	public static void changePanel(JLayeredPane layer, JPanel panel, String str) {
+		BarPanel.titleTextLabel.setText(" " + str);
+		layer.removeAll();
+		layer.add(panel);
+		layer.repaint();
+		layer.revalidate();
+	}
+	
+	public static void lastClickReset() {
+		lastClickPanel.setBackground(darkGray);
+		lastClickPanel = null;
+		
 	}
 }

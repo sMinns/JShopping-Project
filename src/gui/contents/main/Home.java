@@ -1,4 +1,4 @@
-package gui.main;
+package gui.contents.main;
 
 import java.awt.CardLayout;
 
@@ -7,12 +7,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import gui.menu.GuestPanel;
+import gui.menu.CustomerMenu;
 import system.Setup;
 
-public class HomePanel extends JPanel {
+public class Home extends JPanel {
 
-	public HomePanel() {
+	public Home() {
 		this.setBackground(Setup.white);
 		this.setLayout(new CardLayout(0, 0));
 		JPanel ImagePanel = new JPanel();
@@ -22,10 +22,12 @@ public class HomePanel extends JPanel {
 		ImagePanel.setLayout(new CardLayout(0, 0));
 		
 		JLabel ImageLabel = new JLabel();
-		ImageIcon img = new ImageIcon(GuestPanel.class.getResource("/images/homelogo.png"));
+		ImageIcon img = new ImageIcon(CustomerMenu.class.getResource("/images/homelogo.png"));
 		ImageLabel.setIcon(img);
 		ImageLabel.setVerticalAlignment(SwingConstants.CENTER);
 		ImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		ImagePanel.add(ImageLabel);
+		
+		
 	}
 }

@@ -10,19 +10,19 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import gui.main.HomePanel;
-import gui.main.LoginPanel;
-import gui.main.SearchPanel;
-import gui.main.SignUpPanel;
+import gui.common.Frame;
+import gui.contents.main.Home;
+import gui.contents.main.Login;
+import gui.contents.main.Search;
+import gui.contents.main.SignUp;
 import system.Setup;
 
-public class GuestPanel extends JPanel implements MouseListener{
-	private JPanel GuestPanel[] = new JPanel[5];
+public class GuestMenu extends JPanel implements MouseListener{
+	private JPanel[] GuestPanel = new JPanel[5];
 	private String[] imgStr = { "/images/home.png", "/images/search.png", "/images/signup.png", "/images/login.png", "/images/exit.png" };
 	private String[] textStr = { "홈", "상품검색", "회원가입", "로그인", "종료" };
-	private JPanel lastClickPanel;
 	private int j = 0;
-	public GuestPanel() {;
+	public GuestMenu() {;
 		this.setBackground(new Color(24, 24, 24));
 		
 		//GridBagLayout
@@ -51,7 +51,7 @@ public class GuestPanel extends JPanel implements MouseListener{
 					this.add(blankPanel1, GuestBagConstraints);
 					continue;
 				}
-				ImageIcon img = new ImageIcon(GuestPanel.class.getResource(imgStr[j]));
+				ImageIcon img = new ImageIcon(GuestMenu.class.getResource(imgStr[j]));
 				GuestPanel[j] = new MenuButton(img, textStr[j]); 
 				GuestPanel[j].addMouseListener(this);
 				this.add(GuestPanel[j], GuestBagConstraints);
@@ -64,23 +64,23 @@ public class GuestPanel extends JPanel implements MouseListener{
 			GuestBagConstraints.gridy++;
 			this.add(blankPanel2, GuestBagConstraints);
 			
-		lastClickPanel = GuestPanel[0];
+		Setup.lastClickPanel = GuestPanel[0];
 		GuestPanel[0].setBackground(Setup.magenta);
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		lastClickPanel.setBackground(Setup.darkGray);
-		lastClickPanel = (JPanel) e.getSource();
-		lastClickPanel.setBackground(Setup.magenta);
-		
+		if(Setup.lastClickPanel != null) { Setup.lastClickPanel.setBackground(Setup.darkGray); }
+		Setup.lastClickPanel = (JPanel) e.getSource();
+		Setup.lastClickPanel.setBackground(Setup.magenta);
+
 		if(e.getSource() == GuestPanel[0]) {
-			Setup.changePanel(new HomePanel(), " 홈");
+			Setup.changePanel(Frame.contentLayeredPanel, new Home(), textStr[0]);
 		}else if(e.getSource() == GuestPanel[1]) {
-			Setup.changePanel(new SearchPanel(), " 상품검색");
+			Setup.changePanel(Frame.contentLayeredPanel, new Search(), textStr[1]);
 		}else if(e.getSource() == GuestPanel[2]) {
-			Setup.changePanel(new SignUpPanel(), " 회원가입");
+			Setup.changePanel(Frame.contentLayeredPanel, new SignUp(), textStr[2]);
 		}else if(e.getSource() == GuestPanel[3]) {
-			Setup.changePanel(new LoginPanel(), " 로그인");
+			Setup.changePanel(Frame.contentLayeredPanel, new Login(), textStr[3]);
 		}else if(e.getSource() == GuestPanel[4]) {
 			Setup.exit();
 		}
