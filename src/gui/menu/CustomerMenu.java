@@ -19,7 +19,7 @@ import gui.contents.main.ShoppingBasket;
 import system.Setup;
 
 public class CustomerMenu extends JPanel implements MouseListener{
-	private JPanel[] GuestPanel = new JPanel[8];
+	private JPanel[] CustomerPanel = new JPanel[8];
 	private String[] imgStr = { "/images/home.png", "/images/search.png", "/images/orderlist.png", "/images/shoppingbasket.png", "/images/sellerapplication.png", "/images/profile.png", "/images/logout.png", "/images/exit.png" };
 	private String[] textStr = { "홈", "상품검색", "주문목록", "장바구니", "판매자 신청", " 님", "로그아웃", "종료" };
 	private int j = 0;
@@ -27,12 +27,12 @@ public class CustomerMenu extends JPanel implements MouseListener{
 		this.setBackground(new Color(24, 24, 24));
 		
 		//GridBagLayout
-			GridBagLayout GuestPanelBagLayout = new GridBagLayout();
-			GuestPanelBagLayout.columnWidths = new int[]{0, 0, 0};
-			GuestPanelBagLayout.rowHeights = new int[]{51, 50, 50, 50, 50, 50, 200, 50, 50, 50, 0, 0};
-			GuestPanelBagLayout.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-			GuestPanelBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-			this.setLayout(GuestPanelBagLayout);
+			GridBagLayout CustomerPanelBagLayout = new GridBagLayout();
+			CustomerPanelBagLayout.columnWidths = new int[]{0, 0, 0};
+			CustomerPanelBagLayout.rowHeights = new int[]{51, 50, 50, 50, 50, 50, 200, 50, 50, 50, 0, 0};
+			CustomerPanelBagLayout.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+			CustomerPanelBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+			this.setLayout(CustomerPanelBagLayout);
 		
 		//MenuBagConstraints 
 			GridBagConstraints GuestBagConstraints = new GridBagConstraints();
@@ -62,13 +62,13 @@ public class CustomerMenu extends JPanel implements MouseListener{
 				
 				ImageIcon img = new ImageIcon(CustomerMenu.class.getResource(imgStr[j]));
 				if(i == 7) {
-					GuestPanel[j] = new MenuButton(img, name + textStr[j]);
+					CustomerPanel[j] = new MenuButton(img, name + textStr[j]);
 					
 				}else {
-					GuestPanel[j] = new MenuButton(img, textStr[j]);
-					GuestPanel[j].addMouseListener(this);
+					CustomerPanel[j] = new MenuButton(img, textStr[j]);
+					CustomerPanel[j].addMouseListener(this);
 				}
-				this.add(GuestPanel[j], GuestBagConstraints);
+				this.add(CustomerPanel[j], GuestBagConstraints);
 				j++;
 			}
 			
@@ -78,8 +78,8 @@ public class CustomerMenu extends JPanel implements MouseListener{
 			GuestBagConstraints.gridy++;
 			this.add(blankPanel3, GuestBagConstraints);
 			
-		Setup.lastClickPanel = GuestPanel[0];
-		GuestPanel[0].setBackground(Setup.magenta);
+		Setup.lastClickPanel = CustomerPanel[0];
+		CustomerPanel[0].setBackground(Setup.magenta);
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -87,20 +87,20 @@ public class CustomerMenu extends JPanel implements MouseListener{
 		Setup.lastClickPanel = (JPanel) e.getSource();
 		Setup.lastClickPanel.setBackground(Setup.magenta);
 
-		if(e.getSource() == GuestPanel[0]) {
+		if(e.getSource() == CustomerPanel[0]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Home(), textStr[0]);
-		}else if(e.getSource() == GuestPanel[1]) {
+		}else if(e.getSource() == CustomerPanel[1]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Search(), textStr[1]);
-		}else if(e.getSource() == GuestPanel[2]) {
+		}else if(e.getSource() == CustomerPanel[2]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new OrderList(), textStr[2]);
-		}else if(e.getSource() == GuestPanel[3]) {
+		}else if(e.getSource() == CustomerPanel[3]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new ShoppingBasket(), textStr[3]);
-		}else if(e.getSource() == GuestPanel[4]) {
+		}else if(e.getSource() == CustomerPanel[4]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new SellerApplication(), textStr[0]);
-		}else if(e.getSource() == GuestPanel[6]) {
+		}else if(e.getSource() == CustomerPanel[6]) {
 			Setup.changePanel(Frame.menuLayeredPanel, new GuestMenu(), textStr[0]);
 			Setup.changePanel(Frame.contentLayeredPanel, new Home(), textStr[0]);
-		}else if(e.getSource() == GuestPanel[7]) {
+		}else if(e.getSource() == CustomerPanel[7]) {
 			Setup.exit();
 		}
 	}
