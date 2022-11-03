@@ -62,7 +62,7 @@ public class BarPanel extends JPanel implements MouseListener, MouseMotionListen
 		this.add(titleBarPanel, gbc_titleBarPanel);
 		titleBarPanel.setLayout(new CardLayout(0, 0));
 		
-		titleTextLabel = new JLabel("");
+		titleTextLabel = new JLabel(" (홈) 카테고리별 추천상품 및 통계");
 		titleTextLabel.setForeground(Setup.white);
 		titleTextLabel.setFont(new Font(Setup.font, Font.BOLD, 30));
 		titleTextLabel.setAlignmentY(Component.BOTTOM_ALIGNMENT);

@@ -1,7 +1,9 @@
 package system;
 
 import java.awt.Color;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
@@ -46,5 +48,12 @@ public class Setup {
 		lastClickPanel.setBackground(darkGray);
 		lastClickPanel = null;
 		
+	}
+	
+	public static ImageIcon imageSetSize(ImageIcon icon, int i, int j) { // image Size Setting
+		Image ximg = icon.getImage();  //ImageIcon을 Image로 변환.
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg); 
+		return xyimg;
 	}
 }

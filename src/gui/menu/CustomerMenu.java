@@ -88,7 +88,7 @@ public class CustomerMenu extends JPanel implements MouseListener{
 		Setup.lastClickPanel.setBackground(Setup.magenta);
 
 		if(e.getSource() == CustomerPanel[0]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new Home(), textStr[0]);
+			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
 		}else if(e.getSource() == CustomerPanel[1]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Search(), textStr[1]);
 		}else if(e.getSource() == CustomerPanel[2]) {
@@ -99,7 +99,7 @@ public class CustomerMenu extends JPanel implements MouseListener{
 			Setup.changePanel(Frame.contentLayeredPanel, new SellerApplication(), textStr[0]);
 		}else if(e.getSource() == CustomerPanel[6]) {
 			Setup.changePanel(Frame.menuLayeredPanel, new GuestMenu(), textStr[0]);
-			Setup.changePanel(Frame.contentLayeredPanel, new Home(), textStr[0]);
+			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
 		}else if(e.getSource() == CustomerPanel[7]) {
 			Setup.exit();
 		}
