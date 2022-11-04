@@ -1,7 +1,6 @@
 package gui.common;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -13,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -31,12 +31,11 @@ public class BarPanel extends JPanel implements MouseListener, MouseMotionListen
 		
 		
 		GridBagLayout gbl_barPanel = new GridBagLayout();
-		gbl_barPanel.columnWidths = new int[]{213, 966, 24, 0};
+		gbl_barPanel.columnWidths = new int[]{213, 946, 51, 0};
 		gbl_barPanel.rowHeights = new int[]{0, 0};
 		gbl_barPanel.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_barPanel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		this.setLayout(gbl_barPanel);
-		
 		JPanel logoPanel = new JPanel();
 		logoPanel.setBackground(Setup.darkGray);;
 		GridBagConstraints gbc_logoPanel = new GridBagConstraints();
@@ -68,25 +67,35 @@ public class BarPanel extends JPanel implements MouseListener, MouseMotionListen
 		titleTextLabel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		titleBarPanel.add(titleTextLabel);
 		
-		JPanel exitPanel = new JPanel();
-		exitPanel.setOpaque(false);
+		JPanel controlPanel = new JPanel();
+		controlPanel.setOpaque(false);
 		GridBagConstraints gbc_exitPanel = new GridBagConstraints();
 		gbc_exitPanel.anchor = GridBagConstraints.WEST;
 		gbc_exitPanel.fill = GridBagConstraints.VERTICAL;
 		gbc_exitPanel.gridx = 2;
 		gbc_exitPanel.gridy = 0;
-		this.add(exitPanel, gbc_exitPanel);
+		this.add(controlPanel, gbc_exitPanel);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		JLabel minimizeLabel = new JLabel("");
+		minimizeLabel.setIcon(new ImageIcon(BarPanel.class.getResource("/images/minimize.png")));
+		minimizeLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Frame.frame.setExtendedState(JFrame.ICONIFIED);
+			}
+		});
+		controlPanel.add(minimizeLabel);
+		
+		JLabel exitLabel = new JLabel("");
+		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Setup.exit();
 			}
 		});
 		
-		lblNewLabel_1.setIcon(new ImageIcon(Frame.class.getResource("/images/close.png")));
-		exitPanel.add(lblNewLabel_1);
+		exitLabel.setIcon(new ImageIcon(Frame.class.getResource("/images/close.png")));
+		controlPanel.add(exitLabel);
 	}
 	
 

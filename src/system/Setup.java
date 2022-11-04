@@ -21,6 +21,7 @@ public class Setup {
 	public static Color Gray = new Color(140, 140, 140);
 	public static String font = "¸¼Àº °íµñ";
 	public static JPanel lastClickPanel = null;
+	public static Color[] statColor = { new Color(255, 177, 1), new Color(246, 101, 1), new Color(171, 181, 54), new Color(1, 163, 255), new Color(193, 48, 56) }; 
 	
 	public static void exit() {
 		try {
@@ -38,6 +39,13 @@ public class Setup {
 	
 	public static void changePanel(JLayeredPane layer, JPanel panel, String str) {
 		BarPanel.titleTextLabel.setText(" " + str);
+		layer.removeAll();
+		layer.add(panel);
+		layer.repaint();
+		layer.revalidate();
+	}
+	
+	public static void changePanel(JPanel layer, JPanel panel) {
 		layer.removeAll();
 		layer.add(panel);
 		layer.repaint();
