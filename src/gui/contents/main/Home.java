@@ -27,13 +27,15 @@ public class Home extends JPanel {
 	public static JPanel statPanel;
 	private String[] categorys = {"패션의류", "뷰티", "출산/유아동", "식품", "주방용품", "생활용품", "홈인테리어",
 			"가전디지털", "스포츠/레저", "자동차용품", "도서/음반/DVD", "완구/취미", "문구/오피스", "반려동물용품", "헬스/건강식품" };
-	private int[] nums = new int[5];
-	private int maxnum = 0;
-	private GridBagConstraints homeStatCon;
+	private int[][] nums = new int[15][5];
+	private int[] maxnum = new int[15];
 	public Home() {
-		for(int i = 0; i < 5; i++) {
-			nums[i] = (int) (Math.random() * 15);
-			if(nums[i] > maxnum) { maxnum = nums[i]; }
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 5; j++) {
+				nums[i][j] = (int) (Math.random() * 15);
+				if(nums[i][j] > maxnum[i]) { maxnum[i] = nums[i][j]; }
+			}
+			
 		}
 		
 		
@@ -55,7 +57,7 @@ public class Home extends JPanel {
 		//TitlePanel ( 카테고리명 )
 			GridBagConstraints HomeBagCon = new GridBagConstraints();
 			HomeBagCon.gridwidth = 3;
-			HomeBagCon.insets = new Insets(0, 0, 2, 8);
+			HomeBagCon.insets = new Insets(0, 0, 2, 6);
 			HomeBagCon.fill = GridBagConstraints.BOTH;
 			HomeBagCon.gridx = 0;
 			HomeBagCon.gridy = 0;
@@ -83,41 +85,36 @@ public class Home extends JPanel {
 			ProductPanel.setLayout(new GridLayout(2, 1, 2, 2));
 		
 		//statPanel ( 통계 패널 )
-			
-			HomeBagCon.insets = new Insets(0, 0, 0, 8);
+			HomeBagCon.insets = new Insets(0, 0, 0, 5);
 			HomeBagCon.gridx = 2;
-			this.add(new HomeStatistics(nums, maxnum), HomeBagCon);
+			this.add(new HomeStatistics(nums[0], maxnum[0]), HomeBagCon);
+			
 		// ChangePanel MultiThread
-			new Thread(()->{
-				try {
-					while(Setup.lastClickPanel == thisPanel) {
-						categorynum++;
-						if(categorynum == 15) { categorynum = 0; }
-						
-						
-						statRotation();
-						productRotaion();
-						
-			        	 Thread.sleep(loopDelay);
-			         }
-			      }catch(Exception a) {
-			      }
-			}).start();
+			class RotationThread extends Thread {
+				public void run() {
+					try {
+						while(Setup.lastClickPanel == thisPanel) {
+							categorynum++;
+							if(categorynum == 15) { categorynum = 0; }
+							//stat
+								Setup.changePanel(statPanel, new Statistics(nums[categorynum], maxnum[categorynum]));
+							//product
+								productRotaion();
+							//delay
+				        	 Thread.sleep(loopDelay);
+				         }
+				      }catch(Exception a) {
+				      }
+				}
+			}
+			Thread rotationThread = new RotationThread();
+			rotationThread.start();
 			
 			
 		
 	}
 	
-	public void statRotation() {
-		maxnum = 0;
-		for(int i = 0; i < 5; i++) {
-			nums[i] = (int) (Math.random() * 15);
-			if(nums[i] > maxnum) { maxnum = nums[i]; }
-		}
-		Setup.changePanel(statPanel, new Statistics(nums, maxnum));
-	}
-	
-	public void productRotaion() {
+	private void productRotaion() {
 		String testName = categorys[categorynum] + categorys[categorynum] + categorys[categorynum] + categorys[categorynum];
 		homeTitleText.setText(categorys[categorynum]);
 		for(int i = 0; i < 6; i++) {

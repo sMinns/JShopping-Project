@@ -19,6 +19,7 @@ import system.Setup;
 public class Statistics extends JPanel {
 	public Statistics(int[] nums, int maxnum) {
 			this.setLayout(new GridLayout());
+			this.setBackground(Setup.white);
 			for(int i = 0; i < 5; i++) {
 				this.add(new StatGraph(Setup.statColor[i], nums[i], maxnum));
 		}
@@ -26,7 +27,6 @@ public class Statistics extends JPanel {
 	private class StatGraph extends JPanel {
 		private float height;
 		private Color color;
-		
 		private StatGraph(Color color, int num, int maxnum) {
 			height = ( 430 / maxnum ) * (maxnum - num);
 			this.color = color;

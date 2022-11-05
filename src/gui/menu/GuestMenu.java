@@ -69,6 +69,7 @@ public class GuestMenu extends JPanel implements MouseListener{
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(Setup.lastClickPanel == (JPanel) e.getSource()) { return; }
 		if(Setup.lastClickPanel != null) { Setup.lastClickPanel.setBackground(Setup.darkGray); }
 		Setup.lastClickPanel = (JPanel) e.getSource();
 		Setup.lastClickPanel.setBackground(Setup.magenta);

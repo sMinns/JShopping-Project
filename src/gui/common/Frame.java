@@ -21,17 +21,19 @@ import system.Setup;
 		public static JPanel menuPanel = new JPanel();
 		public static JLayeredPane contentLayeredPanel;
 		public static JLayeredPane menuLayeredPanel;
+		private int x = Setup.screenSize.width / 2 - 600;
+		private int y = Setup.screenSize.height / 2 - 375;
 		
 		public Frame() {
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 1200, 750);
+			setBounds(x, y, 1200, 750);
 			mainPanel.setBackground(Setup.bgLightGray);
 			setUndecorated(true);
 
 			setContentPane(mainPanel);
 			GridBagLayout gbl_mainPanel = new GridBagLayout();
-			gbl_mainPanel.columnWidths = new int[]{215, 0, 0};
+			gbl_mainPanel.columnWidths = new int[]{218, 0, 0};
 			gbl_mainPanel.rowHeights = new int[]{60, 40, 0, 0};
 			gbl_mainPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 			gbl_mainPanel.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};

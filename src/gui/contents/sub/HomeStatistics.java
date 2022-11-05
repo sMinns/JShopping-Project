@@ -43,7 +43,7 @@ public class HomeStatistics extends JPanel {
 			TitleTextLabel1.setFont(new Font(Setup.font, Font.BOLD, 24));
 			HomeStatTitlePanel.add(TitleTextLabel1);
 			
-			JLabel TitleTextLabel2 = new JLabel("( 명 )");
+			JLabel TitleTextLabel2 = new JLabel("(명)");
 			TitleTextLabel2.setForeground(Setup.magenta);
 			TitleTextLabel2.setFont(new Font(Setup.font, Font.BOLD, 24));
 			HomeStatTitlePanel.add(TitleTextLabel2);
@@ -52,7 +52,6 @@ public class HomeStatistics extends JPanel {
 			JPanel BlankPanel1 = new JPanel();
 			BlankPanel1.setBackground(new Color(255, 255, 255));
 			homeStatCon.gridwidth = 1;
-			homeStatCon.insets = new Insets(0, 0, 0, 0);
 			homeStatCon.gridy = 1;
 			this.add(BlankPanel1, homeStatCon);
 			
@@ -61,13 +60,10 @@ public class HomeStatistics extends JPanel {
 			homeStatCon.gridx = 6;
 			this.add(blankPanel2, homeStatCon);
 		
-
 			homeStatCon.insets = new Insets(0, 0, 2, 0);
-		//Stat Panel
 			homeStatCon.gridheight = 2;
 			homeStatCon.gridx = 1;
 			
-		//BlankPanel
 			JPanel ageBlankPanel1 = new JPanel();
 			ageBlankPanel1.setBackground(Setup.white);
 			homeStatCon.gridx = 0;
@@ -80,17 +76,16 @@ public class HomeStatistics extends JPanel {
 			this.add(ageBlankPanel2, homeStatCon);
 		
 		//Stat
-				homeStatCon.gridx = 1;
-				homeStatCon.gridwidth = 5;
-				Home.statPanel = new Statistics(nums, maxnum);
-				this.add(Home.statPanel, homeStatCon);
+			homeStatCon.gridx = 1;
+			homeStatCon.gridwidth = 5;
+			Home.statPanel = new Statistics(nums, maxnum);
+			this.add(Home.statPanel, homeStatCon);
 			
 		//연령 표시 age Panel
-			homeStatCon.gridwidth = 1;
-			homeStatCon.insets = new Insets(0, 0, 0, 0);
-			
 			JPanel ageblankPanel1 = new JPanel();
 			ageblankPanel1.setBackground(new Color(255, 255, 255));
+			homeStatCon.gridwidth = 1;
+			homeStatCon.insets = new Insets(0, 0, 0, 0);
 			homeStatCon.gridx = 0;
 			homeStatCon.gridy = 3;
 			this.add(ageblankPanel1, homeStatCon);
