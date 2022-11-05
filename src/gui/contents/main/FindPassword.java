@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 public class FindPassword extends JPanel {
 
 	public FindPassword() {
-		//ºñ¹Ð¹øÈ£ Ã£±â
-		JLabel label = new JLabel("ºñ¹Ð¹øÈ£ Ã£±â");
+		//ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°
+		JLabel label = new JLabel("ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°");
 		this.add(label);
 	}
 }

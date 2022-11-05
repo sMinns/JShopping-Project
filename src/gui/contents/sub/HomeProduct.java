@@ -30,7 +30,6 @@ public class HomeProduct extends JPanel implements MouseListener {
 			gbl_panel_11.columnWidths = new int[]{116, 0};
 			gbl_panel_11.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 			gbl_panel_11.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-			
 			this.setLayout(gbl_panel_11);
 		
 		//Image
@@ -70,6 +69,7 @@ public class HomeProduct extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		System.out.println(text + "Click");
 	}
+	
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	public void mousePressed(MouseEvent e) {}

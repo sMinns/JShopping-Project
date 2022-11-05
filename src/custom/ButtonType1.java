@@ -39,18 +39,19 @@ public class ButtonType1 extends JButton implements MouseListener {
 		g2.fillRoundRect(0, 2, width-3, height-3, 10, 10);
 		super.paintComponent(g);
 	}
-
 	
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		buttonColor = Setup.buttonOver;
 		repaint();
 	}
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		buttonColor = Setup.buttonClick;
 		repaint();
 	}
+	
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		if(over) {
@@ -61,11 +62,12 @@ public class ButtonType1 extends JButton implements MouseListener {
 			repaint();
 		}
 	}
+	
 	@Override
 	public void mouseExited(MouseEvent e) {
 		buttonColor = Setup.magenta;
 		repaint();
 	}
-	public void mouseClicked(MouseEvent e) {}
 	
+	public void mouseClicked(MouseEvent e) {}
 }

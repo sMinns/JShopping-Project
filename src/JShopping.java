@@ -19,5 +19,4 @@ public class JShopping {
 			e.printStackTrace();
 		}
 	}
-
 }

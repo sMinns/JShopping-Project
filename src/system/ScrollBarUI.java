@@ -13,7 +13,6 @@ import javax.swing.JComponent;
 import javax.swing.plaf.metal.MetalScrollBarUI;
 
 public class ScrollBarUI extends MetalScrollBarUI {
-
     private Image imageThumb, imageTrack;
     private JButton b = new JButton() {
 
@@ -21,7 +20,6 @@ public class ScrollBarUI extends MetalScrollBarUI {
         public Dimension getPreferredSize() {
             return new Dimension(0, 0);
         }
-
     };
 
     public ScrollBarUI() {
@@ -54,7 +52,6 @@ public class ScrollBarUI extends MetalScrollBarUI {
 }
 
 class FauxImage {
-
     static public Image create(int w, int h, Color c) {
         BufferedImage bi = new BufferedImage(
             w, h, BufferedImage.TYPE_INT_ARGB);

@@ -25,8 +25,8 @@ public class Home extends JPanel {
 	private final int loopDelay = 1000;
 	private int categorynum = 0;
 	public static JPanel statPanel;
-	private String[] categorys = {"ÆĞ¼ÇÀÇ·ù", "ºäÆ¼", "Ãâ»ê/À¯¾Æµ¿", "½ÄÇ°", "ÁÖ¹æ¿ëÇ°", "»ıÈ°¿ëÇ°", "È¨ÀÎÅ×¸®¾î",
-			"°¡ÀüµğÁöÅĞ", "½ºÆ÷Ã÷/·¹Àú", "ÀÚµ¿Â÷¿ëÇ°", "µµ¼­/À½¹İ/DVD", "¿Ï±¸/Ãë¹Ì", "¹®±¸/¿ÀÇÇ½º", "¹İ·Áµ¿¹°¿ëÇ°", "Çï½º/°Ç°­½ÄÇ°" };
+	private String[] categorys = {"íŒ¨ì…˜ì˜ë¥˜", "ë·°í‹°", "ì¶œì‚°/ìœ ì•„ë™", "ì‹í’ˆ", "ì£¼ë°©ìš©í’ˆ", "ìƒí™œìš©í’ˆ", "í™ˆì¸í…Œë¦¬ì–´",
+			"ê°€ì „ë””ì§€í„¸", "ìŠ¤í¬ì¸ /ë ˆì €", "ìë™ì°¨ìš©í’ˆ", "ë„ì„œ/ìŒë°˜/DVD", "ì™„êµ¬/ì·¨ë¯¸", "ë¬¸êµ¬/ì˜¤í”¼ìŠ¤", "ë°˜ë ¤ë™ë¬¼ìš©í’ˆ", "í—¬ìŠ¤/ê±´ê°•ì‹í’ˆ" };
 	private int[][] nums = new int[15][5];
 	private int[] maxnum = new int[15];
 	public Home() {
@@ -37,14 +37,8 @@ public class Home extends JPanel {
 			}
 			
 		}
-		
-		
-		
-		
-		
 		this.setOpaque(false);
 		this.setBackground(new Color(255, 255, 255));
-		
 		
 		//homePanel Layout
 			GridBagLayout homePanelLayout = new GridBagLayout();
@@ -54,7 +48,7 @@ public class Home extends JPanel {
 			homePanelLayout.rowWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
 			this.setLayout(homePanelLayout);
 		
-		//TitlePanel ( Ä«Å×°í¸®¸í )
+		//TitlePanel ( ì¹´í…Œê³ ë¦¬ëª… )
 			GridBagConstraints HomeBagCon = new GridBagConstraints();
 			HomeBagCon.gridwidth = 3;
 			HomeBagCon.insets = new Insets(0, 0, 2, 6);
@@ -66,8 +60,7 @@ public class Home extends JPanel {
 			title.setLayout(new CardLayout(0, 0));
 		
 			
-		//SideBarPanel ( ÃßÃµ»óÇ° )
-
+		//SideBarPanel ( ì¶”ì²œìƒí’ˆ )
 			HomeBagCon.gridwidth = 1;
 			HomeBagCon.gridheight = 2;
 			HomeBagCon.insets = new Insets(0, 0, 0, 2);
@@ -77,14 +70,14 @@ public class Home extends JPanel {
 			side.setLayout(new CardLayout(0, 0));
 		
 			
-		//ProductsPanel ( »óÇ°¸ñ·ÏÆĞ³Î )
+		//ProductsPanel ( ìƒí’ˆëª©ë¡íŒ¨ë„ )
 			HomeBagCon.insets = new Insets(0, 0, 0, 5);
 			HomeBagCon.gridx = 1;
 			JPanel ProductPanel = new ProductHome();
 			this.add(ProductPanel, HomeBagCon);
 			ProductPanel.setLayout(new GridLayout(2, 1, 2, 2));
 		
-		//statPanel ( Åë°è ÆĞ³Î )
+		//statPanel ( í†µê³„ íŒ¨ë„ )
 			HomeBagCon.insets = new Insets(0, 0, 0, 5);
 			HomeBagCon.gridx = 2;
 			this.add(new HomeStatistics(nums[0], maxnum[0]), HomeBagCon);
@@ -123,27 +116,22 @@ public class Home extends JPanel {
 	}
 	
 	private class ProductHome extends JPanel {
-
 		private ProductHome() {
-		//ProductsPanel ( »óÇ°¸ñ·ÏÆĞ³Î )
 			this.setOpaque(false);
 			this.setBackground(Setup.white);
-	
-			
-			
-			//TopProducts Panel ( À§ÂÊ 3°³ )
+			//TopProducts Panel ( ìœ„ìª½ 3ê°œ )
 				JPanel topProducts = new JPanel();
 				topProducts.setBackground(Setup.white);
 				this.add(topProducts);
 				topProducts.setLayout(new GridLayout(1, 0, 0, 0));
 			
-			//BottomProducts Panel ( ¾Æ·¡ÂÊ 3°³ )
+			//BottomProducts Panel ( ì•„ë˜ìª½ 3ê°œ )
 				JPanel bottomProducts = new JPanel();
 				bottomProducts.setBackground(Setup.white);
 				this.add(bottomProducts);
 				bottomProducts.setLayout(new GridLayout(1, 0, 0, 0));
 		
-			//»óÇ° Ãß°¡
+			//ìƒí’ˆ ì¶”ê°€
 				String productName = categorys[categorynum] + categorys[categorynum] + categorys[categorynum] + categorys[categorynum];
 				for(int i = 0; i < 3; i++) {
 					productNames[i] = new JTextArea();
@@ -155,10 +143,7 @@ public class Home extends JPanel {
 	}
 	
 	private class TitleBar extends JPanel {
-		
 		private TitleBar() {
-			//TitlePanel ( Ä«Å×°í¸®¸í )
-			
 			this.setBackground(Setup.white);
 			this.setLayout(new CardLayout(0, 0));
 		
@@ -172,13 +157,11 @@ public class Home extends JPanel {
 	}
 	
 	private class SideBar extends JPanel {
-		
 		private SideBar() {
 			this.setBackground(Setup.white);
-			
-			JLabel sideBarText = new JLabel("<html><body><center>Ãß<br>Ãµ<br>»ó<br>Ç°</center></body></html>");
+			JLabel sideBarText = new JLabel("<html><body><center>ì¶”<br>ì²œ<br>ìƒ<br>í’ˆ</center></body></html>");
 			sideBarText.setBackground(Setup.white);
-			sideBarText.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 24));
+			sideBarText.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 24));
 			this.add(sideBarText);
 			sideBarText.setHorizontalAlignment(SwingConstants.CENTER);
 		}

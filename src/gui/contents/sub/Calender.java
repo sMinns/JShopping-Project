@@ -1,5 +1,9 @@
 package gui.contents.sub;
 
-public class Calender {
+import javax.swing.JPanel;
 
+public class Calender extends JPanel {
+	public Calender() {
+		
+	}
 }

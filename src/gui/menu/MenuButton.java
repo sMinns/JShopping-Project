@@ -17,7 +17,6 @@ import javax.swing.SwingConstants;
 import system.Setup;
 
 public class MenuButton extends JPanel {
-	
 	public MenuButton(ImageIcon img, String str) {
 		this.setBackground(new Color(34, 34, 34));
 		
@@ -61,6 +60,4 @@ public class MenuButton extends JPanel {
 		TextLabel.setForeground(Setup.bgLightGray);
 		TextPanel.add(TextLabel);
 	}
-	
-
 }

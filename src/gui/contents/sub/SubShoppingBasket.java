@@ -1,5 +1,9 @@
 package gui.contents.sub;
 
-public class SubShoppingBasket {
+import javax.swing.JPanel;
 
+public class SubShoppingBasket extends JPanel {
+	public SubShoppingBasket() {
+		
+	}
 }

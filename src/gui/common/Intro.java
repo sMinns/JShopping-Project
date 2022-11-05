@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import system.Setup;
 
 public class Intro extends JFrame {
-	
 	public Intro() {
 		int x = (Setup.screenSize.width / 2) - 245;
 		int y = (Setup.screenSize.height / 2) - 75;

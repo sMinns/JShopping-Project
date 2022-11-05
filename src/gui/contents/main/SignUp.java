@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import system.Setup;
+
 public class SignUp extends JPanel {
 
 	public SignUp() {
@@ -36,7 +38,7 @@ public class SignUp extends JPanel {
 		this.add(panel_4, gbc_panel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("\uC544\uC774\uB514");
-		lblNewLabel_5.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+		lblNewLabel_5.setFont(new Font(Setup.font, Font.BOLD, 14));
 		lblNewLabel_5.setHorizontalAlignment(JLabel.LEFT);
 		panel_4.add(lblNewLabel_5);
 		
@@ -52,7 +54,7 @@ public class SignUp extends JPanel {
 		this.add(panel_6, gbc_panel_6);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 16));
+		textArea.setFont(new Font(Setup.font, Font.PLAIN, 16));
 		textArea.setLineWrap(true);
 		panel_6.add(textArea);
 		
@@ -68,7 +70,7 @@ public class SignUp extends JPanel {
 		this.add(panel_7, gbc_panel_7);
 		
 		JLabel lblNewLabel_6 = new JLabel("\uBE44\uBC00\uBC88\uD638");
-		lblNewLabel_6.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+		lblNewLabel_6.setFont(new Font(Setup.font, Font.BOLD, 14));
 		panel_7.add(lblNewLabel_6);
 		
 		JPanel panel_8 = new JPanel();

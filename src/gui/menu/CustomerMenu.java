@@ -21,7 +21,7 @@ import system.Setup;
 public class CustomerMenu extends JPanel implements MouseListener{
 	private JPanel[] CustomerPanel = new JPanel[8];
 	private String[] imgStr = { "/images/home.png", "/images/search.png", "/images/orderlist.png", "/images/shoppingbasket.png", "/images/sellerapplication.png", "/images/profile.png", "/images/logout.png", "/images/exit.png" };
-	private String[] textStr = { "È¨", "»óÇ°°Ë»ö", "ÁÖ¹®¸ñ·Ï", "Àå¹Ù±¸´Ï", "ÆÇ¸ÅÀÚ ½ÅÃ»", " ´Ô", "·Î±×¾Æ¿ô", "Á¾·á" };
+	private String[] textStr = { "í™ˆ", "ìƒí’ˆê²€ìƒ‰", "ì£¼ë¬¸ëª©ë¡", "ì¥ë°”êµ¬ë‹ˆ", "íŒë§¤ì ì‹ ì²­", " ë‹˜", "ë¡œê·¸ì•„ì›ƒ", "ì¢…ë£Œ" };
 	private int j = 0;
 	public CustomerMenu(String name) {;
 		this.setBackground(new Color(24, 24, 24));
@@ -59,7 +59,6 @@ public class CustomerMenu extends JPanel implements MouseListener{
 					continue;
 				}
 				
-				
 				ImageIcon img = new ImageIcon(CustomerMenu.class.getResource(imgStr[j]));
 				if(i == 7) {
 					CustomerPanel[j] = new MenuButton(img, name + textStr[j]);
@@ -80,6 +79,7 @@ public class CustomerMenu extends JPanel implements MouseListener{
 			
 		Setup.lastClickPanel = CustomerPanel[0];
 		CustomerPanel[0].setBackground(Setup.magenta);
+		
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -89,7 +89,7 @@ public class CustomerMenu extends JPanel implements MouseListener{
 		Setup.lastClickPanel.setBackground(Setup.magenta);
 
 		if(e.getSource() == CustomerPanel[0]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(È¨) Ä«Å×°í¸®º° ÃßÃµ»óÇ° ¹× Åë°è");
+			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(í™ˆ) ì¹´í…Œê³ ë¦¬ë³„ ì¶”ì²œìƒí’ˆ ë° í†µê³„");
 		}else if(e.getSource() == CustomerPanel[1]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Search(), textStr[1]);
 		}else if(e.getSource() == CustomerPanel[2]) {
@@ -97,14 +97,15 @@ public class CustomerMenu extends JPanel implements MouseListener{
 		}else if(e.getSource() == CustomerPanel[3]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new ShoppingBasket(), textStr[3]);
 		}else if(e.getSource() == CustomerPanel[4]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new SellerApplication(), textStr[0]);
+			Setup.changePanel(Frame.contentLayeredPanel, new SellerApplication(), textStr[4]);
 		}else if(e.getSource() == CustomerPanel[6]) {
 			Setup.changePanel(Frame.menuLayeredPanel, new GuestMenu(), textStr[0]);
-			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(È¨) Ä«Å×°í¸®º° ÃßÃµ»óÇ° ¹× Åë°è");
+			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(í™ˆ) ì¹´í…Œê³ ë¦¬ë³„ ì¶”ì²œìƒí’ˆ ë° í†µê³„");
 		}else if(e.getSource() == CustomerPanel[7]) {
 			Setup.exit();
 		}
 	}
+	
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	public void mousePressed(MouseEvent e) {}

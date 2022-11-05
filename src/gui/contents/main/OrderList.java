@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 public class OrderList extends JPanel {
 
 	public OrderList() {
-		//¡÷πÆ ∏Ò∑œ
-		JLabel label = new JLabel("¡÷πÆ∏Ò∑œ");
+		//Ï£ºÎ¨∏ Î™©Î°ù
+		JLabel label = new JLabel("Ï£ºÎ¨∏ Î™©Î°ù");
 		this.add(label);
 	}
 }

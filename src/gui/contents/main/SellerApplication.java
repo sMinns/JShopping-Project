@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 public class SellerApplication extends JPanel {
 
 	public SellerApplication() {
-		//ÆÇ¸ÅÀÚ ½ÅÃ»
-		JLabel label = new JLabel("ÆÇ¸ÅÀÚ ½ÅÃ»");
+		//íŒë§¤ì ì‹ ì²­
+		JLabel label = new JLabel("íŒë§¤ì ì‹ ì²­");
 		this.add(label);
 	}
 }

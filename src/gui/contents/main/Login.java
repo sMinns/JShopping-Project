@@ -13,17 +13,17 @@ import gui.menu.CustomerMenu;
 import system.Setup;
 
 public class Login extends JPanel implements ActionListener {
-	private JButton login = new ButtonType1(100, "·Î±×ÀÎ");
+	private JButton login = new ButtonType1(100, "ë¡œê·¸ì¸");
 	public Login() {
-		add(new TextFieldType1(20, "¾ÆÀÌµğ"));
-		add(new TextFieldType1(10, "ºñ¹Ğ¹øÈ£"));
+		add(new TextFieldType1(20, "ì•„ì´ë””"));
+		add(new TextFieldType1(10, "ë¹„ë°€ë²ˆí˜¸"));
 		add(login);
 		login.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		Setup.changePanel(Frame.menuLayeredPanel, new CustomerMenu("±èÄ¡Âî°³"), "È¨");
-		Setup.changePanel(Frame.contentLayeredPanel, new Home(), "È¨");
+		Setup.changePanel(Frame.menuLayeredPanel, new CustomerMenu("ê¹€ì¹˜ì°Œê°œ"), "í™ˆ");
+		Setup.changePanel(Frame.contentLayeredPanel, new Home(), "í™ˆ");
 	}
 		
 }

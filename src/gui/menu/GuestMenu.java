@@ -20,7 +20,7 @@ import system.Setup;
 public class GuestMenu extends JPanel implements MouseListener{
 	private JPanel[] GuestPanel = new JPanel[5];
 	private String[] imgStr = { "/images/home.png", "/images/search.png", "/images/signup.png", "/images/login.png", "/images/exit.png" };
-	private String[] textStr = { "È¨", "»óÇ°°Ë»ö", "È¸¿ø°¡ÀÔ", "·Î±×ÀÎ", "Á¾·á" };
+	private String[] textStr = { "í™ˆ", "ìƒí’ˆê²€ìƒ‰", "íšŒì›ê°€ì…", "ë¡œê·¸ì¸", "ì¢…ë£Œ" };
 	private int j = 0;
 	public GuestMenu() {;
 		this.setBackground(new Color(24, 24, 24));
@@ -75,7 +75,7 @@ public class GuestMenu extends JPanel implements MouseListener{
 		Setup.lastClickPanel.setBackground(Setup.magenta);
 
 		if(e.getSource() == GuestPanel[0]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(È¨) Ä«Å×°í¸®º° ÃßÃµ»óÇ° ¹× Åë°è");
+			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(í™ˆ) ì¹´í…Œê³ ë¦¬ë³„ ì¶”ì²œìƒí’ˆ ë° í†µê³„");
 		}else if(e.getSource() == GuestPanel[1]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Search(), textStr[1]);
 		}else if(e.getSource() == GuestPanel[2]) {

@@ -21,8 +21,8 @@ import javax.swing.JTextField;
 public class OrderPage extends JPanel {
 
 	public OrderPage() {
-		//¡÷πÆ / ∞·¡¶ √¢
-		JLabel label = new JLabel("¡÷πÆ / ∞·¡¶√¢");
+		//Ï£ºÎ¨∏ / Í≤∞Ï†ú Ï∞Ω
+		JLabel label = new JLabel("Ï£ºÎ¨∏ / Í≤∞Ï†úÏ∞Ω");
 		this.add(label);
 	}
 }

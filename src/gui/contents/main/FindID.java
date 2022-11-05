@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 public class FindID extends JPanel {
 
 	public FindID() {
-		//¾ÆÀÌµğ Ã£±â
-		JLabel label = new JLabel("¾ÆÀÌµğ Ã£±â");
+		//ì•„ì´ë”” ì°¾ê¸°
+		JLabel label = new JLabel("ì•„ì´ë”” ì°¾ê¸°");
 		this.add(label);
 	}
 }

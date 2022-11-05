@@ -43,7 +43,7 @@ public class TextFieldType1 extends JTextField implements FocusListener {
 		g2.drawRoundRect(2, 2, width-4, height-4, 5, 5);
 		super.paintComponent(g);
 	}
-
+	
 	@Override
 	public void focusGained(FocusEvent e) {
 		if(((JTextField) e.getSource()).getText().equals(text)) {
@@ -53,7 +53,7 @@ public class TextFieldType1 extends JTextField implements FocusListener {
 		strokeColor = Setup.magenta;
 		this.repaint();
 	}
-
+	
 	@Override
 	public void focusLost(FocusEvent e) {
 		if(((JTextField) e.getSource()).getText().equals("")) {
@@ -62,7 +62,5 @@ public class TextFieldType1 extends JTextField implements FocusListener {
 		}
 		strokeColor = Setup.textFieldBorderColor;
 		this.repaint();
-		
 	}
-
 }

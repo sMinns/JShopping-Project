@@ -7,25 +7,26 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import custom.ButtonType1;
 import gui.common.Frame;
 import system.Setup;
 
 public class ShoppingBasket extends JPanel implements ActionListener {
 
 	public ShoppingBasket() {
-		//Àå¹Ù±¸´Ï
-		JLabel label = new JLabel("Àå¹Ù±¸´Ï");
+		//ìž¥ë°”êµ¬ë‹ˆ
+		JLabel label = new JLabel("ìž¥ë°”êµ¬ë‹ˆ");
 		this.add(label);
 		
 		
-		JButton order = new JButton("ÁÖ¹®ÇÏ±â");
+		JButton order = new ButtonType1(50, "ì£¼ë¬¸í•˜ê¸°");
 		order.addActionListener(this);
 		this.add(order);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(), "ÁÖ¹® / °áÁ¦");
+		Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(), "ì£¼ë¬¸ / ê²°ì œ");
 		Setup.lastClickReset();
 	}
 }

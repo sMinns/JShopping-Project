@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 public class OrderManagement extends JPanel {
 
 	public OrderManagement() {
-		//ÁÖ¹® °ü¸® Ã¢ ( ÆÇ¸ÅÀÚ )
-		JLabel label = new JLabel("ÁÖ¹® °ü¸® Ã¢ ( ÆÇ¸ÅÀÚ )");
+		//ì£¼ë¬¸ ê´€ë¦¬ ì°½ ( íŒë§¤ì )
+		JLabel label = new JLabel("ì£¼ë¬¸ ê´€ë¦¬ ì°½ ( íŒë§¤ì )");
 		this.add(label);
 	}
 }

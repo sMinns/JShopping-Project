@@ -39,11 +39,11 @@ public class HomeStatistics extends JPanel {
 		HomeStatTitlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
 		//Title Text Label
-			JLabel TitleTextLabel1 = new JLabel(" ±∏∏≈¿⁄ ø¨∑…");
+			JLabel TitleTextLabel1 = new JLabel(" Íµ¨Îß§Ïûê Ïó∞Î†π");
 			TitleTextLabel1.setFont(new Font(Setup.font, Font.BOLD, 24));
 			HomeStatTitlePanel.add(TitleTextLabel1);
 			
-			JLabel TitleTextLabel2 = new JLabel("(∏Ì)");
+			JLabel TitleTextLabel2 = new JLabel("(Î™Ö)");
 			TitleTextLabel2.setForeground(Setup.magenta);
 			TitleTextLabel2.setFont(new Font(Setup.font, Font.BOLD, 24));
 			HomeStatTitlePanel.add(TitleTextLabel2);
@@ -81,7 +81,7 @@ public class HomeStatistics extends JPanel {
 			Home.statPanel = new Statistics(nums, maxnum);
 			this.add(Home.statPanel, homeStatCon);
 			
-		//ø¨∑… «•Ω√ age Panel
+		//Ïó∞Î†π ÌëúÏãú age Panel
 			JPanel ageblankPanel1 = new JPanel();
 			ageblankPanel1.setBackground(new Color(255, 255, 255));
 			homeStatCon.gridwidth = 1;
@@ -97,8 +97,8 @@ public class HomeStatistics extends JPanel {
 				homeStatCon.gridx = i+1;
 				this.add(agePanel[i], homeStatCon);
 				
-				ageLabel[i] = new JLabel((i+1)*10 + "¥Î");
-				ageLabel[i].setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 18));
+				ageLabel[i] = new JLabel((i+1)*10 + "ÎåÄ");
+				ageLabel[i].setFont(new Font(Setup.font, Font.BOLD, 18));
 				agePanel[i].add(ageLabel[i]);
 			}
 			

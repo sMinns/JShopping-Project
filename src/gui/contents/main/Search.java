@@ -26,14 +26,12 @@ public class Search extends JPanel {
 		gbl_panel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		this.setLayout(gbl_panel);
 
-		
 		JScrollPane panel_16 = new JScrollPane();
 		panel_16.setBorder(null);
 		panel_16.getVerticalScrollBar().setPreferredSize(new Dimension(5, 0));
 		panel_16.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 5));
 		JScrollBar sb = panel_16.getVerticalScrollBar();
 		sb.setUI(new ScrollBarUI());
-		
 		
 		panel_16.setBackground(new Color(255, 255, 255));
 		GridBagConstraints gbc_panel_16 = new GridBagConstraints();

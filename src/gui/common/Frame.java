@@ -30,7 +30,6 @@ import system.Setup;
 			setBounds(x, y, 1200, 750);
 			mainPanel.setBackground(Setup.bgLightGray);
 			setUndecorated(true);
-
 			setContentPane(mainPanel);
 			GridBagLayout gbl_mainPanel = new GridBagLayout();
 			gbl_mainPanel.columnWidths = new int[]{218, 0, 0};
@@ -65,7 +64,5 @@ import system.Setup;
 				mainPanel.add(contentLayeredPanel, mainBagConstraints);
 				contentLayeredPanel.setLayout(new CardLayout());
 				contentLayeredPanel.add(new Home());
-			
-			
 		}
 	}

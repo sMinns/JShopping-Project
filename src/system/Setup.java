@@ -21,7 +21,7 @@ public class Setup {
 	public static Color buttonOver = new Color(222, 60, 77);
 	public static Color buttonClick = new Color(202, 40, 57);
 	public static Color Gray = new Color(140, 140, 140);
-	public static String font = "∏º¿∫ ∞ÌµÒ";
+	public static String font = "ÎßëÏùÄ Í≥†Îîï";
 	public static JPanel lastClickPanel = null;
 	public static Color[] statColor = { new Color(255, 177, 1), new Color(246, 101, 1), new Color(171, 181, 54), new Color(1, 163, 255), new Color(193, 48, 56) }; 
 	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -32,7 +32,6 @@ public class Setup {
 	        	 Frame.frame.setBackground(new Color(50, 50, 50, i*5));
 	        	 Thread.sleep(7);
 	         }
-	       
 	      }catch(Exception a) {
 	      }finally { 
 	    	  System.exit(0);
@@ -55,11 +54,10 @@ public class Setup {
 	public static void lastClickReset() {
 		lastClickPanel.setBackground(darkGray);
 		lastClickPanel = null;
-		
 	}
 	
 	public static ImageIcon imageSetSize(ImageIcon icon, int i, int j) { // image Size Setting
-		Image ximg = icon.getImage();  //ImageIcon¿ª Image∑Œ ∫Ø»Ø.
+		Image ximg = icon.getImage();  //ImageIconÔøΩÔøΩ ImageÔøΩÔøΩ ÔøΩÔøΩ»Ø.
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon xyimg = new ImageIcon(yimg); 
 		return xyimg;

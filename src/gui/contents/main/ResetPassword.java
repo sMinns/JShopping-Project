@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 public class ResetPassword extends JPanel {
 
 	public ResetPassword() {
-		//ºñ¹Ð¹øÈ£ Àç¼³Á¤
-		JLabel label = new JLabel("ºñ¹Ð¹øÈ£ Àç¼³Á¤");
+		//ë¹„ë°€ë²ˆí˜¸ ìž¬ì„¤ì •
+		JLabel label = new JLabel("ë¹„ë°€ë²ˆí˜¸ ìž¬ì„¤ì •");
 		this.add(label);
 	}
 }

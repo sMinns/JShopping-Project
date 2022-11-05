@@ -47,7 +47,7 @@ public class Statistics extends JPanel {
 			this.add(textPanel, gbc_panel_34);
 			
 			JLabel age1 = new JLabel("" + num);
-			age1.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
+			age1.setFont(new Font(Setup.font, Font.BOLD, 18));
 			textPanel.add(age1);
 		}
 		
