@@ -5,9 +5,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import gui.common.BarPanel;
 import gui.common.Frame;
@@ -61,5 +59,12 @@ public class Setup {
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon xyimg = new ImageIcon(yimg); 
 		return xyimg;
+	}
+
+	public static void changeScrollBar(JScrollPane panel) {
+		panel.getVerticalScrollBar().setPreferredSize(new Dimension(5, 0));
+		panel.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 5));
+		JScrollBar sb = panel.getVerticalScrollBar();
+		sb.setUI(new ScrollBarUI());
 	}
 }

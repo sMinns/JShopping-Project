@@ -12,12 +12,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import system.ScrollBarUI;
+import system.Setup;
 
 public class Search extends JPanel {
 	
 	public Search() {
 		this.setOpaque(false);
-		this.setBackground(new Color(255, 255, 255));
+		this.setBackground(Setup.white);
 		
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{400, 0, 0};
@@ -28,10 +29,7 @@ public class Search extends JPanel {
 
 		JScrollPane panel_16 = new JScrollPane();
 		panel_16.setBorder(null);
-		panel_16.getVerticalScrollBar().setPreferredSize(new Dimension(5, 0));
-		panel_16.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 5));
-		JScrollBar sb = panel_16.getVerticalScrollBar();
-		sb.setUI(new ScrollBarUI());
+		Setup.changeScrollBar(panel_16);
 		
 		panel_16.setBackground(new Color(255, 255, 255));
 		GridBagConstraints gbc_panel_16 = new GridBagConstraints();
@@ -47,10 +45,7 @@ public class Search extends JPanel {
 		
 		JScrollPane panel_2 = new JScrollPane();
 		panel_2.setBorder(null);
-		panel_2.getVerticalScrollBar().setPreferredSize(new Dimension(5, 0));
-		panel_2.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 5));
-		JScrollBar sb2 = panel_2.getVerticalScrollBar();
-		sb2.setUI(new ScrollBarUI());
+		Setup.changeScrollBar(panel_2);
 		
 		panel_2.setBackground(new Color(255, 255, 255));
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
