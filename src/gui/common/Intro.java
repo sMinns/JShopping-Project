@@ -12,9 +12,9 @@ import system.Setup;
 
 public class Intro extends JFrame {
 	public Intro() {
-		int x = (Setup.screenSize.width / 2) - 245;
-		int y = (Setup.screenSize.height / 2) - 75;
-		setBounds(x, y	, 490, 150);
+		int x = (Setup.screenSize.width / 2) - 250;
+		int y = (Setup.screenSize.height / 2) - 65;
+		setBounds(x, y	, 500, 130);
 		setUndecorated(true);
 		setBackground(new Color(0, 0, 0 ,0));
 		
