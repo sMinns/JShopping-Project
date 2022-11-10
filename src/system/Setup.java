@@ -1,14 +1,14 @@
 package system;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 
 import javax.swing.*;
 
 import gui.common.BarPanel;
 import gui.common.Frame;
+
+import static gui.common.Frame.*;
+import static gui.common.Frame.mainBagConstraints;
 
 public class Setup {
 	public static Color darkGray = new Color(34, 34, 34);
@@ -19,6 +19,7 @@ public class Setup {
 	public static Color buttonOver = new Color(222, 60, 77);
 	public static Color buttonClick = new Color(202, 40, 57);
 	public static Color Gray = new Color(140, 140, 140);
+	public static Color textGray = new Color(177, 177, 177);
 	public static String font = "맑은 고딕";
 	public static JPanel lastClickPanel = null;
 	public static Color[] statColor = { new Color(255, 177, 1), new Color(246, 101, 1), new Color(171, 181, 54), new Color(1, 163, 255), new Color(193, 48, 56) }; 
@@ -38,6 +39,13 @@ public class Setup {
 	
 	public static void changePanel(JLayeredPane layer, JPanel panel, String str) {
 		BarPanel.titleTextLabel.setText(" " + str);
+		layer.removeAll();
+		layer.add(panel);
+		layer.repaint();
+		layer.revalidate();
+	}
+
+	public static void changeFindPanel(JLayeredPane layer, JPanel panel) {
 		layer.removeAll();
 		layer.add(panel);
 		layer.repaint();
@@ -66,5 +74,10 @@ public class Setup {
 		panel.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 5));
 		JScrollBar sb = panel.getVerticalScrollBar();
 		sb.setUI(new ScrollBarUI());
+	}
+
+	public static void changeInsets(int top, int left, int bottom, int right) {
+		mainBagConstraints.insets = new Insets(top, left, bottom, right);
+		gbl_mainPanel.setConstraints(contentLayeredPanel, mainBagConstraints);
 	}
 }

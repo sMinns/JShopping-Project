@@ -1,26 +1,20 @@
 package gui.common;
 
-import java.awt.CardLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-
 import gui.contents.main.Home;
-import gui.menu.CustomerMenu;
 import gui.menu.GuestMenu;
 import system.Setup;
+
+import javax.swing.*;
+import java.awt.*;
 
 
 	public class Frame extends JFrame {
 		public static Frame frame;
 		public static JPanel mainPanel = new JPanel();
-		public static JPanel menuPanel = new JPanel();
 		public static JLayeredPane contentLayeredPanel;
 		public static JLayeredPane menuLayeredPanel;
+		public static GridBagConstraints mainBagConstraints = new GridBagConstraints();
+		public static GridBagLayout gbl_mainPanel = new GridBagLayout();
 		private int x = Setup.screenSize.width / 2 - 600;
 		private int y = Setup.screenSize.height / 2 - 375;
 		
@@ -31,7 +25,6 @@ import system.Setup;
 			mainPanel.setBackground(Setup.bgLightGray);
 			setUndecorated(true);
 			setContentPane(mainPanel);
-			GridBagLayout gbl_mainPanel = new GridBagLayout();
 			gbl_mainPanel.columnWidths = new int[]{218, 0, 0};
 			gbl_mainPanel.rowHeights = new int[]{60, 40, 0, 0};
 			gbl_mainPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
@@ -43,7 +36,7 @@ import system.Setup;
 			menuLayeredPanel = new JLayeredPane();
 			
 			//BarPanel
-				GridBagConstraints mainBagConstraints = new GridBagConstraints();
+				mainBagConstraints = new GridBagConstraints();
 				mainBagConstraints.gridwidth = 2;
 				mainBagConstraints.fill = GridBagConstraints.BOTH;
 				mainBagConstraints.gridx = 0;
