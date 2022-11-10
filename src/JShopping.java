@@ -15,6 +15,7 @@ public class JShopping {
 			intro.dispose();
 			Frame.frame = new Frame();
 			Frame.frame.setVisible(true);
+			//test123451515135154
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
