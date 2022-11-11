@@ -1,11 +1,6 @@
 package gui.common;
 
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -85,6 +80,9 @@ public class BarPanel extends JPanel implements MouseListener, MouseMotionListen
 				public void mouseClicked(MouseEvent e) {
 					Frame.frame.setExtendedState(JFrame.ICONIFIED);
 				}
+				public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
+				public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
+
 			});
 			controlPanel.add(minimizeLabel);
 			
@@ -94,6 +92,8 @@ public class BarPanel extends JPanel implements MouseListener, MouseMotionListen
 				public void mouseClicked(MouseEvent e) {
 					Setup.exit();
 				}
+				public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
+				public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
 				});
 			exitLabel.setIcon(new ImageIcon(Frame.class.getResource("/images/close.png")));
 			controlPanel.add(exitLabel);

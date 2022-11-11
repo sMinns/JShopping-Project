@@ -1,11 +1,6 @@
 package custom;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -43,6 +38,7 @@ public class ButtonType1 extends JButton implements MouseListener {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		buttonColor = Setup.buttonOver;
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
 		repaint();
 	}
 	
@@ -65,6 +61,7 @@ public class ButtonType1 extends JButton implements MouseListener {
 	
 	@Override
 	public void mouseExited(MouseEvent e) {
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		buttonColor = Setup.magenta;
 		repaint();
 	}

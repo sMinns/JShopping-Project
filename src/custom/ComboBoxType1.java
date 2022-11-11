@@ -11,10 +11,11 @@ import java.awt.*;
 
 public class ComboBoxType1 extends JComboBox {
     public ComboBoxType1(String[] items, int size) {
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
         setModel(new DefaultComboBoxModel(items));
         this.setRenderer(new MyComboBoxRenderer());
         this.setEditor(new MyComboBoxEditor());
-        this.setPreferredSize(new Dimension(size, 35));
+        this.setPreferredSize(new Dimension(size, 32));
         this.setEditable(true);
         this.setUI(new MyComboBoxUI());
         this.setMaximumRowCount(15);
@@ -26,6 +27,7 @@ public class ComboBoxType1 extends JComboBox {
             setOpaque(true);
             setPreferredSize(new Dimension(100, 26));
             setBackground(Color.WHITE);
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
         @Override
         public Component getListCellRendererComponent(JList l, Object val,
@@ -55,7 +57,7 @@ public class ComboBoxType1 extends JComboBox {
             l.setOpaque(false);
             l.setFont(new Font(Setup.font, Font.PLAIN, 12));
             l.setForeground(new Color(34, 34, 34));
-            p.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 8));
+            p.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 7));
             p.add(l);
             p.setBackground(Color.white);
         }

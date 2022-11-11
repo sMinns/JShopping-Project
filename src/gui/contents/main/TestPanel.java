@@ -30,7 +30,7 @@ public class TestPanel extends JPanel implements ActionListener {
         p1.add(find);
 
         JPanel p2 = new JPanel();
-        p2.add(new SearchBar());
+        p2.add(new SearchBar(30, 200));
         add(p2);
 
 
@@ -38,6 +38,17 @@ public class TestPanel extends JPanel implements ActionListener {
         Font font = new Font(Setup.font, Font.BOLD, 14);
         p3.add(new CheckBoxType1("TESTETS", font));
         p3.add(new CheckBoxType1());
+        add(p3);
+
+        JPanel p4 = new JPanel();
+        ButtonGroup group = new ButtonGroup();
+        JRadioButton rb1 = new RadioType1("신용카드", font);
+        rb1.setSelected(true);
+        JRadioButton rb2 = new RadioType1("휴대폰 결제", font);
+        group.add(rb1);
+        group.add(rb2);
+        p3.add(rb1);
+        p3.add(rb2);
         add(p3);
     }
     @Override
