@@ -1,9 +1,7 @@
 package custom;
 
-import gui.contents.sub.HomeProduct;
 import system.Setup;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -11,11 +9,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 import java.awt.*;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
 
 public class SearchBar extends JPanel implements MouseListener {
     private JComboBox combo;
@@ -46,7 +41,7 @@ public class SearchBar extends JPanel implements MouseListener {
         searchTextPanel.add(TextField, searchBagCon);
 
         JLabel searchButtonLabel = new JLabel();
-        ImageIcon icon = new ImageIcon(HomeProduct.class.getResource("/images/searchbutton.png"));
+        ImageIcon icon = new ImageIcon(SearchBar.class.getResource("/images/searchbutton.png"));
         searchButtonLabel.setIcon(icon);
         searchBagCon.gridx = 1;
         searchTextPanel.add(searchButtonLabel, searchBagCon);

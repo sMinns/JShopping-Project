@@ -49,6 +49,7 @@ public class TestPanel extends JPanel implements ActionListener {
         group.add(rb2);
         p3.add(rb1);
         p3.add(rb2);
+        p3.add(new CountBox());
         add(p3);
     }
     @Override
