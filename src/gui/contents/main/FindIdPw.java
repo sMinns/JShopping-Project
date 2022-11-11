@@ -48,14 +48,14 @@ public class FindIdPw extends JPanel implements MouseListener {
         this.add(findLayerPanel, findBagCon);
 
         idLabel = new JLabel("아이디 찾기");
-        idLabel.setFont(new Font("맑은 고딕", Font.BOLD, 36));
+        idLabel.setFont(new Font(Setup.font, Font.BOLD, 36));
         idLabel.addMouseListener(this);
         findBagCon.gridx = 1;
         findBagCon.gridy = 1;
         findPanel.add(idLabel, findBagCon);
 
         passwdLabel = new JLabel("비밀번호 찾기");
-        passwdLabel.setFont(new Font("맑은 고딕", Font.BOLD, 36));
+        passwdLabel.setFont(new Font(Setup.font, Font.BOLD, 36));
         passwdLabel.addMouseListener(this);
         findBagCon.gridx = 3;
         findBagCon.gridy = 1;

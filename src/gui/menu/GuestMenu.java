@@ -11,16 +11,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import gui.common.Frame;
-import gui.contents.main.Home;
-import gui.contents.main.Login;
-import gui.contents.main.Search;
-import gui.contents.main.SignUp;
+import gui.contents.main.*;
 import system.Setup;
 
 public class GuestMenu extends JPanel implements MouseListener{
 	private JPanel[] GuestPanel = new JPanel[5];
 	private String[] imgStr = { "/images/home.png", "/images/search.png", "/images/signup.png", "/images/login.png", "/images/exit.png" };
-	private String[] textStr = { "홈", "상품검색", "회원가입", "로그인", "종료" };
+	private String[] textStr = { "홈", "상품검색", "회원가입", "로그인", "테스트" };
 	private int j = 0;
 	public GuestMenu() {;
 		this.setBackground(new Color(24, 24, 24));
@@ -83,7 +80,8 @@ public class GuestMenu extends JPanel implements MouseListener{
 		}else if(e.getSource() == GuestPanel[3]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Login(), textStr[3]);
 		}else if(e.getSource() == GuestPanel[4]) {
-			Setup.exit();
+			//Setup.exit();
+			Setup.changePanel(Frame.contentLayeredPanel, new TestPanel(), "테스트");
 		}
 	}
 	public void mouseEntered(MouseEvent e) {}

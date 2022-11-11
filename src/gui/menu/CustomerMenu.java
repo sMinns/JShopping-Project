@@ -11,17 +11,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import gui.common.Frame;
-import gui.contents.main.Home;
-import gui.contents.main.OrderList;
-import gui.contents.main.Search;
-import gui.contents.main.SellerApplication;
-import gui.contents.main.ShoppingBasket;
+import gui.contents.main.*;
 import system.Setup;
 
 public class CustomerMenu extends JPanel implements MouseListener{
 	private JPanel[] CustomerPanel = new JPanel[8];
 	private String[] imgStr = { "/images/home.png", "/images/search.png", "/images/orderlist.png", "/images/shoppingbasket.png", "/images/sellerapplication.png", "/images/profile.png", "/images/logout.png", "/images/exit.png" };
-	private String[] textStr = { "홈", "상품검색", "주문목록", "장바구니", "판매자 신청", " 님", "로그아웃", "종료" };
+	private String[] textStr = { "홈", "상품검색", "주문목록", "장바구니", "판매자 신청", " 님", "로그아웃", "테스트" };
 	private int j = 0;
 	public CustomerMenu(String name) {;
 		this.setBackground(new Color(24, 24, 24));
@@ -103,7 +99,8 @@ public class CustomerMenu extends JPanel implements MouseListener{
 			Setup.changePanel(Frame.menuLayeredPanel, new GuestMenu(), textStr[0]);
 			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
 		}else if(e.getSource() == CustomerPanel[7]) {
-			Setup.exit();
+			//Setup.exit();
+			Setup.changePanel(Frame.contentLayeredPanel, new TestPanel(), "테스트");
 		}
 	}
 	
