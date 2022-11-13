@@ -12,10 +12,12 @@ import system.Setup;
 public class ButtonType1 extends JButton implements MouseListener {
 	private Color buttonColor = Setup.magenta;
 	private boolean over = false;
-	public ButtonType1(int size, String text) {
+	private int round;
+	public ButtonType1(int width, int height, int round, String text) {
+		this.round = round;
 		this.setContentAreaFilled(false);
 		this.setFont(new Font(Setup.font, Font.BOLD, 16));
-		this.setBorder(new EmptyBorder(10, size, 10, size));
+		this.setBorder(new EmptyBorder(height, width, height+4, width));
 		this.setOpaque(false);
 		this.setBorderPainted(false);
 		this.setFocusPainted(false);
@@ -31,7 +33,7 @@ public class ButtonType1 extends JButton implements MouseListener {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 		g2.setColor(buttonColor);
-		g2.fillRoundRect(0, 2, width-3, height-3, 10, 10);
+		g2.fillRoundRect(0, 0, width-3, height-3, round, round);
 		super.paintComponent(g);
 	}
 	

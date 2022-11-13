@@ -60,4 +60,6 @@ public class CountBox extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
     public void mousePressed(MouseEvent e) { }
     public void mouseReleased(MouseEvent e) { }
+
+    public int getCount() { return count; }
 }

@@ -10,7 +10,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 
 public class ComboBoxType1 extends JComboBox {
-    public ComboBoxType1(String[] items, int size) {
+    public ComboBoxType1(String[] items, int size, String select) {
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         setModel(new DefaultComboBoxModel(items));
         this.setRenderer(new MyComboBoxRenderer());
@@ -19,6 +19,7 @@ public class ComboBoxType1 extends JComboBox {
         this.setEditable(true);
         this.setUI(new MyComboBoxUI());
         this.setMaximumRowCount(15);
+        this.setSelectedItem(select);
     }
     
     //버튼 누르면 뜨는 목록

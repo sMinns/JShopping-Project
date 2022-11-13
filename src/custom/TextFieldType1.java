@@ -18,7 +18,9 @@ import system.Setup;
 public class TextFieldType1 extends JTextField implements FocusListener {
 	private Color strokeColor = Setup.textFieldBorderColor;
 	private String text;
-	public TextFieldType1(int Columns, String text) {
+	private int round;
+	public TextFieldType1(int Columns, int round, String text) {
+		this.round = round;
 		this.text = text;
 		this.setColumns(Columns);
 		this.setFont(new Font(Setup.font, Font.PLAIN, 16));
@@ -37,10 +39,10 @@ public class TextFieldType1 extends JTextField implements FocusListener {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 		g2.setColor(Setup.white);
-		g2.fillRoundRect(1, 1, width-2, height-2, 10, 10);
+		g2.fillRoundRect(1, 1, width-2, height-2, round*2, round*2);
 		g2.setColor(strokeColor);
 		g2.setStroke(new BasicStroke(2f));
-		g2.drawRoundRect(2, 2, width-4, height-4, 5, 5);
+		g2.drawRoundRect(2, 2, width-4, height-4, round, round);
 		super.paintComponent(g);
 	}
 	

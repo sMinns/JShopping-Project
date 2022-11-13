@@ -25,6 +25,7 @@ public class Setup {
 	public static JPanel lastClickPanel = null;
 	public static Color[] statColor = { new Color(255, 177, 1), new Color(246, 101, 1), new Color(171, 181, 54), new Color(1, 163, 255), new Color(193, 48, 56) }; 
 	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	public static String[] selectProduct;
 	public static void exit() {
 		try {
 	         for(int i = 50; i>0; i--) {
@@ -64,7 +65,7 @@ public class Setup {
 	}
 	
 	public static ImageIcon imageSetSize(ImageIcon icon, int i, int j) { // image Size Setting
-		Image ximg = icon.getImage();  //ImageIcon�� Image�� ��ȯ.
+		Image ximg = icon.getImage();
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon xyimg = new ImageIcon(yimg); 
 		return xyimg;
