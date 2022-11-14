@@ -75,6 +75,9 @@ public class Setup {
 		panel.getVerticalScrollBar().setPreferredSize(new Dimension(5, 0));
 		panel.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 5));
 		JScrollBar sb = panel.getVerticalScrollBar();
+		sb.setUnitIncrement(15);
+		sb.setValue(0);
+		panel.repaint();
 		sb.setUI(new ScrollBarUI());
 	}
 

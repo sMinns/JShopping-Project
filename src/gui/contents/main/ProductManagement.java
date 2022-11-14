@@ -120,11 +120,8 @@ public class ProductManagement extends JPanel implements MouseListener {
         }
 
         JScrollPane productScrollPanel = new JScrollPane();
-        productScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         productScrollPanel.setBorder(BorderFactory.createLineBorder(Setup.white, 1));
         Setup.changeScrollBar(productScrollPanel);
-        productScrollPanel.getVerticalScrollBar().setUnitIncrement(15);
-        productScrollPanel.getVerticalScrollBar().setValue(productScrollPanel.getVerticalScrollBar().getMinimum());
 
         GridBagConstraints productScrollBagCon = new GridBagConstraints();
         productScrollBagCon.fill = GridBagConstraints.BOTH;
@@ -146,7 +143,7 @@ public class ProductManagement extends JPanel implements MouseListener {
             productListLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
             productListLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
             ps[i].setLayout(productListLayout);
-            ps[i].setBounds(0, i*60+i, 665, 60);
+            ps[i].setBounds(0, i*60+i, 667, 60);
             ps[i].addMouseListener(this);
 
             GridBagConstraints productListBagCon = new GridBagConstraints();
@@ -197,9 +194,7 @@ public class ProductManagement extends JPanel implements MouseListener {
             productListPanel.add(ps[i]);
         }
         productScrollPanel.setViewportView(productListPanel);
-        productListPanel.setPreferredSize(new Dimension(productListPanel.getWidth(),
-                60*str.length+str.length-1));
-
+        productListPanel.setPreferredSize(new Dimension(productListPanel.getWidth(),61*str.length-1));
         detailPanel = new JLayeredPane();
         detailPanel.setLayout(new CardLayout());
         productBagCon.insets = new Insets(0, 0, 0, 0);
