@@ -19,7 +19,7 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		this.add(label);
 		
 		
-		JButton order = new ButtonType1(50, 10, 5, "주문하기");
+		JButton order = new ButtonType1(50, 10, 5, "주문하기", 16);
 		order.addActionListener(this);
 		this.add(order);
 	}

@@ -14,10 +14,9 @@ import java.awt.event.MouseListener;
 
 public class SearchBar extends JPanel implements MouseListener {
     private JComboBox combo;
-    String[] items = {"패션의류", "뷰티", "출산/유아동", "식품", "주방용품", "생활용품", "홈인테리어",
-            "가전디지털", "스포츠/레저", "자동차용품", "도서/음반/DVD", "완구/취미", "문구/오피스", "반려동물용품", "헬스/건강식품"};
     private JTextField TextField;
-    public SearchBar(int size, int limit) {
+    private String text;
+    public SearchBar(int size, int limit, String[] items, String text, int fontSize) {
         combo = new ComboBoxType1(items, 120, "뷰티");
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         Border lowered_bevelborder = BorderFactory.createLoweredBevelBorder();
@@ -37,7 +36,7 @@ public class SearchBar extends JPanel implements MouseListener {
 
         GridBagConstraints searchBagCon = new GridBagConstraints();
         searchBagCon.insets = new Insets(0, 0, 0, -1);
-        TextField = new SearchTextField(size, limit);
+        TextField = new SearchTextField(size, limit, text);
         searchTextPanel.add(TextField, searchBagCon);
 
         JLabel searchButtonLabel = new JLabel();
@@ -48,8 +47,39 @@ public class SearchBar extends JPanel implements MouseListener {
         searchButtonLabel.addMouseListener(this);
         this.add(searchTextPanel);
         this.setBorder(new EmptyBorder(2, 3, 2, 3));
-
     }
+
+    public SearchBar(int size, int limit, String text) {
+        this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        Border lowered_bevelborder = BorderFactory.createLoweredBevelBorder();
+        this.setBorder(lowered_bevelborder);
+
+        JPanel searchTextPanel = new JPanel();
+        searchTextPanel.setOpaque(false);
+        GridBagLayout searchTextLayout = new GridBagLayout();
+        searchTextLayout.columnWidths = new int[]{0, 0, 0};
+        searchTextLayout.rowHeights = new int[]{0, 0};
+        searchTextLayout.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        searchTextLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        searchTextPanel.setLayout(searchTextLayout);
+
+
+
+        GridBagConstraints searchBagCon = new GridBagConstraints();
+        searchBagCon.insets = new Insets(0, 0, 0, -1);
+        TextField = new SearchTextField(size, limit, text);
+        searchTextPanel.add(TextField, searchBagCon);
+
+        JLabel searchButtonLabel = new JLabel();
+        ImageIcon icon = new ImageIcon(SearchBar.class.getResource("/images/searchbutton.png"));
+        searchButtonLabel.setIcon(icon);
+        searchBagCon.gridx = 1;
+        searchTextPanel.add(searchButtonLabel, searchBagCon);
+        searchButtonLabel.addMouseListener(this);
+        this.add(searchTextPanel);
+        this.setBorder(new EmptyBorder(2, 3, 2, 3));
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         int width = getWidth();
@@ -63,9 +93,7 @@ public class SearchBar extends JPanel implements MouseListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        System.out.println(combo.getSelectedItem() + ": " + TextField.getText());
-    }
+    public void mouseClicked(MouseEvent e) { }
     public void mousePressed(MouseEvent e) { }
     public void mouseReleased(MouseEvent e) { }
     public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }

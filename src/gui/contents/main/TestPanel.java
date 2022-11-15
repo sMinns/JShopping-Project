@@ -22,7 +22,7 @@ public class TestPanel extends JPanel implements ActionListener {
         this.setLayout(new GridLayout(4, 4));
         for(int i = 0; i < button.length; i++) {
             p[i] = new JPanel(new GridBagLayout());
-            button[i] = new ButtonType1(30, 8, 5, str[i]);
+            button[i] = new ButtonType1(30, 8, 5, str[i], 16);
             button[i].addActionListener(this);
             p[i].add(button[i]);
             this.add(p[i]);
