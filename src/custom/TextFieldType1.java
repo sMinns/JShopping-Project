@@ -23,9 +23,9 @@ public class TextFieldType1 extends JTextField implements FocusListener {
 		this.round = round;
 		this.text = text;
 		this.setColumns(Columns);
-		this.setFont(new Font(Setup.font, Font.PLAIN, 16));
+		this.setFont(new Font(Setup.font, Font.PLAIN, 12));
 		this.setOpaque(false);
-		this.setBorder(new EmptyBorder(10, 8, 10, 8));
+		this.setBorder(new EmptyBorder(10, 12, 10, 8));
 		this.setForeground(Setup.Gray);
 		this.setText(text);
 		this.addFocusListener(this);

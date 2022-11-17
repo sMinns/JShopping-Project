@@ -29,12 +29,11 @@ public class FindPassword extends JPanel {
 			idPanel.setLayout(null);
 			
 			JLabel idLabel = new JLabel("아이디"); 
-			idLabel.setBounds(6, 0, 43, 20);
+			idLabel.setBounds(6, 3, 43, 20);
 			idLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 			idPanel.add(idLabel);
 			
 			JTextField idTextField = new TextFieldType1(0, 2, "아이디");
-			idTextField.setFont(new Font(Setup.font, Font.PLAIN, 12));
 			idTextField.setBounds(0, 25, 407, 44);
 			idPanel.add(idTextField);
 			idTextField.setColumns(10);
@@ -52,7 +51,6 @@ public class FindPassword extends JPanel {
 			namePanel.setLayout(null);
 			
 			JTextField nameTextField = new TextFieldType1(0, 2, "이름");
-			nameTextField.setFont(new Font(Setup.font, Font.PLAIN, 12));;
 			nameTextField.setBounds(0, 25, 407, 44);
 			nameTextField.setColumns(10);
 			namePanel.add(nameTextField);
@@ -64,7 +62,7 @@ public class FindPassword extends JPanel {
 			namePanel.add(nameDesLabel);
 			
 			JLabel nameLabel = new JLabel("이름");
-			nameLabel.setBounds(6, 0, 43, 20);
+			nameLabel.setBounds(6, 3, 43, 20);
 			namePanel.add(nameLabel);
 			nameLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 			
@@ -75,20 +73,16 @@ public class FindPassword extends JPanel {
 		
 		//Birth
 			JLabel birthLabel = new JLabel("생년월일");
-			birthLabel.setBounds(6, 0, 67, 20);
+			birthLabel.setBounds(6, 3, 67, 20);
 			birthLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 			birthPanel.add(birthLabel);
 					
 			JTextField yearTextField = new TextFieldType1(0, 2, "년(4자)");
 			yearTextField.setBounds(0, 27, 120, 42);;
-			yearTextField.setFont(new Font(Setup.font, Font.PLAIN, 11));
-			yearTextField.setForeground(Setup.darkGray);	
 			birthPanel.add(yearTextField);
 			
 			JTextField dayTextField = new TextFieldType1(0, 2, "일");
 			dayTextField.setBounds(287, 27, 120, 42);
-			dayTextField.setFont(new Font(Setup.font, Font.PLAIN, 11));
-			dayTextField.setForeground(Setup.darkGray);	
 			birthPanel.add(dayTextField);
 			
 			JLabel birthDesLabel = new JLabel("* 생년월일을 입력해주세요.");
@@ -102,8 +96,6 @@ public class FindPassword extends JPanel {
 			birthPanel.add(montComboPanel);
 			
 			JComboBox monthComboBox = new ComboBoxType1(month, 120, "월");
-			monthComboBox.setFont(new Font(Setup.font, Font.PLAIN, 11));
-			monthComboBox.setForeground(Setup.darkGray);
 			montComboPanel.add(monthComboBox);
 		
 		//JOIN
@@ -124,13 +116,13 @@ public class FindPassword extends JPanel {
 			joinLabel.setForeground(Setup.magenta);
 			joinLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 					
-			JPanel passFindbtnPanel = new JPanel();
-			passFindbtnPanel.setBounds(278, 371, 407, 62);
-			this.add(passFindbtnPanel);
+			JPanel passFindbuttonPanel = new JPanel();
+			passFindbuttonPanel.setBounds(278, 371, 407, 62);
+			this.add(passFindbuttonPanel);
 		
 		//PASSBTN
 			JButton passFindBtn = new ButtonType1(17, 8, 7, "비밀번호 찾기", 16);
-			passFindbtnPanel.add(passFindBtn);
+			passFindbuttonPanel.add(passFindBtn);
 			passFindBtn.setFont(new Font(Setup.font, Font.BOLD, 16));	
 		}
 }

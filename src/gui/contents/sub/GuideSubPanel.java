@@ -7,9 +7,9 @@ import java.awt.*;
 
 public class GuideSubPanel extends JPanel {
     Font font = new Font(Setup.font, Font.BOLD, 14);
-    public GuideSubPanel() {
+    public GuideSubPanel(String text) {
         this.setLayout(new GridBagLayout());
-        JLabel label = new JLabel("상품을 선택해서 정보를 변경할 수 있습니다.");
+        JLabel label = new JLabel(text);
         label.setFont(font);
         this.add(label);
     }

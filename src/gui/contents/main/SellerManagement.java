@@ -37,7 +37,6 @@ public class SellerManagement extends JPanel {
 	private Font font1 = new Font(Setup.font, Font.BOLD, 16);
 	private Font font2 = new Font(Setup.font, Font.BOLD, 14);
 	public SellerManagement() {
-		Setup.changeInsets(10, 10, 10, 10);
 		//SellerManagement Panel Layout
 			GridBagLayout sellerPanelLayout = new GridBagLayout();
 			sellerPanelLayout.columnWidths = new int[]{0, 0};

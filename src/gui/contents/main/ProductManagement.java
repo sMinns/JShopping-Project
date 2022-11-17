@@ -51,7 +51,6 @@ public class ProductManagement extends JPanel implements MouseListener {
     private Font font1 = new Font(Setup.font, Font.BOLD, 15);
     private Font font2 = new Font(Setup.font, Font.BOLD, 12);
     public ProductManagement() {
-        Setup.changeInsets(10, 10, 10, 10);
         //ProductManagement Layout
         GridBagLayout ProductManageLayout = new GridBagLayout();
         ProductManageLayout.columnWidths = new int[]{675, 0, 0};
@@ -177,7 +176,7 @@ public class ProductManagement extends JPanel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(selectPanel == e.getSource()) {
-            Setup.changeFindPanel(detailPanel, new GuideSubPanel());
+            Setup.changePanel(detailPanel, new GuideSubPanel("상품을 선택해서 정보를 변경할 수 있습니다."));
             selectPanel.setBorder(null);
             selectPanel = null;
         }else {
@@ -186,7 +185,7 @@ public class ProductManagement extends JPanel implements MouseListener {
                     if(selectPanel != null) { selectPanel.setBorder(null); }
                     selectPanel = (JPanel) e.getSource();
                     Setup.selectProduct = str[i];
-                    Setup.changeFindPanel(detailPanel, new ChangeInformation());
+                    Setup.changePanel(detailPanel, new ChangeInformation());
                     selectPanel.setBorder(BorderFactory.createLineBorder(Setup.magenta, 1));
                 }
             }
@@ -194,14 +193,14 @@ public class ProductManagement extends JPanel implements MouseListener {
         for (int i = 0; i < str.length; i++) {
             if (e.getSource() == productNameTextArea[i]) {
                 if(selectPanel == productPanel[i]) {
-                    Setup.changeFindPanel(detailPanel, new GuideSubPanel());
+                    Setup.changePanel(detailPanel, new GuideSubPanel("상품을 선택해서 정보를 변경할 수 있습니다."));
                     selectPanel.setBorder(null);
                     selectPanel = null;
                 }else {
                     if(selectPanel != null) { selectPanel.setBorder(null); }
                     selectPanel = productPanel[i];
                     Setup.selectProduct = str[i];
-                    Setup.changeFindPanel(detailPanel, new ChangeInformation());
+                    Setup.changePanel(detailPanel, new ChangeInformation());
                     selectPanel.setBorder(BorderFactory.createLineBorder(Setup.magenta, 1));
                 }
             }

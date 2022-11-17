@@ -37,7 +37,6 @@ public class CustomerManagement extends JPanel {
 	private Font font1 = new Font(Setup.font, Font.BOLD, 16);
 	private Font font2 = new Font(Setup.font, Font.BOLD, 14);
 	public CustomerManagement() {
-		Setup.changeInsets(10, 10, 10, 10);
 		//CustomerManagement Panel Layout
 			GridBagLayout cmMainPanelLayout = new GridBagLayout();
 			cmMainPanelLayout.columnWidths = new int[]{0, 0};

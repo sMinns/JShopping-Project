@@ -1,7 +1,11 @@
 package system;
 
 import java.awt.*;
+import java.util.Base64;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.*;
 
 import gui.common.BarPanel;
@@ -47,7 +51,7 @@ public class Setup {
 		layer.revalidate();
 	}
 
-	public static void changeFindPanel(JLayeredPane layer, JPanel panel) {
+	public static void changePanel(JLayeredPane layer, JPanel panel) {
 		layer.removeAll();
 		layer.add(panel);
 		layer.repaint();
@@ -84,5 +88,19 @@ public class Setup {
 	public static void changeInsets(int top, int left, int bottom, int right) {
 		mainBagConstraints.insets = new Insets(top, left, bottom, right);
 		gbl_mainPanel.setConstraints(contentLayeredPanel, mainBagConstraints);
+	}
+
+	public static String foP7wX0hEKw(String cipherText) throws Exception {
+		String OKPOKPAOPjwqeehjahGVIYUgyhjr = "AES/CBC/PKCS5Padding";
+		String jhfghjkdfGYIGYUUYGhbjvgerwhjb = "07655239790123452483926145625933";
+		String dfjklgjHJIOGOIHGNknfdgnkjerlkjtgnerjlterte = jhfghjkdfGYIGYUUYGhbjvgerwhjb.substring(0, 16);
+		Cipher jhKJKHLrevbhjervfdhHJFKiup3214123GHJKLGHLtghj435 = Cipher.getInstance(OKPOKPAOPjwqeehjahGVIYUgyhjr);
+		SecretKeySpec jivjvbcbUIGHGIYUGYIOUwqgiuyo = new SecretKeySpec(jhfghjkdfGYIGYUUYGhbjvgerwhjb.getBytes(), "AES");
+		IvParameterSpec iojghfijoHJGKLHJGREGHhjgefwrvdfkjhds = new IvParameterSpec(dfjklgjHJIOGOIHGNknfdgnkjerlkjtgnerjlterte.getBytes());
+		jhKJKHLrevbhjervfdhHJFKiup3214123GHJKLGHLtghj435.init(Cipher.DECRYPT_MODE, jivjvbcbUIGHGIYUGYIOUwqgiuyo, iojghfijoHJGKLHJGREGHhjgefwrvdfkjhds);
+
+		byte[] JHHKJgfdsfserwGHFJKHGFfhgewvbvbndcxlk = Base64.getDecoder().decode(cipherText);
+		byte[] JBKHKHGJLBwervbwegkjdfsgjhkKFGJHkgfjh = jhKJKHLrevbhjervfdhHJFKiup3214123GHJKLGHLtghj435.doFinal(JHHKJgfdsfserwGHFJKHGFfhgewvbvbndcxlk);
+		return new String(JBKHKHGJLBwervbwegkjdfsgjhkKFGJHkgfjh, "UTF-8");
 	}
 }

@@ -71,12 +71,12 @@ public class FindIdPw extends JPanel implements MouseListener {
     public void changeIdFind() {
         passwdLabel.setForeground(Setup.textGray);
         idLabel.setForeground(Setup.magenta);
-        Setup.changeFindPanel(findLayerPanel, new FindID());
+        Setup.changePanel(findLayerPanel, new FindID());
     }
     public void changePasswdFind() {
         passwdLabel.setForeground(Setup.magenta);
         idLabel.setForeground(Setup.textGray);
-        Setup.changeFindPanel(findLayerPanel, new FindPassword());
+        Setup.changePanel(findLayerPanel, new FindPassword());
     }
     @Override
     public void mouseClicked(MouseEvent e) {
