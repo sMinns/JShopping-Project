@@ -1,6 +1,5 @@
 package gui.contents.sub;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JButton;
@@ -26,7 +25,7 @@ public class FindID extends JPanel {
 			namePanel.setLayout(null);
 			
 			JLabel namelabel = new JLabel("이름");
-			namelabel.setBounds(0, 10, 50, 15);
+			namelabel.setBounds(6, 15, 50, 15);
 			namePanel.add(namelabel);
 			namelabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 			namelabel.setForeground(Setup.darkGray); 
@@ -39,7 +38,6 @@ public class FindID extends JPanel {
 			nameDeslabel.setForeground(Setup.magenta);
 			
 			JTextField nametextField = new TextFieldType1(60, 2, "이름");
-			nametextField.setFont(new Font(Setup.font, Font.PLAIN, 12));;
 			nametextField.setBounds(0, 35, 407, 44);
 			namePanel.add(nametextField);
 		
@@ -50,7 +48,7 @@ public class FindID extends JPanel {
 			birthPanel.setLayout(null);
 			
 			JLabel birthlabel = new JLabel("생년월일");
-			birthlabel.setBounds(0, 10, 90, 32);
+			birthlabel.setBounds(6, 12, 90, 32);
 			birthPanel.add(birthlabel);
 			birthlabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 			birthlabel.setForeground(Setup.darkGray); 
@@ -64,17 +62,13 @@ public class FindID extends JPanel {
 			JTextField yeartextField = new TextFieldType1(0, 2, "년(4자)");
 			yeartextField.setBounds(0, 40, 120, 42);
 			birthPanel.add(yeartextField);
-			yeartextField.setFont(new Font(Setup.font, Font.PLAIN, 11));
-			yeartextField.setForeground(Setup.darkGray);	
 			
 			JTextField daytextField = new TextFieldType1(10, 2, "일");
 			daytextField.setBounds(287, 40, 120, 42);
-			birthPanel.add(daytextField);
-			daytextField.setFont(new Font(Setup.font, Font.PLAIN, 11));
-			daytextField.setForeground(Setup.darkGray);			
+			birthPanel.add(daytextField);	
 			
 			JPanel montComboPanel = new JPanel();
-			montComboPanel.setBounds(144, 45, 120, 36);
+			montComboPanel.setBounds(144, 42, 120, 36);
 			birthPanel.add(montComboPanel);
 			
 			JComboBox monthComboBox = new ComboBoxType1(month, 120, "월");
@@ -84,7 +78,7 @@ public class FindID extends JPanel {
 		
 		//IDBTN
 			JPanel idFindbtnPanel = new JPanel();
-			idFindbtnPanel.setBounds(278, 371, 407, 62);
+			idFindbtnPanel.setBounds(278, 340, 407, 62);
 			this.add(idFindbtnPanel);
 			
 			JButton idFindBtn = new ButtonType1(25, 8, 7, "아이디 찾기", 16);
@@ -93,7 +87,7 @@ public class FindID extends JPanel {
 		
 		//JOIN
 			JPanel joinPanel = new JPanel();
-			joinPanel.setBounds(278, 432, 407, 23);
+			joinPanel.setBounds(278, 400, 407, 23);
 			this.add(joinPanel);
 			joinPanel.setLayout(null);
 			
