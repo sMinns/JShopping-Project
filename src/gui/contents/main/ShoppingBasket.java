@@ -40,20 +40,20 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		// 각 패널의 레이아웃에 사용할 Constraints 설정
 		GridBagConstraints gbc_topPanel = createGBC(0, 0, new int[]{0, 0, 5, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints topPanelSelectAll = createGBC(0, 0, new int[]{0, 80, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.WEST);
-		GridBagConstraints topPanelSelectDelete = createGBC(1, 0, new int[]{0, 0, 0, 80}, GridBagConstraints.NONE, GridBagConstraints.EAST);
+		GridBagConstraints topPanelSelectDelete = createGBC(1, 0, new int[]{3, 0, 0, 80}, GridBagConstraints.NONE, GridBagConstraints.EAST);
 
 		GridBagConstraints gbc_bottomPanel = createGBC(0, 2, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
-		GridBagConstraints bottomPanelPrice = createGBC(0, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.NONE, GridBagConstraints.EAST);
-		GridBagConstraints bottomButtonBagcon = createGBC(1, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER);
+		GridBagConstraints bottomPanelPrice = createGBC(0, 0, new int[]{0, 0, 0, 10}, GridBagConstraints.NONE, GridBagConstraints.EAST);
+		GridBagConstraints bottomButtonBagcon = createGBC(1, 0, new int[]{4, 0, 0, 0}, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER);
 
 		GridBagConstraints gbc_middlePanel = createGBC(0, 1, new int[]{0, 0, 5, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints productPanelName = createGBC(0, 0, new int[]{10, 0, 0, 0}, GridBagConstraints.NONE, GridBagConstraints.WEST);
 		GridBagConstraints productPanelPrice = createGBC(0, 1, new int[]{0, 0, 5, 0}, GridBagConstraints.NONE, GridBagConstraints.WEST);
 		GridBagConstraints productPanelCountBox = createGBC(0, 2, new int[]{0, 0, 10, 0}, GridBagConstraints.NONE, GridBagConstraints.WEST);
-		GridBagConstraints productPanelCheckBox = createGBC(0, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.NONE, GridBagConstraints.CENTER);
+		GridBagConstraints productPanelCheckBox = createGBC(0, 0, new int[]{0, 3, 0, 0}, GridBagConstraints.NONE, GridBagConstraints.CENTER);
 		GridBagConstraints productPanelImage = createGBC(1, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints productPanelInfo = createGBC(2, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
-		GridBagConstraints productPanelButton = createGBC(3, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER);
+		GridBagConstraints productPanelButton = createGBC(3, 0, new int[]{3, 0, 0, 0}, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER);
 
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(topPanelLayout);
@@ -63,7 +63,7 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		CheckBoxType1 selectAll = new CheckBoxType1("전체선택", new Font(Setup.font, Font.BOLD, 16));
 		topPanel.add(selectAll, topPanelSelectAll);
 		
-		ButtonType1 selectDelete = new ButtonType1(20, 10, 15, "X 선택삭제", 16);
+		ButtonType1 selectDelete = new ButtonType1(20, 6, 5, "X 선택삭제", 16);
 		topPanel.add(selectDelete, topPanelSelectDelete);
 		
 		JPanel bottomPanel = new JPanel();
@@ -73,16 +73,16 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 
 		JLabel orderPrice = new JLabel();
 		orderPrice.setText(String.format("총 주문금액 : %s원", NumberFormat.getInstance().format(123456)));
-		orderPrice.setFont(new Font(Setup.font, Font.BOLD, 24));
+		orderPrice.setFont(new Font(Setup.font, Font.BOLD, 22));
 		bottomPanel.add(orderPrice, bottomPanelPrice);
 
 		JPanel bottomButtonPanel = new JPanel();
-		bottomButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		bottomButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
 		bottomButtonPanel.setBackground(Setup.white);
 		bottomPanel.add(bottomButtonPanel, bottomButtonBagcon);
 
-		ButtonType1 order = new ButtonType1(20, 10, 15, "주문하기", 16);
-		ButtonType1 shopping = new ButtonType1(40, 10, 15, "계속 쇼핑하기", 16);
+		ButtonType1 order = new ButtonType1(25, 8, 5, "주문하기", 16);
+		ButtonType1 shopping = new ButtonType1(30, 8, 5, "계속 쇼핑하기", 16);
 		bottomButtonPanel.add(order);
 		bottomButtonPanel.add(shopping);
 
@@ -141,7 +141,7 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 			productDetail[count].add(productName[count], productPanelName);
 			productDetail[count].add(productPrice[count], productPanelPrice);
 			productDetail[count].add(new CountBox(), productPanelCountBox);
-			productPanel[count].add(new ButtonType1(20, 10, 15, "주문하기", 16), productPanelButton);
+			productPanel[count].add(new ButtonType1(20, 5, 5, "주문하기", 15), productPanelButton);
 			productPanel[count].setBounds(59, y_axis, 870, 120);
 			listPanel.add(productPanel[count]);
 			y_axis += 121;
