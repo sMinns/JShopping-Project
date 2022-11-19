@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class passwordFieldType1 extends JPasswordField {
+public class passwordFieldType1 extends JPasswordField implements FocusListener {
 	private Color strokeColor = Setup.textFieldBorderColor;
 	private int round;
 	public passwordFieldType1(int Columns, int round) {
@@ -16,8 +16,9 @@ public class passwordFieldType1 extends JPasswordField {
 		this.setColumns(Columns);
 		this.setFont(new Font(Setup.font, Font.PLAIN, 16));
 		this.setOpaque(false);
-		this.setBorder(new EmptyBorder(10, 8, 10, 8));
+		this.setBorder(new EmptyBorder(10, 12, 10, 8));
 		this.setForeground(Setup.darkGray);
+		this.addFocusListener(this);
 	}
 	
 	@Override
@@ -33,5 +34,17 @@ public class passwordFieldType1 extends JPasswordField {
 		g2.setStroke(new BasicStroke(2f));
 		g2.drawRoundRect(2, 2, width-4, height-4, round, round);
 		super.paintComponent(g);
+	}
+	
+	@Override
+	public void focusGained(FocusEvent e) {
+		strokeColor = Setup.magenta;
+		this.repaint();
+	}
+	
+	@Override
+	public void focusLost(FocusEvent e) {
+		strokeColor = Setup.textFieldBorderColor;
+		this.repaint();
 	}
 }
