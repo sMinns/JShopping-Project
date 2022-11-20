@@ -2,6 +2,7 @@ package gui.contents.main;
 
 import custom.*;
 import gui.common.Frame;
+import gui.contents.sub.DesDateCalendar;
 import gui.menu.CustomerMenu;
 import system.Setup;
 
@@ -11,10 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TestPanel extends JPanel implements ActionListener {
-    private JButton[] button = new JButton[15];
+    private JButton[] button = new JButton[16];
     private JPanel[] p = new JPanel[button.length];
     private String[] str = {"로그인테스트", "회원가입", "아이디 및 비밀번호 찾기", "비밀번호 재설정", "로그인", "상품검색",
-    "주문목록", "장바구니", "주문 / 결제", "판매자 신청", "판매상품 관리", "신규주문관리", "일반고객관리", "판매자 관리", "판매자 신청 관리"};
+    "주문목록", "장바구니", "주문 / 결제", "판매자 신청", "판매상품 관리", "신규주문관리", "일반고객관리", "판매자 관리", "판매자 신청 관리", "달력 테스트"};
     public TestPanel() {
         this.setLayout(new GridLayout(4, 4));
         for(int i = 0; i < str.length; i++) {
@@ -71,6 +72,9 @@ public class TestPanel extends JPanel implements ActionListener {
             Setup.lastClickReset();
         }else if (e.getSource() == button[14]) {
             Setup.changePanel(Frame.contentLayeredPanel, new SellerApplicationManagement());
+            Setup.lastClickReset();
+        }else if (e.getSource() == button[15]) {
+            Setup.changePanel(Frame.contentLayeredPanel, new DesDateCalendar());
             Setup.lastClickReset();
         }
     }

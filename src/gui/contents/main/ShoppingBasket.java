@@ -1,15 +1,16 @@
 package gui.contents.main;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.text.NumberFormat;
-
 import custom.ButtonType1;
 import custom.CheckBoxType1;
 import custom.CountBox;
 import gui.common.Frame;
 import system.Setup;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 public class ShoppingBasket extends JPanel implements ActionListener {
 	public ShoppingBasket() {
@@ -40,7 +41,7 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		// 각 패널의 레이아웃에 사용할 Constraints 설정
 		GridBagConstraints gbc_topPanel = createGBC(0, 0, new int[]{0, 0, 5, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints topPanelSelectAll = createGBC(0, 0, new int[]{0, 80, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.WEST);
-		GridBagConstraints topPanelSelectDelete = createGBC(1, 0, new int[]{3, 0, 0, 80}, GridBagConstraints.NONE, GridBagConstraints.EAST);
+		GridBagConstraints topPanelSelectDelete = createGBC(1, 0, new int[]{3, 0, 0, 98}, GridBagConstraints.NONE, GridBagConstraints.EAST);
 
 		GridBagConstraints gbc_bottomPanel = createGBC(0, 2, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints bottomPanelPrice = createGBC(0, 0, new int[]{0, 0, 0, 10}, GridBagConstraints.NONE, GridBagConstraints.EAST);
