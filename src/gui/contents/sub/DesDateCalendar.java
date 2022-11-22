@@ -3,6 +3,7 @@ package gui.contents.sub;
 import custom.ButtonType1;
 import custom.ButtonType2;
 import custom.ButtonType3;
+import custom.TextFieldType1;
 import system.Setup;
 
 import javax.swing.*;
@@ -12,25 +13,67 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Calendar;
+import java.util.StringTokenizer;
 
-public class DesDateCalendar extends JPanel {
+public class DesDateCalendar extends JPanel implements MouseListener {
+	public static boolean openCalendar = false;
+	private Calendar c = Calendar.getInstance();
+	private int selectYear = c.get(Calendar.YEAR);
+	private int selectMonth = c.get(Calendar.MONTH) + 1;
+	private int selectDay = c.get(Calendar.DATE) + 2;
+	private JTextField tf;
+	private JPanel p;
+
 	public DesDateCalendar() {
 		setLayout(null);
-		add(new Cal());
+		tf = new TextFieldType1(0, 2, "");
+		tf.setForeground(Setup.darkGray);
+		tf.setText(selectYear + ". " + selectMonth + ". " + selectDay);
+		tf.setBounds(0, 25, 150, 35);
+		tf.setColumns(10);
+		tf.addMouseListener(this);
+		this.add(tf);
+
+		JPanel cal = new Cal(tf, p);
+		cal.setLocation(0, 60);
+
+		p = new JPanel();
+		p.setVisible(false);
+		p.setLayout(new CardLayout());
+		p.setBounds(0, 60, 270, 240);
+		p.add(cal);
+		this.add(p);
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(!openCalendar) {
+			openCalendar = true;
+			Setup.changePanel(p, new Cal(tf, p));
+			p.setVisible(true);
+		}
+	}
+	public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
+	public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
 }
 
 class Cal extends JPanel implements ActionListener, MouseListener {
-	private int year, month, day, week, lastDate;
-	JPanel[] pan;
-	JLabel[] days;
-	JPanel calenderPanel;
-	JButton minus, plus, cancel, ok;
-	JLabel date;
-	Calendar c = Calendar.getInstance();
-	int selectDay, selectMonth = -1, selectYear = -1;
-	int thisYear, thisMonth, thisDay;
-	public Cal() {
+	private int year, month, day, week, lastDate,
+			selectYear, selectMonth, selectDay,
+			thisYear, thisMonth, thisDay,
+			defaultYear, defaultMonth, defaultDay;
+	private JPanel[] pan;
+	private JLabel[] days;
+	private JPanel calenderPanel, outPanel;
+	private JButton minus, plus, cancel, ok;
+	private JLabel date;
+	private Calendar c = Calendar.getInstance();
+	private JTextField tf;
+	public Cal(JTextField tf, JPanel panel) {
+		outPanel = panel;
+		this.tf = tf;
 		defaultDateSet();
 		//Calender Setting
 			this.setSize(270, 240);
@@ -216,18 +259,30 @@ class Cal extends JPanel implements ActionListener, MouseListener {
 	}
 
 	public void defaultDateSet() {
+		String str = tf.getText();
+		StringTokenizer st = new StringTokenizer(str, ". ");
+
+		selectYear = Integer.parseInt(st.nextToken());
+		selectMonth = Integer.parseInt(st.nextToken());
+		selectDay = Integer.parseInt(st.nextToken());
+
+		defaultYear = selectYear;
+		defaultMonth = selectMonth;
+		defaultDay = selectDay;
+
 		year = c.get(Calendar.YEAR);
 		month = c.get(Calendar.MONTH);
 		day = c.get(Calendar.DATE);
 		c.set(year, month, day);
 
-		selectYear = year;
-		selectMonth = month+1;
-		selectDay = day+2;
-
 		thisYear = year;
 		thisMonth = month;
 		thisDay = day;
+
+		year = selectYear;
+		month = selectMonth - 1;
+		day = selectDay;
+		c.set(year, month, day);
 	}
 
 	@Override
@@ -248,7 +303,13 @@ class Cal extends JPanel implements ActionListener, MouseListener {
 			date.setText(year + "년 " + (month+1) + "월");
 		}
 		if (e.getSource() == ok) {
-			System.out.println(selectYear + "년 " + selectMonth+ "월 " + selectDay + "일");
+			outPanel.setVisible(false);
+			DesDateCalendar.openCalendar = false;
+		}
+		if (e.getSource() == cancel) {
+			outPanel.setVisible(false);
+			DesDateCalendar.openCalendar = false;
+			tf.setText(defaultYear + ". " + defaultMonth + ". " + defaultDay);
 		}
 	}
 
@@ -278,6 +339,7 @@ class Cal extends JPanel implements ActionListener, MouseListener {
 				selectYear = year;
 				selectMonth = month+1;
 				selectDay = i;
+				tf.setText(selectYear + ". " + selectMonth + ". " + selectDay);
 			}
 		}
 	}

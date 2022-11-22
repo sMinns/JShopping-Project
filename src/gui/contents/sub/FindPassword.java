@@ -1,25 +1,27 @@
 package gui.contents.sub;
 
-import java.awt.Color;
-import java.awt.Font;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import custom.ButtonType1;
 import custom.ComboBoxType1;
 import custom.TextFieldType1;
+import gui.common.Frame;
+import gui.contents.main.SignUp;
+import gui.menu.GuestMenu;
 import system.Setup;
-import java.awt.GridBagLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 
-public class FindPassword extends JPanel {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class FindPassword extends JPanel implements ActionListener, MouseListener {
 	private String[] month = {"1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"};
-	public FindPassword() {					
+	private JTextField idTextField, nameTextField, yearTextField, dayTextField;
+	private JLabel idDesLabel, nameDesLabel, birthDesLabel, noAccLabel, signUpLabel;
+	private JButton findPasswordButton;
+	private JComboBox monthComboBox;
+	public FindPassword() {
 		this.setLayout(null);
 		
 		//ID
@@ -33,12 +35,12 @@ public class FindPassword extends JPanel {
 			idLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 			idPanel.add(idLabel);
 			
-			JTextField idTextField = new TextFieldType1(0, 2, "아이디");
+			idTextField = new TextFieldType1(0, 2, "아이디");
 			idTextField.setBounds(0, 25, 407, 44);
 			idPanel.add(idTextField);
 			idTextField.setColumns(10);
 			
-			JLabel idDesLabel = new JLabel("* 아이디를 입력해주세요.");
+			idDesLabel = new JLabel();
 			idDesLabel.setBounds(10, 71, 136, 15);
 			idDesLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 			idDesLabel.setForeground(Setup.magenta);
@@ -50,12 +52,12 @@ public class FindPassword extends JPanel {
 			this.add(namePanel);
 			namePanel.setLayout(null);
 			
-			JTextField nameTextField = new TextFieldType1(0, 2, "이름");
+			nameTextField = new TextFieldType1(0, 2, "이름");
 			nameTextField.setBounds(0, 25, 407, 44);
 			nameTextField.setColumns(10);
 			namePanel.add(nameTextField);
 			
-			JLabel nameDesLabel = new JLabel("* 이름을 입력해주세요.");
+			nameDesLabel = new JLabel();
 			nameDesLabel.setBounds(10, 71, 135, 15);
 			nameDesLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 			nameDesLabel.setForeground(Setup.magenta);
@@ -77,15 +79,15 @@ public class FindPassword extends JPanel {
 			birthLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 			birthPanel.add(birthLabel);
 					
-			JTextField yearTextField = new TextFieldType1(0, 2, "년(4자)");
+			yearTextField = new TextFieldType1(0, 2, "년(4자)");
 			yearTextField.setBounds(0, 27, 120, 42);;
 			birthPanel.add(yearTextField);
 			
-			JTextField dayTextField = new TextFieldType1(0, 2, "일");
+			dayTextField = new TextFieldType1(0, 2, "일");
 			dayTextField.setBounds(287, 27, 120, 42);
 			birthPanel.add(dayTextField);
 			
-			JLabel birthDesLabel = new JLabel("* 생년월일을 입력해주세요.");
+			birthDesLabel = new JLabel();
 			birthDesLabel.setBounds(10, 71, 158, 15);
 			birthDesLabel.setForeground(Setup.magenta);
 			birthDesLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
@@ -95,34 +97,64 @@ public class FindPassword extends JPanel {
 			montComboPanel.setBounds(144, 30, 120, 36);
 			birthPanel.add(montComboPanel);
 			
-			JComboBox monthComboBox = new ComboBoxType1(month, 120, "월");
+			monthComboBox = new ComboBoxType1(month, 120, "월");
 			montComboPanel.add(monthComboBox);
 		
 		//JOIN
-			JPanel joinPanel = new JPanel();
-			joinPanel.setBounds(278, 432, 407, 23);
-			this.add(joinPanel);
-			joinPanel.setLayout(null);
+			JPanel signUpPanel = new JPanel();
+			signUpPanel.setBounds(278, 432, 407, 23);
+			this.add(signUpPanel);
+			signUpPanel.setLayout(null);
 			
-			JLabel noAccLabel = new JLabel("계정이 없으신가요?");
+			noAccLabel = new JLabel("계정이 없으신가요?");
 			noAccLabel.setBounds(130, 1, 102, 15);
-			joinPanel.add(noAccLabel);
+			signUpPanel.add(noAccLabel);
 			noAccLabel.setForeground(Setup.darkGray);
+			noAccLabel.addMouseListener(this);
 			noAccLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 			
-			JLabel joinLabel = new JLabel("회원가입");
-			joinLabel.setBounds(232, 1, 57, 15);
-			joinPanel.add(joinLabel);
-			joinLabel.setForeground(Setup.magenta);
-			joinLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
+			signUpLabel = new JLabel("회원가입");
+			signUpLabel.setBounds(232, 1, 57, 15);
+			signUpLabel.setForeground(Setup.magenta);
+			signUpLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
+			signUpLabel.addMouseListener(this);
+			signUpPanel.add(signUpLabel);
 					
-			JPanel passFindbuttonPanel = new JPanel();
-			passFindbuttonPanel.setBounds(278, 371, 407, 62);
-			this.add(passFindbuttonPanel);
+			JPanel findPasswordButtonPanel = new JPanel();
+			findPasswordButtonPanel.setBounds(278, 371, 407, 62);
+			this.add(findPasswordButtonPanel);
 		
 		//PASSBTN
-			JButton passFindBtn = new ButtonType1(17, 8, 7, "비밀번호 찾기", 16);
-			passFindbuttonPanel.add(passFindBtn);
-			passFindBtn.setFont(new Font(Setup.font, Font.BOLD, 16));	
+			findPasswordButton = new ButtonType1(17, 8, 7, "비밀번호 찾기", 16);
+			findPasswordButton.addActionListener(this);
+			findPasswordButtonPanel.add(findPasswordButton);
 		}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == findPasswordButton) {
+			if(idTextField.getText().equals("아이디")) {
+				idDesLabel.setText("* 아이디를 입력해주세요.");
+			}else { idDesLabel.setText(""); }
+			if(nameTextField.getText().equals("이름")) {
+				nameDesLabel.setText("* 이름을 입력해주세요.");
+			}else { nameDesLabel.setText(""); }
+			if(yearTextField.getText().equals("년(4자)") || dayTextField.getText().equals("일") ||
+					monthComboBox.getSelectedItem().equals("월")) {
+				birthDesLabel.setText("* 생년월일을 입력해주세요.");
+			}else { birthDesLabel.setText(""); }
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getSource() == noAccLabel || e.getSource() == signUpLabel) {
+			Setup.changePanel(Frame.contentLayeredPanel, new SignUp(), "회원가입");
+			Setup.selectMenuPanel(GuestMenu.GuestPanel[2]);
+		}
+	}
+	public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
+	public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
+	public void mousePressed(MouseEvent e) { }
+	public void mouseReleased(MouseEvent e) { }
 }

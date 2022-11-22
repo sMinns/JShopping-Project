@@ -17,7 +17,8 @@ public class passwordFieldType1 extends JPasswordField implements FocusListener 
 		this.setFont(new Font(Setup.font, Font.PLAIN, 16));
 		this.setOpaque(false);
 		this.setBorder(new EmptyBorder(10, 12, 10, 8));
-		this.setForeground(Setup.darkGray);
+		this.setForeground(Setup.Gray);
+		this.setText("passw0rd");
 		this.addFocusListener(this);
 	}
 	
@@ -35,15 +36,23 @@ public class passwordFieldType1 extends JPasswordField implements FocusListener 
 		g2.drawRoundRect(2, 2, width-4, height-4, round, round);
 		super.paintComponent(g);
 	}
-	
+
 	@Override
 	public void focusGained(FocusEvent e) {
+		if(((JTextField) e.getSource()).getText().equals("passw0rd")) {
+			this.setForeground(Setup.darkGray);
+			this.setText(null);
+		}
 		strokeColor = Setup.magenta;
 		this.repaint();
 	}
-	
+
 	@Override
 	public void focusLost(FocusEvent e) {
+		if(((JTextField) e.getSource()).getText().equals("")) {
+			this.setForeground(Setup.Gray);
+			this.setText("passw0rd");
+		}
 		strokeColor = Setup.textFieldBorderColor;
 		this.repaint();
 	}

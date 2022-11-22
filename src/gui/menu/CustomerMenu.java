@@ -12,7 +12,7 @@ import gui.contents.main.*;
 import system.Setup;
 
 public class CustomerMenu extends JPanel implements MouseListener{
-	private JPanel[] CustomerPanel = new JPanel[8];
+	public static JPanel[] CustomerPanel = new JPanel[8];
 	private String[] imgStr = { "/images/home.png", "/images/search.png", "/images/orderlist.png", "/images/shoppingbasket.png", "/images/sellerapplication.png", "/images/profile.png", "/images/logout.png", "/images/exit.png" };
 	private String[] textStr = { "홈", "상품검색", "주문목록", "장바구니", "판매자 신청", " 님", "로그아웃", "테스트" };
 	private int j = 0;

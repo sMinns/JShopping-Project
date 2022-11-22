@@ -67,6 +67,11 @@ public class Setup {
 		lastClickPanel.setBackground(darkGray);
 		lastClickPanel = null;
 	}
+
+	public static void selectMenuPanel(JPanel panel) {
+		panel.setBackground(magenta);
+		lastClickPanel = panel;
+	}
 	
 	public static ImageIcon imageSetSize(ImageIcon icon, int i, int j) { // image Size Setting
 		Image ximg = icon.getImage();

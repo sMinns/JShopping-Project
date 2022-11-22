@@ -1,17 +1,11 @@
 package gui.contents.main;
 
+import custom.ButtonType1;
+import custom.passwordFieldType1;
 import system.Setup;
 
 import javax.swing.*;
-
-import custom.ButtonType1;
-import custom.passwordFieldType1;
-
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import static system.Setup.textFieldBorderColor;
 
 public class ResetPassword extends JPanel {
     public ResetPassword() {
@@ -68,7 +62,6 @@ public class ResetPassword extends JPanel {
              this.add(buttonPanel);
              
              JButton changePasswordButton = new ButtonType1(20, 8, 5, "비밀번호 변경", 16);
-             changePasswordButton.setFont(new Font(Setup.font, Font.BOLD, 16));
              buttonPanel.add(changePasswordButton);
     	}
     }
