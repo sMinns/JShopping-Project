@@ -1,18 +1,17 @@
 package system;
 
-import java.awt.*;
-import java.util.Base64;
+import gui.common.BarPanel;
+import gui.common.Frame;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.*;
-
-import gui.common.BarPanel;
-import gui.common.Frame;
+import java.awt.*;
+import java.sql.Connection;
+import java.util.Base64;
 
 import static gui.common.Frame.*;
-import static gui.common.Frame.mainBagConstraints;
 
 public class Setup {
 	public static Color darkGray = new Color(34, 34, 34);
@@ -30,6 +29,7 @@ public class Setup {
 	public static Color[] statColor = { new Color(255, 177, 1), new Color(246, 101, 1), new Color(171, 181, 54), new Color(1, 163, 255), new Color(193, 48, 56) }; 
 	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	public static String[] selectProduct;
+	public static Connection con;
 	public static void exit() {
 		try {
 	         for(int i = 50; i>0; i--) {
