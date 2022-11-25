@@ -141,38 +141,38 @@ public class SignUpEvent extends MouseAdapter implements ActionListener, KeyList
     public void mouseExited(MouseEvent e) { s.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
     public void keyPressed(KeyEvent e) { }
     public void keyTyped(KeyEvent e) { }
-}
 
-class FinishSignUpPanel extends JPanel {
-    Font font = new Font(Setup.font, Font.BOLD, 24);
-    public FinishSignUpPanel() {
-        this.setLayout(new GridLayout(2, 1));
+    class FinishSignUpPanel extends JPanel {
+        Font font = new Font(Setup.font, Font.BOLD, 24);
+        public FinishSignUpPanel() {
+            this.setLayout(new GridLayout(2, 1));
 
-        JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 270));
-        this.add(panel1);
+            JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 270));
+            this.add(panel1);
 
-        JLabel label1 = new JLabel("회원가입");
-        label1.setFont(font);
-        label1.setForeground(Setup.magenta);
-        panel1.add(label1);
+            JLabel label1 = new JLabel("회원가입");
+            label1.setFont(font);
+            label1.setForeground(Setup.magenta);
+            panel1.add(label1);
 
-        JLabel label2 = new JLabel("이 완료되었습니다.");
-        label2.setFont(font);
-        label2.setForeground(Setup.darkGray);
-        panel1.add(label2);
+            JLabel label2 = new JLabel("이 완료되었습니다.");
+            label2.setFont(font);
+            label2.setForeground(Setup.darkGray);
+            panel1.add(label2);
 
-        JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        this.add(panel2);
+            JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            this.add(panel2);
 
-        JButton button = new ButtonType1(30, 6, 5, "로그인하러 가기", 14);
-        panel2.add(button);
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Setup.changePanel(Frame.contentLayeredPanel, new Login(), "로그인");
-                Setup.lastClickReset();
-                Setup.selectMenuPanel(GuestMenu.GuestPanel[3]);
-            }
-        });
+            JButton button = new ButtonType1(30, 6, 5, "로그인하러 가기", 14);
+            panel2.add(button);
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Setup.changePanel(Frame.contentLayeredPanel, new Login(), "로그인");
+                    Setup.lastClickReset();
+                    Setup.selectMenuPanel(GuestMenu.GuestPanel[3]);
+                }
+            });
+        }
     }
 }

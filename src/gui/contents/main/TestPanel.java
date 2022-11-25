@@ -1,6 +1,6 @@
 package gui.contents.main;
 
-import custom.*;
+import custom.ButtonType1;
 import gui.common.Frame;
 import gui.contents.sub.DesDateCalendar;
 import gui.menu.CustomerMenu;
@@ -38,7 +38,7 @@ public class TestPanel extends JPanel implements ActionListener {
             Setup.changePanel(Frame.contentLayeredPanel, new FindIdPw(true));
             Setup.lastClickReset();
         }else if (e.getSource() == button[3]) {
-            Setup.changePanel(Frame.contentLayeredPanel, new ResetPassword());
+            Setup.changePanel(Frame.contentLayeredPanel, new ResetPassword(0));
             Setup.lastClickReset();
         }else if (e.getSource() == button[4]) {
             Setup.changePanel(Frame.contentLayeredPanel, new Login());

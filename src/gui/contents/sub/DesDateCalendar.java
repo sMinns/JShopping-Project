@@ -26,7 +26,7 @@ public class DesDateCalendar extends JPanel implements MouseListener {
 
 	public DesDateCalendar() {
 		setLayout(null);
-		tf = new TextFieldType1(0, 2, "");
+		tf = new TextFieldType1(0, 2, "", 20);
 		tf.setForeground(Setup.darkGray);
 		tf.setText(selectYear + ". " + selectMonth + ". " + selectDay);
 		tf.setBounds(0, 25, 150, 35);

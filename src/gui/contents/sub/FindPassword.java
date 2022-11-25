@@ -3,29 +3,27 @@ package gui.contents.sub;
 import custom.ButtonType1;
 import custom.ComboBoxType1;
 import custom.TextFieldType1;
-import gui.common.Frame;
-import gui.contents.main.SignUp;
-import gui.menu.GuestMenu;
+import custom.onlyNumberTextField;
+import event.FindPasswordEvent;
 import system.Setup;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class FindPassword extends JPanel implements ActionListener, MouseListener {
+public class FindPassword extends JPanel {
 	private String[] month = {"1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"};
-	private JTextField idTextField, nameTextField, yearTextField, dayTextField;
+	private JTextField idTextField, nameTextField;
+	private JFormattedTextField yearTextField, dayTextField;
 	private JLabel idDesLabel, nameDesLabel, birthDesLabel, noAccLabel, signUpLabel;
 	private JButton findPasswordButton;
 	private JComboBox monthComboBox;
 	public FindPassword() {
 		this.setLayout(null);
-		
+		this.setBackground(Setup.bgLightGray);
+		FindPasswordEvent findPasswordEvent = new FindPasswordEvent(this);
 		//ID
-			JPanel idPanel = new JPanel(); 
+			JPanel idPanel = new JPanel();
+			idPanel.setOpaque(false);
 			idPanel.setBounds(278, 60, 407, 95);
 			this.add(idPanel);
 			idPanel.setLayout(null);
@@ -35,7 +33,7 @@ public class FindPassword extends JPanel implements ActionListener, MouseListene
 			idLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 			idPanel.add(idLabel);
 			
-			idTextField = new TextFieldType1(0, 2, "아이디");
+			idTextField = new TextFieldType1(0, 2, "아이디", 15);
 			idTextField.setBounds(0, 25, 407, 44);
 			idPanel.add(idTextField);
 			idTextField.setColumns(10);
@@ -48,11 +46,12 @@ public class FindPassword extends JPanel implements ActionListener, MouseListene
 		
 		//NAME
 			JPanel namePanel = new JPanel();
+			namePanel.setOpaque(false);
 			namePanel.setBounds(278, 155, 407, 95);
 			this.add(namePanel);
 			namePanel.setLayout(null);
 			
-			nameTextField = new TextFieldType1(0, 2, "이름");
+			nameTextField = new TextFieldType1(0, 2, "이름", 10);
 			nameTextField.setBounds(0, 25, 407, 44);
 			nameTextField.setColumns(10);
 			namePanel.add(nameTextField);
@@ -67,23 +66,24 @@ public class FindPassword extends JPanel implements ActionListener, MouseListene
 			nameLabel.setBounds(6, 3, 43, 20);
 			namePanel.add(nameLabel);
 			nameLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
-			
+
+		//Birth
 			JPanel birthPanel = new JPanel();
+			birthPanel.setOpaque(false);
 			birthPanel.setBounds(278, 250, 407, 95);
 			this.add(birthPanel);
 			birthPanel.setLayout(null);
-		
-		//Birth
+
 			JLabel birthLabel = new JLabel("생년월일");
 			birthLabel.setBounds(6, 3, 67, 20);
 			birthLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 			birthPanel.add(birthLabel);
 					
-			yearTextField = new TextFieldType1(0, 2, "년(4자)");
+			yearTextField = new onlyNumberTextField(0, 2, 4, "년(4자)");
 			yearTextField.setBounds(0, 27, 120, 42);;
 			birthPanel.add(yearTextField);
 			
-			dayTextField = new TextFieldType1(0, 2, "일");
+			dayTextField = new onlyNumberTextField(0, 2, 2, "일");
 			dayTextField.setBounds(287, 27, 120, 42);
 			birthPanel.add(dayTextField);
 			
@@ -93,15 +93,18 @@ public class FindPassword extends JPanel implements ActionListener, MouseListene
 			birthDesLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 			birthPanel.add(birthDesLabel);
 			
-			JPanel montComboPanel = new JPanel();
-			montComboPanel.setBounds(144, 30, 120, 36);
-			birthPanel.add(montComboPanel);
+			JPanel monthComboPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 1));
+			monthComboPanel.setBackground(Setup.white);
+			monthComboPanel.setBorder(BorderFactory.createLineBorder(Setup.textFieldBorderColor, 2));
+			monthComboPanel.setBounds(144, 29, 125, 39);
+			birthPanel.add(monthComboPanel);
 			
 			monthComboBox = new ComboBoxType1(month, 120, "월");
-			montComboPanel.add(monthComboBox);
+			monthComboPanel.add(monthComboBox);
 		
 		//JOIN
 			JPanel signUpPanel = new JPanel();
+			signUpPanel.setOpaque(false);
 			signUpPanel.setBounds(278, 432, 407, 23);
 			this.add(signUpPanel);
 			signUpPanel.setLayout(null);
@@ -110,51 +113,80 @@ public class FindPassword extends JPanel implements ActionListener, MouseListene
 			noAccLabel.setBounds(130, 1, 102, 15);
 			signUpPanel.add(noAccLabel);
 			noAccLabel.setForeground(Setup.darkGray);
-			noAccLabel.addMouseListener(this);
+			noAccLabel.addMouseListener(findPasswordEvent);
 			noAccLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 			
 			signUpLabel = new JLabel("회원가입");
 			signUpLabel.setBounds(232, 1, 57, 15);
 			signUpLabel.setForeground(Setup.magenta);
 			signUpLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
-			signUpLabel.addMouseListener(this);
+			signUpLabel.addMouseListener(findPasswordEvent);
 			signUpPanel.add(signUpLabel);
-					
+
+		//PASSBTN
 			JPanel findPasswordButtonPanel = new JPanel();
+			findPasswordButtonPanel.setOpaque(false);
 			findPasswordButtonPanel.setBounds(278, 371, 407, 62);
 			this.add(findPasswordButtonPanel);
-		
-		//PASSBTN
+
 			findPasswordButton = new ButtonType1(17, 8, 7, "비밀번호 찾기", 16);
-			findPasswordButton.addActionListener(this);
+			findPasswordButton.addActionListener(findPasswordEvent);
 			findPasswordButtonPanel.add(findPasswordButton);
 		}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == findPasswordButton) {
-			if(idTextField.getText().equals("아이디")) {
-				idDesLabel.setText("* 아이디를 입력해주세요.");
-			}else { idDesLabel.setText(""); }
-			if(nameTextField.getText().equals("이름")) {
-				nameDesLabel.setText("* 이름을 입력해주세요.");
-			}else { nameDesLabel.setText(""); }
-			if(yearTextField.getText().equals("년(4자)") || dayTextField.getText().equals("일") ||
-					monthComboBox.getSelectedItem().equals("월")) {
-				birthDesLabel.setText("* 생년월일을 입력해주세요.");
-			}else { birthDesLabel.setText(""); }
-		}
+	public String getIdTextField() {
+		return idTextField.getText();
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getSource() == noAccLabel || e.getSource() == signUpLabel) {
-			Setup.changePanel(Frame.contentLayeredPanel, new SignUp(), "회원가입");
-			Setup.selectMenuPanel(GuestMenu.GuestPanel[2]);
-		}
+	public void focusIdTextField() {
+		idTextField.requestFocus();
 	}
-	public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
-	public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
-	public void mousePressed(MouseEvent e) { }
-	public void mouseReleased(MouseEvent e) { }
+
+	public String getNameTextField() {
+		return nameTextField.getText();
+	}
+
+	public void focusNameTextField() {
+		nameTextField.requestFocus();
+	}
+
+	public String getYearTextField() {
+		return yearTextField.getText();
+	}
+
+	public void focusYearTextField() {
+		yearTextField.requestFocus();
+	}
+
+	public String getDayTextField() {
+		return dayTextField.getText();
+	}
+
+	public void setIdDesLabel(String text) {
+		idDesLabel.setText(text);
+	}
+
+	public void setNameDesLabel(String text) {
+		nameDesLabel.setText(text);
+	}
+
+	public void setBirthDesLabel(String text) {
+		birthDesLabel.setText(text);
+	}
+
+	public JLabel getNoAccLabel() {
+		return noAccLabel;
+	}
+
+	public JLabel getSignUpLabel() {
+		return signUpLabel;
+	}
+
+	public JButton getFindPasswordButton() {
+		return findPasswordButton;
+	}
+
+	public String getMonthComboBox() {
+		return (String) monthComboBox.getSelectedItem();
+	}
 }

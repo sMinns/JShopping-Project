@@ -8,7 +8,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
 import java.util.Base64;
 
 import static gui.common.Frame.*;
@@ -29,7 +28,7 @@ public class Setup {
 	public static Color[] statColor = { new Color(255, 177, 1), new Color(246, 101, 1), new Color(171, 181, 54), new Color(1, 163, 255), new Color(193, 48, 56) }; 
 	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	public static String[] selectProduct;
-	public static Connection con;
+	public static int CustomerNum = 0;
 	public static void exit() {
 		try {
 	         for(int i = 50; i>0; i--) {

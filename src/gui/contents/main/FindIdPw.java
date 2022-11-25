@@ -27,6 +27,7 @@ public class FindIdPw extends JPanel implements MouseListener {
         this.setLayout(findtitleLayout);
 
         JPanel findPanel = new JPanel();
+        findPanel.setBackground(Setup.bgLightGray);
         GridBagConstraints findBagCon = new GridBagConstraints();
         findBagCon.insets = new Insets(0, 0, 1, 0);
         findBagCon.fill = GridBagConstraints.BOTH;

@@ -1,15 +1,13 @@
 package gui.menu;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-
 import gui.common.Frame;
 import gui.contents.main.*;
 import system.Setup;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class CustomerMenu extends JPanel implements MouseListener{
 	public static JPanel[] CustomerPanel = new JPanel[8];
@@ -93,6 +91,7 @@ public class CustomerMenu extends JPanel implements MouseListener{
 		}else if(e.getSource() == CustomerPanel[4]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new SellerApplication(), textStr[4]);
 		}else if(e.getSource() == CustomerPanel[6]) {
+			Setup.CustomerNum = 0;
 			Setup.changePanel(Frame.menuLayeredPanel, new GuestMenu(), textStr[0]);
 			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
 		}else if(e.getSource() == CustomerPanel[7]) {

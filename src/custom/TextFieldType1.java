@@ -1,28 +1,26 @@
 package custom;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import system.Setup;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.JTextComponent;
-
-import system.Setup;
 
 public class TextFieldType1 extends JTextField implements FocusListener {
 	private Color strokeColor = Setup.textFieldBorderColor;
 	private String text;
-	private int round;
-	public TextFieldType1(int Columns, int round, String text) {
+	private int round, limit;
+	public TextFieldType1(int Columns, int round, String text, int limit) {
 		this.round = round;
+		this.limit = limit;
 		this.text = text;
 		this.setColumns(Columns);
+		this.setDocument(new TextAreaType1.JTextFieldLimit(limit));
 		this.setFont(new Font(Setup.font, Font.PLAIN, 12));
 		this.setOpaque(false);
 		this.setBorder(new EmptyBorder(10, 12, 10, 8));
@@ -64,5 +62,27 @@ public class TextFieldType1 extends JTextField implements FocusListener {
 		}
 		strokeColor = Setup.textFieldBorderColor;
 		this.repaint();
+	}
+
+	static class JTextFieldLimit extends PlainDocument {
+		private int limit;
+		JTextFieldLimit(int limit) {
+			super();
+			this.limit = limit;
+		}
+
+		JTextFieldLimit(int limit, boolean upper) {
+			super();
+			this.limit = limit;
+		}
+
+		public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+			if (str == null)
+				return;
+
+			if ((getLength() + str.length()) <= limit) {
+				super.insertString(offset, str, attr);
+			}
+		}
 	}
 }

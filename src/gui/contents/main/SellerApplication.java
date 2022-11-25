@@ -1,15 +1,12 @@
 package gui.contents.main;
 
-import java.awt.Font;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import custom.ButtonType1;
 import custom.TextFieldType1;
+import custom.onlyNumberTextField;
 import system.Setup;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class SellerApplication extends JPanel {
 
@@ -34,7 +31,7 @@ public class SellerApplication extends JPanel {
 			sellerDeslabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 			sellerDeslabel.setForeground(Setup.magenta);
 	
-			JTextField sellertextField = new TextFieldType1(60, 2, "");
+			JTextField sellertextField = new TextFieldType1(60, 2, "", 10);
 			sellertextField.setFont(new Font(Setup.font, Font.PLAIN, 12));
 			;
 			sellertextField.setBounds(0, 35, 407, 44);
@@ -59,7 +56,7 @@ public class SellerApplication extends JPanel {
 			shopDeslabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 			shopDeslabel.setForeground(Setup.magenta);
 	
-			JTextField shoptextField = new TextFieldType1(60, 2, "");
+			JTextField shoptextField = new TextFieldType1(60, 2, "", 15);
 			shoptextField.setFont(new Font(Setup.font, Font.PLAIN, 12));
 			;
 			shoptextField.setBounds(0, 35, 407, 44);
@@ -87,19 +84,19 @@ public class SellerApplication extends JPanel {
 			phoneDeslabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 			phoneDeslabel.setForeground(Setup.magenta);
 	
-			JTextField phonetextField = new TextFieldType1(60, 2, "");
+			JFormattedTextField phonetextField = new onlyNumberTextField(60, 2, 3, "");
 			phonetextField.setFont(new Font(Setup.font, Font.PLAIN, 12));
 			;
 			phonetextField.setBounds(147, 36, 112, 44);
 			phoneNumber.add(phonetextField);
-	
-			JTextField phonetextField2 = new TextFieldType1(60, 2, "");
+
+		JFormattedTextField phonetextField2 = new onlyNumberTextField(60, 2, 4, "");
 			phonetextField2.setFont(new Font(Setup.font, Font.PLAIN, 12));
 			;
 			phonetextField2.setBounds(295, 36, 112, 44);
 			phoneNumber.add(phonetextField2);
 	
-			JTextField phonetextField3 = new TextFieldType1(60, 2, "");
+			JFormattedTextField phonetextField3 = new onlyNumberTextField(60, 2, 4, "");
 			phonetextField3.setFont(new Font(Setup.font, Font.PLAIN, 12));
 			;
 			phonetextField3.setBounds(0, 35, 112, 44);
@@ -138,7 +135,7 @@ public class SellerApplication extends JPanel {
 			emailDeslabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 			emailDeslabel.setForeground(Setup.magenta);
 			JTextField emailtextField;
-			emailtextField = new TextFieldType1(60, 2, "");
+			emailtextField = new TextFieldType1(60, 2, "", 30);
 			emailtextField.setFont(new Font(Setup.font, Font.PLAIN, 12));
 			emailtextField.setBounds(0, 35, 407, 44);
 			email.add(emailtextField);
@@ -164,24 +161,21 @@ public class SellerApplication extends JPanel {
 			businessnum.add(businessnumDeslabel);
 			businessnumDeslabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 			businessnumDeslabel.setForeground(Setup.magenta);
-	
-			JTextField businessnumtextField2 = new TextFieldType1(60, 2, "");
-			businessnumtextField2.setFont(new Font(Setup.font, Font.PLAIN, 12));
-			;
-			businessnumtextField2.setBounds(147, 36, 80, 44);
-			businessnum.add(businessnumtextField2);
-	
-			JTextField businessnumtextField3 = new TextFieldType1(60, 2, "");
-			businessnumtextField3.setFont(new Font(Setup.font, Font.PLAIN, 12));
-			;
-			businessnumtextField3.setBounds(261, 36, 146, 44);
-			businessnum.add(businessnumtextField3);
-	
-			JTextField businessnumtextField = new TextFieldType1(60, 2, "");
+
+			JFormattedTextField businessnumtextField = new onlyNumberTextField(60, 2, 3, "");
 			businessnumtextField.setFont(new Font(Setup.font, Font.PLAIN, 12));
-			;
 			businessnumtextField.setBounds(0, 35, 112, 44);
 			businessnum.add(businessnumtextField);
+
+			JFormattedTextField businessnumtextField2 = new onlyNumberTextField(60, 2, 3, "");
+			businessnumtextField2.setFont(new Font(Setup.font, Font.PLAIN, 12));
+			businessnumtextField2.setBounds(147, 36, 80, 44);
+			businessnum.add(businessnumtextField2);
+
+			JFormattedTextField businessnumtextField3 = new onlyNumberTextField(60, 2, 6, "");
+			businessnumtextField3.setFont(new Font(Setup.font, Font.PLAIN, 12));
+			businessnumtextField3.setBounds(261, 36, 146, 44);
+			businessnum.add(businessnumtextField3);
 	
 			JLabel businessnumHyphen = new JLabel("-");
 			businessnumHyphen.setBounds(125, 50, 22, 15);

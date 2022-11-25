@@ -3,29 +3,27 @@ package gui.contents.sub;
 import custom.ButtonType1;
 import custom.ComboBoxType1;
 import custom.TextFieldType1;
-import gui.common.Frame;
-import gui.contents.main.SignUp;
-import gui.menu.GuestMenu;
+import custom.onlyNumberTextField;
+import event.FindIDEvent;
 import system.Setup;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class FindID extends JPanel implements ActionListener, MouseListener {
+public class FindID extends JPanel {
 	private JLabel noAccLabel, signUpLabel, nameDesLabel, birthDesLabel;
 	private JButton findIdButton;
-	private JTextField yearTextField, dayTextField, nameTextField;
+	private JTextField nameTextField;
+	private JFormattedTextField yearTextField, dayTextField;
 	private JComboBox monthComboBox;
 	private String[] month = {"1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"};
 	public FindID() {
+		FindIDEvent FindIDEvent = new FindIDEvent(this);
 		this.setLayout(null);
-
+		this.setBackground(Setup.bgLightGray);
 		//NAME
 		JPanel namePanel = new JPanel();
+		namePanel.setOpaque(false);
 		namePanel.setBounds(278, 84, 407, 120);
 		this.add(namePanel);
 		namePanel.setLayout(null);
@@ -43,12 +41,13 @@ public class FindID extends JPanel implements ActionListener, MouseListener {
 		nameDesLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 		nameDesLabel.setForeground(Setup.magenta);
 
-		nameTextField = new TextFieldType1(60, 2, "이름");
+		nameTextField = new TextFieldType1(60, 2, "이름", 10);
 		nameTextField.setBounds(0, 35, 407, 44);
 		namePanel.add(nameTextField);
 
 		//Birth
 		JPanel birthPanel = new JPanel();
+		birthPanel.setOpaque(false);
 		birthPanel.setBounds(278, 201, 407, 120);
 		this.add(birthPanel);
 		birthPanel.setLayout(null);
@@ -65,16 +64,18 @@ public class FindID extends JPanel implements ActionListener, MouseListener {
 		birthDesLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
 		birthDesLabel.setForeground(Setup.magenta);
 
-		yearTextField = new TextFieldType1(0, 2, "년(4자)");
+		yearTextField = new onlyNumberTextField(0, 2, 4, "년(4자)");
 		yearTextField.setBounds(0, 40, 120, 42);
 		birthPanel.add(yearTextField);
 
-		dayTextField = new TextFieldType1(10, 2, "일");
+		dayTextField = new onlyNumberTextField(10, 2, 2, "일");
 		dayTextField.setBounds(287, 40, 120, 42);
 		birthPanel.add(dayTextField);
 
-		JPanel montComboPanel = new JPanel();
-		montComboPanel.setBounds(144, 42, 120, 36);
+		JPanel montComboPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 1));
+		montComboPanel.setBackground(Setup.white);
+		montComboPanel.setBorder(BorderFactory.createLineBorder(Setup.textFieldBorderColor, 2));
+		montComboPanel.setBounds(144, 43, 125, 39);
 		birthPanel.add(montComboPanel);
 
 		monthComboBox = new ComboBoxType1(month, 120, "월");
@@ -84,16 +85,18 @@ public class FindID extends JPanel implements ActionListener, MouseListener {
 
 		//IDBTN
 		JPanel findIdButtonPanel = new JPanel();
+		findIdButtonPanel.setOpaque(false);
 		findIdButtonPanel.setBounds(278, 340, 407, 62);
 		this.add(findIdButtonPanel);
 
 		findIdButton = new ButtonType1(25, 8, 7, "아이디 찾기", 16);
 		findIdButton.setFont(new Font(Setup.font, Font.BOLD, 16));
-		findIdButton.addActionListener(this);
+		findIdButton.addActionListener(FindIDEvent);
 		findIdButtonPanel.add(findIdButton);
 
 		//JOIN
 		JPanel signUpPanel = new JPanel();
+		signUpPanel.setOpaque(false);
 		signUpPanel.setBounds(278, 400, 407, 23);
 		this.add(signUpPanel);
 		signUpPanel.setLayout(null);
@@ -102,39 +105,58 @@ public class FindID extends JPanel implements ActionListener, MouseListener {
 		noAccLabel.setBounds(130, 1, 102, 15);
 		noAccLabel.setForeground(Setup.darkGray);
 		noAccLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
-		noAccLabel.addMouseListener(this);
+		noAccLabel.addMouseListener(FindIDEvent);
 		signUpPanel.add(noAccLabel);
 
 		signUpLabel = new JLabel("회원가입");
 		signUpLabel.setBounds(232, 1, 57, 15);
 		signUpLabel.setForeground(Setup.magenta);
 		signUpLabel.setFont(new Font(Setup.font, Font.BOLD, 11));
-		signUpLabel.addMouseListener(this);
+		signUpLabel.addMouseListener(FindIDEvent);
 		signUpPanel.add(signUpLabel);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == findIdButton) {
-			if(nameTextField.getText().equals("이름")) {
-				nameDesLabel.setText("* 이름을 입력해주세요.");
-			}else { nameDesLabel.setText(""); }
-			if(yearTextField.getText().equals("년(4자)") || dayTextField.getText().equals("일") ||
-			monthComboBox.getSelectedItem().equals("월")) {
-				birthDesLabel.setText("* 생년월일을 입력해주세요.");
-			}else { birthDesLabel.setText(""); }
-		}
+	public JLabel getNoAccLabel() {
+		return noAccLabel;
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getSource() == noAccLabel || e.getSource() == signUpLabel) {
-			Setup.changePanel(Frame.contentLayeredPanel, new SignUp(), "회원가입");
-			Setup.selectMenuPanel(GuestMenu.GuestPanel[2]);
-		}
+	public JLabel getSignUpLabel() {
+		return signUpLabel;
 	}
-	public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
-	public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
-	public void mousePressed(MouseEvent e) { }
-	public void mouseReleased(MouseEvent e) { }
+
+	public void setNameDesLabel(String text) {
+		nameDesLabel.setText(text);
+	}
+
+	public void setBirthDesLabel(String text) {
+		birthDesLabel.setText(text);
+	}
+
+	public JButton getFindIdButton() {
+		return findIdButton;
+	}
+
+	public String getNameTextField() {
+		return nameTextField.getText();
+	}
+
+	public void focusNameTextField() {
+		nameTextField.requestFocus();
+	}
+
+	public String getYearTextField() {
+		return yearTextField.getText();
+	}
+
+	public void focusYearTextField() {
+		yearTextField.requestFocus();
+	}
+
+	public String getDayTextField() {
+		return dayTextField.getText();
+	}
+
+	public String getMonthComboBox() {
+		return (String) monthComboBox.getSelectedItem();
+	}
 }
