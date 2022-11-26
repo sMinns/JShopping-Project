@@ -53,7 +53,7 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		GridBagConstraints productPanelCountBox = createGBC(0, 2, new int[]{0, 0, 10, 0}, GridBagConstraints.NONE, GridBagConstraints.WEST);
 		GridBagConstraints productPanelCheckBox = createGBC(0, 0, new int[]{0, 3, 0, 0}, GridBagConstraints.NONE, GridBagConstraints.CENTER);
 		GridBagConstraints productPanelImage = createGBC(1, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
-		GridBagConstraints productPanelInfo = createGBC(2, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
+		GridBagConstraints productPanelDetail = createGBC(2, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints productPanelButton = createGBC(3, 0, new int[]{3, 0, 0, 0}, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER);
 
 		JPanel topPanel = new JPanel();
@@ -138,7 +138,7 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 			productPrice[count].setText(String.format("%s원", NumberFormat.getInstance().format(Integer.parseInt(productLists[count][3]))));
 			productPanel[count].add(new CheckBoxType1(), productPanelCheckBox);
 			productPanel[count].add(productImage[count], productPanelImage);
-			productPanel[count].add(productDetail[count], productPanelInfo);
+			productPanel[count].add(productDetail[count], productPanelDetail);
 			productDetail[count].add(productName[count], productPanelName);
 			productDetail[count].add(productPrice[count], productPanelPrice);
 			productDetail[count].add(new CountBox(), productPanelCountBox);
