@@ -2,41 +2,27 @@ package gui.contents.main;
 
 import custom.ButtonType1;
 import custom.SearchBar;
+import database.SellerManagementDB;
+import gui.common.Frame;
 import system.Setup;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
-public class SellerManagement extends JPanel {
-	private String[][] str = {
-			{"123", "헤니스","김길동", "010-1234-1234", "g2g3234@naver.com", "110-21-12345"},
-			{"543", "삼성전자", "기미김", "010-1234-1234", "ad1d125@naver.com", "054-971-8935"},
-			{"654", "현대", "스이니", "010-1234-1234", "g54jh45@naver.com", "110-21-12345"},
-			{"765", "도그아이", "지니디", "010-1234-1234", "k67l6l@naver.com", "054-971-8935"},
-			{"373", "김치찌개", "키밈니", "010-1234-1234", "2n223@naver.com", "786-33-00664"},
-			{"17683", "불닭볶음면", "히히리", "010-1234-1234", "rwreq355@naver.com", "786-33-00664"},
-			{"765", "제육볶음", "기리리", "010-1234-1234", "yy4532@naver.com", "786-33-00664"},
-			{"1345", "신라면", "홍김디", "010-1234-1234", "i67i7454@naver.com", "786-33-00664"},
-			{"126", "오징어짬뽕", "김티니", "010-1234-1234", "23rqqq223@naver.com", "786-33-00664"},
-			{"133", "레몬돈가스", "이름미", "010-1234-1234", "t43t43yq3@naver.com", "786-33-00664"},
-			{"123", "", "에이프릴", "010-1234-1234", "m565m5@naver.com", "786-33-00664"},
-			{"543", "베니즈", "기미김", "010-1234-1234", "z46z463@naver.com", "786-33-00664"},
-			{"654", "푸르미", "스이니", "010-1234-1234", "m67m76m4@naver.com", "786-70-00335"},
-			{"765", "딩동펫", "지니디", "010-1234-1234", "h534h3@naver.com", "786-70-00335"},
-			{"373", "노마진", "키밈니", "1010-1234-1234", "m56m64@naver.com", "786-70-00335"},
-			{"17683", "지앤비", "히히리", "010-1234-1234", "li44@naver.com", "786-70-00335"},
-			{"765", "에티펫", "기리리", "010-1234-1234", "o4o4o9i@naver.com", "786-70-00335"},
-			{"1345", "반려세상", "홍김디", "010-1234-1234", "lkjyk87k@naver.com", "786-70-00335"},
-			{"126", "바잇미", "김티니", "010-1234-1234", "l0980990@naver.com", "786-70-00335"},
-			{"133", "옥희독희", "이름미", "010-1234-1234", "k56k4@naver.com", "786-70-00335"}
-	};
-	private JPanel[] sellerPanels = new JPanel[str.length];
-	private JLabel[][] sellerInfoLabel = new JLabel[str.length][7];
+public class SellerManagement extends JPanel implements ActionListener {
+	private List<List<String>> str = SellerManagementDB.sellerList();
+	private JPanel[] sellerPanels = new JPanel[str.size()];
+	private JLabel[][] sellerInfoLabel = new JLabel[str.size()][7];
 	private JLabel[] sellerTitleLabel = new JLabel[7];
 	private String[] sellerTitletext = {"고객번호", "판매자명", "상호/대표자", "연락처", "이메일", "사업자등록번호", "관리"};
 	private Font font1 = new Font(Setup.font, Font.BOLD, 16);
 	private Font font2 = new Font(Setup.font, Font.BOLD, 14);
+	private JButton[] deleteButton = new JButton[str.size()];
 	public SellerManagement() {
+		System.out.println(str.size());
 		//SellerManagement Panel Layout
 			GridBagLayout sellerPanelLayout = new GridBagLayout();
 			sellerPanelLayout.columnWidths = new int[]{0, 0};
@@ -94,7 +80,7 @@ public class SellerManagement extends JPanel {
 			sellerScrollPanel.setViewportView(sellerListPanel);
 
 		//Seller List for loop
-		for (int i = 0; i < str.length; i++) {
+		for (int i = 0; i < str.size(); i++) {
 			sellerPanels[i] = new JPanel();
 			sellerPanels[i].setBounds(0, i*40, 970, 40);
 			if(i % 2 == 1) { sellerPanels[i].setBackground(Setup.white); }
@@ -105,19 +91,32 @@ public class SellerManagement extends JPanel {
 			sellerLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 			sellerPanels[i].setLayout(sellerLayout);
 
-			sellerListPanel.add(sellerPanels[i]);
-			for (int j = 0; j < str[0].length+1; j++) {
-				if(j == 6) {
-					sellerPanels[i].add(new ButtonType1(22, 3,  5,"삭제", 12));
-				}else {
-					sellerInfoLabel[i][j] = new JLabel();
-					sellerInfoLabel[i][j].setText(str[i][j]);
-					sellerInfoLabel[i][j].setFont(font2);
-					sellerPanels[i].add(sellerInfoLabel[i][j]);
+					sellerListPanel.add(sellerPanels[i]);
+					for (int j = 0; j < 7; j++) {
+						if(j == 6) {
+							deleteButton[i] = new ButtonType1(22, 3, 5, "삭제", 12);
+							deleteButton[i].addActionListener(this);
+							sellerPanels[i].add(deleteButton[i]);
+						}else {
+							sellerInfoLabel[i][j] = new JLabel();
+							sellerInfoLabel[i][j].setText(str.get(i).get(j));
+							sellerInfoLabel[i][j].setFont(font2);
+							sellerPanels[i].add(sellerInfoLabel[i][j]);
 				}
 			}
 		}
 		//ScrollView Panel SizeSetting
-		sellerListPanel.setPreferredSize(new Dimension(sellerListPanel.getWidth(),40*str.length));
+		sellerListPanel.setPreferredSize(new Dimension(sellerListPanel.getWidth(),40*str.size()));
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for(int i = 0; i < deleteButton.length; i++) {
+			if(e.getSource() == deleteButton[i]) {
+				if(SellerManagementDB.deleteData(Integer.parseInt(str.get(i).get(0)))) {
+					Setup.changePanel(Frame.contentLayeredPanel, new SellerManagement());
+				}
+			}
+		}
 	}
 }

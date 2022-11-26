@@ -59,12 +59,6 @@ public class SignUpDB {
                 return false;
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                s.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return false;
     }

@@ -64,11 +64,11 @@ public class LoginDB {
         ResultSet r = null;
         try {
             s = Database.con.createStatement();
-            String sql = String.format("select count(*) from Customer " +
-                    "where customer_id = '%s'", num);
+            String sql = String.format("select seller_stat from Seller " +
+                    "where seller_num = %d", num);
             r = s.executeQuery(sql);
             if (r.next()) {
-                if (r.getInt(1) == 0) {
+                if (r.getString(1).equals("승인완료")) {
                     return true;
                 } else {
                     return false;

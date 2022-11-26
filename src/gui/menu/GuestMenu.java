@@ -1,15 +1,13 @@
 package gui.menu;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-
 import gui.common.Frame;
 import gui.contents.main.*;
 import system.Setup;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class GuestMenu extends JPanel implements MouseListener{
 	public static JPanel[] GuestPanel = new JPanel[5];
@@ -20,43 +18,43 @@ public class GuestMenu extends JPanel implements MouseListener{
 		this.setBackground(new Color(24, 24, 24));
 		
 		//GridBagLayout
-			GridBagLayout GuestPanelBagLayout = new GridBagLayout();
-			GuestPanelBagLayout.columnWidths = new int[]{0, 0, 0};
-			GuestPanelBagLayout.rowHeights = new int[]{51, 50, 400, 50, 50, 50, 0, 0};
-			GuestPanelBagLayout.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-			GuestPanelBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-			this.setLayout(GuestPanelBagLayout);
+			GridBagLayout guestPanelBagLayout = new GridBagLayout();
+			guestPanelBagLayout.columnWidths = new int[]{0, 0, 0};
+			guestPanelBagLayout.rowHeights = new int[]{51, 50, 400, 50, 50, 50, 0, 0};
+			guestPanelBagLayout.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+			guestPanelBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+			this.setLayout(guestPanelBagLayout);
 		
 		//MenuBagConstraints 
-			GridBagConstraints GuestBagConstraints = new GridBagConstraints();
-			GuestBagConstraints.gridwidth = 2;
-			GuestBagConstraints.insets = new Insets(1, 0, 1, 0);
-			GuestBagConstraints.fill = GridBagConstraints.BOTH;
-			GuestBagConstraints.gridx = 0;
-			GuestBagConstraints.gridy = 0;
+			GridBagConstraints guestBagConstraints = new GridBagConstraints();
+			guestBagConstraints.gridwidth = 2;
+			guestBagConstraints.insets = new Insets(1, 0, 1, 0);
+			guestBagConstraints.fill = GridBagConstraints.BOTH;
+			guestBagConstraints.gridx = 0;
+			guestBagConstraints.gridy = 0;
 			
 		//Menu Panel
 			for(int i = 0; i < 6; i++) {
-				if(i == 1) { GuestBagConstraints.insets = new Insets(0, 0, 1, 0); }
-				if(i != 0) { GuestBagConstraints.gridy++; }
+				if(i == 1) { guestBagConstraints.insets = new Insets(0, 0, 1, 0); }
+				if(i != 0) { guestBagConstraints.gridy++; }
 				if(i == 2) {
 					JPanel blankPanel1 = new JPanel();
 					blankPanel1.setBackground(Setup.darkGray);
-					this.add(blankPanel1, GuestBagConstraints);
+					this.add(blankPanel1, guestBagConstraints);
 					continue;
 				}
 				ImageIcon img = new ImageIcon(GuestMenu.class.getResource(imgStr[j]));
 				GuestPanel[j] = new MenuButton(img, textStr[j]); 
 				GuestPanel[j].addMouseListener(this);
-				this.add(GuestPanel[j], GuestBagConstraints);
+				this.add(GuestPanel[j], guestBagConstraints);
 				j++;
 			}
 			
 		//Blank Panel
 			JPanel blankPanel2 = new JPanel();
 			blankPanel2.setBackground(Setup.darkGray);
-			GuestBagConstraints.gridy++;
-			this.add(blankPanel2, GuestBagConstraints);
+			guestBagConstraints.gridy++;
+			this.add(blankPanel2, guestBagConstraints);
 			
 		Setup.lastClickPanel = GuestPanel[0];
 		GuestPanel[0].setBackground(Setup.magenta);

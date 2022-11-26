@@ -83,7 +83,9 @@ public class SignUpEvent extends MouseAdapter implements ActionListener, KeyList
                     s.getNameTextField(), birth, s.getEmailTextField(), String.valueOf(now)};
 
             if(SignUpDB.insertCustomer(str)) {
-                Setup.changePanel(Frame.contentLayeredPanel, new FinishSignUpPanel());
+                Setup.changePanel(Frame.contentLayeredPanel, new FinishSignUpPanel("이 완료되었습니다."));
+            }else {
+                Setup.changePanel(Frame.contentLayeredPanel, new FinishSignUpPanel("이 실패하였습니다."));
             }
         }
     }
@@ -91,7 +93,7 @@ public class SignUpEvent extends MouseAdapter implements ActionListener, KeyList
     public void keyReleased(KeyEvent e) {
         if(e.getSource() == s.srcGetIdTextField()) {
             if(s.getIdTextField().length() >= 4) {
-                if (SignUpDB.idDuplicateCheck(s.getIdTextField())) {
+                if (SignUpDB.idDuplicateCheck(s.getIdTextField()) && !s.getIdTextField().equals("admin")) {
                     s.setIdDesLabel("* 사용가능한 아이디입니다.");
                     idCheck = true;
                 }else {
@@ -144,7 +146,7 @@ public class SignUpEvent extends MouseAdapter implements ActionListener, KeyList
 
     class FinishSignUpPanel extends JPanel {
         Font font = new Font(Setup.font, Font.BOLD, 24);
-        public FinishSignUpPanel() {
+        public FinishSignUpPanel(String result) {
             this.setLayout(new GridLayout(2, 1));
 
             JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 270));
@@ -155,7 +157,7 @@ public class SignUpEvent extends MouseAdapter implements ActionListener, KeyList
             label1.setForeground(Setup.magenta);
             panel1.add(label1);
 
-            JLabel label2 = new JLabel("이 완료되었습니다.");
+            JLabel label2 = new JLabel(result);
             label2.setFont(font);
             label2.setForeground(Setup.darkGray);
             panel1.add(label2);

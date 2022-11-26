@@ -6,8 +6,10 @@ import gui.contents.main.FindIdPw;
 import gui.contents.main.Home;
 import gui.contents.main.Login;
 import gui.contents.main.SignUp;
+import gui.menu.AdminMenu;
 import gui.menu.CustomerMenu;
 import gui.menu.GuestMenu;
+import gui.menu.SellerMenu;
 import system.Setup;
 
 import java.awt.*;
@@ -34,11 +36,22 @@ public class LoginEvent extends MouseAdapter implements ActionListener {
                 return;
             }else { l.setPasswordDesLabel(""); }
 
+            if(l.getIdTextField().equals("admin") && l.getPasswordTextField().equals("1234")) {
+                Setup.CustomerNum = -1;
+                Setup.changePanel(Frame.menuLayeredPanel, new AdminMenu());
+                Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
+            }
             int customerNum = LoginDB.loginPwCheck(l.getIdTextField(), l.getPasswordTextField());
             if(customerNum != 0) {
-                Setup.CustomerNum = customerNum;
-                Setup.changePanel(Frame.menuLayeredPanel, new CustomerMenu(LoginDB.returnNickname(customerNum)), "홈");
-                Setup.changePanel(Frame.contentLayeredPanel, new Home(), "홈");
+                if(LoginDB.sellerCheck(customerNum)) {
+                    Setup.CustomerNum = customerNum;
+                    Setup.changePanel(Frame.menuLayeredPanel, new SellerMenu(LoginDB.returnNickname(customerNum)));
+                    Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
+                }else {
+                    Setup.CustomerNum = customerNum;
+                    Setup.changePanel(Frame.menuLayeredPanel, new CustomerMenu(LoginDB.returnNickname(customerNum)));
+                    Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
+                }
             }else {
                 l.setPasswordDesLabel("* 아이디 또는 비밀번호가 일치하지 않습니다.");
             }
