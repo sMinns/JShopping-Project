@@ -73,9 +73,6 @@ public class TestPanel extends JPanel implements ActionListener {
         }else if (e.getSource() == button[14]) {
             Setup.changePanel(Frame.contentLayeredPanel, new SellerApplicationManagement());
             Setup.lastClickReset();
-        }else if (e.getSource() == button[15]) {
-            Setup.changePanel(Frame.contentLayeredPanel, new DesDateCalendar());
-            Setup.lastClickReset();
         }
     }
 }

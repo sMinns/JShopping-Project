@@ -3,7 +3,6 @@ package gui.contents.sub;
 import custom.ButtonType1;
 import custom.ButtonType2;
 import custom.ButtonType3;
-import custom.TextFieldType1;
 import system.Setup;
 
 import javax.swing.*;
@@ -15,51 +14,7 @@ import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 
-public class DesDateCalendar extends JPanel implements MouseListener {
-	public static boolean openCalendar = false;
-	private Calendar c = Calendar.getInstance();
-	private int selectYear = c.get(Calendar.YEAR);
-	private int selectMonth = c.get(Calendar.MONTH) + 1;
-	private int selectDay = c.get(Calendar.DATE) + 2;
-	private JTextField tf;
-	private JPanel p;
-
-	public DesDateCalendar() {
-		setLayout(null);
-		tf = new TextFieldType1(0, 2, "", 20);
-		tf.setForeground(Setup.darkGray);
-		tf.setText(selectYear + ". " + selectMonth + ". " + selectDay);
-		tf.setBounds(0, 25, 150, 35);
-		tf.setColumns(10);
-		tf.addMouseListener(this);
-		this.add(tf);
-
-		JPanel cal = new Cal(tf, p);
-		cal.setLocation(0, 60);
-
-		p = new JPanel();
-		p.setVisible(false);
-		p.setLayout(new CardLayout());
-		p.setBounds(0, 60, 270, 240);
-		p.add(cal);
-		this.add(p);
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if(!openCalendar) {
-			openCalendar = true;
-			Setup.changePanel(p, new Cal(tf, p));
-			p.setVisible(true);
-		}
-	}
-	public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
-	public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
-	public void mousePressed(MouseEvent e) {}
-	public void mouseReleased(MouseEvent e) {}
-}
-
-class Cal extends JPanel implements ActionListener, MouseListener {
+public class DesDateCalendar extends JPanel implements ActionListener, MouseListener {
 	private int year, month, day, week, lastDate,
 			selectYear, selectMonth, selectDay,
 			thisYear, thisMonth, thisDay,
@@ -71,7 +26,7 @@ class Cal extends JPanel implements ActionListener, MouseListener {
 	private JLabel date;
 	private Calendar c = Calendar.getInstance();
 	private JTextField tf;
-	public Cal(JTextField tf, JPanel panel) {
+	public DesDateCalendar(JTextField tf, JPanel panel) {
 		outPanel = panel;
 		this.tf = tf;
 		defaultDateSet();
@@ -304,11 +259,9 @@ class Cal extends JPanel implements ActionListener, MouseListener {
 		}
 		if (e.getSource() == ok) {
 			outPanel.setVisible(false);
-			DesDateCalendar.openCalendar = false;
 		}
 		if (e.getSource() == cancel) {
 			outPanel.setVisible(false);
-			DesDateCalendar.openCalendar = false;
 			tf.setText(defaultYear + ". " + defaultMonth + ". " + defaultDay);
 		}
 	}
