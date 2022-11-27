@@ -1,12 +1,15 @@
 package gui.contents.main;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.text.NumberFormat;
-import javax.swing.*;
 import custom.SearchBar;
+import gui.contents.sub.ProductDetail;
 import gui.contents.sub.SubShoppingBasket;
 import system.Setup;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.NumberFormat;
 
 public class Search extends JPanel implements MouseListener {
 	private JPanel[] productPanel;
@@ -17,12 +20,13 @@ public class Search extends JPanel implements MouseListener {
 	private JLabel[] productCategory;
 	private JLabel[] productRegDate;
 	private JLabel[] productPrice;
-
+	private JLayeredPane layeredPanel;
+	JPanel selectPanel = null;
+	private String[][] productLists = {{"/images/nullimage.png", "상품 1", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 2", "신발", "2022-06-25", "29800"},
+			{"/images/nullimage.png", "상품 3", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 4", "신발", "2022-06-25", "29800"},
+			{"/images/nullimage.png", "상품 5", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 6", "신발", "2022-06-25", "29800"},
+			{"/images/nullimage.png", "상품 7", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 8", "신발", "2022-06-25", "29800"}};
 	public Search() {
-		String[][] productLists = {{"/images/nullimage.png", "상품 1", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 2", "신발", "2022-06-25", "29800"}, 
-								   {"/images/nullimage.png", "상품 3", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 4", "신발", "2022-06-25", "29800"}, 
-								   {"/images/nullimage.png", "상품 5", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 6", "신발", "2022-06-25", "29800"},
-								   {"/images/nullimage.png", "상품 7", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 8", "신발", "2022-06-25", "29800"}};
 		productNum = productLists.length;
 		int count = 0;
 		int y_axis = 0;
@@ -34,7 +38,7 @@ public class Search extends JPanel implements MouseListener {
 		productCategory = new JLabel[productNum];
 		productRegDate = new JLabel[productNum];
 		productPrice = new JLabel[productNum];
-		
+
 		// 사용할 패널의 레이아웃 생성
 		GridBagLayout mainPanelLayout = createGBL(new int[] {675, 290}, new int[] {670, 0});
 		GridBagLayout topPanelLayout = createGBL(new int[] {675, 0}, new int[] {50, 40, 580});
@@ -49,7 +53,7 @@ public class Search extends JPanel implements MouseListener {
 		JPanel orderOptionsPanel = new JPanel();
 		JPanel middlePanel = new JPanel();
 		JPanel productPanelList = new JPanel();
-		JLayeredPane layeredPanel = new JLayeredPane();
+		layeredPanel = new JLayeredPane();
 		JScrollPane scrollPane = new JScrollPane();
 
 		JLabel resultLabel = new JLabel();
@@ -105,7 +109,7 @@ public class Search extends JPanel implements MouseListener {
 		middlePanel.add(scrollPane);
 		productPanelList.setLayout(null);
 		// 패널 초기화
-		for (count = 0; count < productNum; count++) { 
+		for (count = 0; count < productNum; count++) {
 			productPanel[count] = new JPanel();
 			productPanel[count].setLayout(productPanelLayout);
 			productPanel[count].addMouseListener(this);
@@ -141,7 +145,7 @@ public class Search extends JPanel implements MouseListener {
 			productPanelList.add(productPanel[count]);
 			y_axis += 121;
 		}
-		
+
 		scrollPane.setBorder(null);
 		Setup.changeScrollBar(scrollPane);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -159,16 +163,24 @@ public class Search extends JPanel implements MouseListener {
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int selPanelIndex = 0;
 		for (int i = 0; i < productNum; i++) {
-			if (e.getSource() == productPanel[i]) {
-				productPanel[i].setBorder(BorderFactory.createLineBorder(Setup.magenta, 1));
-				selPanelIndex = i;
+			if(e.getSource() == productPanel[i]) {
+				if (e.getSource() == selectPanel) {
+					selectPanel.setBorder(null);
+					selectPanel = null;
+					if (Setup.CustomerNum == 0) // 로그인되어 있지 않은 경우
+						Setup.changePanel(layeredPanel, new SubShoppingBasket());
+					else // 로그인 된 경우
+						Setup.changePanel(layeredPanel, new SubShoppingBasket(productLists));
+				}else {
+					if(selectPanel != null) { selectPanel.setBorder(null); }
+					selectPanel = productPanel[i];
+					productPanel[i].setBorder(BorderFactory.createLineBorder(Setup.magenta, 1));
+					Setup.changePanel(layeredPanel, new ProductDetail());
+					return;
+				}
 			}
 		}
-		for (int i = 0; i < productNum; i++)
-			if (i != selPanelIndex)
-				productPanel[i].setBorder(null);
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {}
