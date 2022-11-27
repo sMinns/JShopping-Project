@@ -6,25 +6,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellerManagementDB {
-    public static List<List<String>> sellerList(String str) {
+public class CustomerManagementDB {
+    public static List<List<String>> customerList(String str) {
         Statement s = null;
         ResultSet r = null;
         List<List<String>> arr = new ArrayList<>();
-        String[] c = { "seller_num", "seller_name", "seller_represent", "seller_phone",
-            "seller_email", "seller_registnum" };
+        String[] c = { "customer_num", "customer_id", "customer_nick",
+                "customer_name", "customer_birth", "customer_email", "customer_date" };
         try {
             s = Database.con.createStatement();
-            String sql = "select * from Seller where seller_name like '%" + str + "%'";
+            String sql = "select * from Customer where customer_num like '%" + str + "%' or " +
+                    "customer_id like '%" + str + "%' or " +
+                    "customer_name like '%" + str + "%'";
             r = s.executeQuery(sql);
             while (r.next()) {
-                if(!r.getString("seller_stat").equals("승인대기")) {
-                    List<String> arrRowItems = new ArrayList<>();
-                    for (String col : c) {
-                        arrRowItems.add(r.getString(col));
-                    }
-                    arr.add(arrRowItems);
+                List<String> arrRowItems = new ArrayList<>();
+                for(String col : c) {
+                    arrRowItems.add(r.getString(col));
                 }
+                arr.add(arrRowItems);
             }
             return arr;
         } catch (SQLException e) {
@@ -41,12 +41,12 @@ public class SellerManagementDB {
         return arr;
     }
 
-    public static boolean deleteData(int num) {
+    public static boolean deleteCustomer(int num) {
         Statement s = null;
         try {
             s = Database.con.createStatement();
-            String sql = String.format("delete from Seller " +
-                            "where seller_num = %d", num);
+            String sql = String.format("delete from Customer " +
+                    "where customer_num = %d", num);
             int i = s.executeUpdate(sql);
             s.close();
             if(i == 1)

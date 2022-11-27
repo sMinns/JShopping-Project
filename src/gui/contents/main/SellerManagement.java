@@ -10,19 +10,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
-public class SellerManagement extends JPanel implements ActionListener {
-	private List<List<String>> str = SellerManagementDB.sellerList();
-	private JPanel[] sellerPanels = new JPanel[str.size()];
-	private JLabel[][] sellerInfoLabel = new JLabel[str.size()][7];
+public class SellerManagement extends JPanel implements MouseListener, ActionListener {
+	private List<List<String>> str;
+	private JPanel[] sellerPanels;
+	private JLabel[][] sellerInfoLabel;
 	private JLabel[] sellerTitleLabel = new JLabel[7];
 	private String[] sellerTitletext = {"고객번호", "판매자명", "상호/대표자", "연락처", "이메일", "사업자등록번호", "관리"};
 	private Font font1 = new Font(Setup.font, Font.BOLD, 16);
 	private Font font2 = new Font(Setup.font, Font.BOLD, 14);
-	private JButton[] deleteButton = new JButton[str.size()];
-	public SellerManagement() {
-		System.out.println(str.size());
+	private JButton[] deleteButton;
+	SearchBar searchBar;
+	String text;
+	public SellerManagement(String text) {
+		this.text = text;
+		str = SellerManagementDB.sellerList(text);
+		sellerPanels = new JPanel[str.size()];
+		sellerInfoLabel = new JLabel[str.size()][7];
+		deleteButton = new JButton[str.size()];
 		//SellerManagement Panel Layout
 			GridBagLayout sellerPanelLayout = new GridBagLayout();
 			sellerPanelLayout.columnWidths = new int[]{0, 0};
@@ -37,7 +45,14 @@ public class SellerManagement extends JPanel implements ActionListener {
 			sellerBagCon.fill = GridBagConstraints.BOTH;
 			this.add(sellerSearchBarPanel, sellerBagCon);
 			sellerSearchBarPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-			JPanel searchBarPanel = new SearchBar(50, 40, "판매자명 검색");
+			searchBar = new SearchBar(50, 40, "판매자명 검색");
+			if(!text.equals("")) {
+				searchBar.setTextField(text);
+				searchBar.getTextField().setFont(new Font(Setup.font, Font.PLAIN, 12));
+			}
+			searchBar.getTextField().addActionListener(this);
+			searchBar.getSearchButtonLabel().addMouseListener(this);
+			JPanel searchBarPanel = searchBar;
 			sellerSearchBarPanel.add(searchBarPanel);
 
 		//Seller Title
@@ -90,18 +105,17 @@ public class SellerManagement extends JPanel implements ActionListener {
 			sellerLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 			sellerLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 			sellerPanels[i].setLayout(sellerLayout);
-
-					sellerListPanel.add(sellerPanels[i]);
-					for (int j = 0; j < 7; j++) {
-						if(j == 6) {
-							deleteButton[i] = new ButtonType1(22, 3, 5, "삭제", 12);
-							deleteButton[i].addActionListener(this);
-							sellerPanels[i].add(deleteButton[i]);
-						}else {
-							sellerInfoLabel[i][j] = new JLabel();
-							sellerInfoLabel[i][j].setText(str.get(i).get(j));
-							sellerInfoLabel[i][j].setFont(font2);
-							sellerPanels[i].add(sellerInfoLabel[i][j]);
+			sellerListPanel.add(sellerPanels[i]);
+			for (int j = 0; j < 7; j++) {
+				if(j == 6) {
+					deleteButton[i] = new ButtonType1(22, 3, 5, "삭제", 12);
+					deleteButton[i].addActionListener(this);
+					sellerPanels[i].add(deleteButton[i]);
+				}else {
+					sellerInfoLabel[i][j] = new JLabel();
+					sellerInfoLabel[i][j].setText(str.get(i).get(j));
+					sellerInfoLabel[i][j].setFont(font2);
+					sellerPanels[i].add(sellerInfoLabel[i][j]);
 				}
 			}
 		}
@@ -114,9 +128,36 @@ public class SellerManagement extends JPanel implements ActionListener {
 		for(int i = 0; i < deleteButton.length; i++) {
 			if(e.getSource() == deleteButton[i]) {
 				if(SellerManagementDB.deleteData(Integer.parseInt(str.get(i).get(0)))) {
-					Setup.changePanel(Frame.contentLayeredPanel, new SellerManagement());
+					Setup.changePanel(Frame.contentLayeredPanel, new SellerManagement(text));
 				}
 			}
 		}
+
+		if(e.getSource() == searchBar.getTextField()) {
+			if(searchBar.getTextField().getText().equals("판매자명 검색")) {
+				text = "";
+			}else {
+				text = searchBar.getTextField().getText();
+			}
+			Setup.changePanel(Frame.contentLayeredPanel, new SellerManagement(text));
+		}
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getSource() == searchBar.getSearchButtonLabel()) {
+			if(searchBar.getTextField().getText().equals("판매자명 검색")) {
+				text = "";
+			}else {
+				text = searchBar.getTextField().getText();
+			}
+			Setup.changePanel(Frame.contentLayeredPanel, new SellerManagement(text));
+		}
+	}
+
+	public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
+	public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
+	public void mousePressed(MouseEvent e) { }
+	public void mouseReleased(MouseEvent e) { }
+
 }

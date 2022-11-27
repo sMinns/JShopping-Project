@@ -3,6 +3,8 @@ package gui.contents.sub;
 import custom.ButtonType1;
 import custom.ComboBoxType1;
 import custom.TextAreaType1;
+import database.CategoryDB;
+import event.AddProductEvent;
 import gui.contents.main.ProductManagement;
 import system.Setup;
 
@@ -11,20 +13,25 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class ChangeInformation extends JPanel {
+public class AddProduct extends JPanel {
     private static JLabel image;
     private static JPanel[] subInfoTitlePanel = new JPanel[6];
     private static String[] subInfoTitle = {"사진", "상품명", "카테고리", "판매가", "재고", "상태"};
     private static JLabel[] subInfoText = new JLabel[6];
     private static JPanel[] subInfoTextPanel = new JPanel[6];
-    private static String[] items = {"패션의류", "뷰티", "출산/유아동", "식품", "주방용품", "생활용품", "홈인테리어",
-            "가전디지털", "스포츠/레저", "자동차용품", "도서/음반/DVD", "완구/취미", "문구/오피스", "반려동물용품", "헬스/건강식품" };
+    private static String[] items = CategoryDB.categoryList().toArray(new String[0]);
     private static String[] stat = {"판매대기", "판매중"};
     private static JTextArea[] productInfo = new JTextArea[3];
     private static GridBagConstraints infoBagCon;
     private static JPanel infoMainPanel;
-    Font font = new Font(Setup.font, Font.BOLD, 14);
-    public ChangeInformation() {
+    private JComboBox category, productStat;
+    private JButton addButton, imageButton;
+    private Font font = new Font(Setup.font, Font.BOLD, 14);
+    private AddProductEvent addProductEvent;
+    private String text;
+    public AddProduct(String text) {
+        this.text = text;
+        addProductEvent = new AddProductEvent(this);
         //ChangeInformation Layout
             GridBagLayout detailLayout = new GridBagLayout();
             detailLayout.columnWidths = new int[]{0, 0};
@@ -44,7 +51,7 @@ public class ChangeInformation extends JPanel {
 
             image = new JLabel();
             image.setIcon(Setup.imageSetSize(
-                    new ImageIcon(ProductManagement.class.getResource(Setup.selectProduct[1])),260,260));;
+                    new ImageIcon(ProductManagement.class.getResource("/images/nullimage.png")),260,260));;
             imagePanel.add(image);
 
         //InfoMainPanel
@@ -66,7 +73,7 @@ public class ChangeInformation extends JPanel {
                 subInfoTitlePanel[i] = new JPanel();
                 subInfoTitlePanel[i].setLayout(new CardLayout());
                 infoBagCon.gridy = i;
-                infoMainPanel.add(subInfoTitlePanel[i], ChangeInformation.infoBagCon);
+                infoMainPanel.add(subInfoTitlePanel[i], AddProduct.infoBagCon);
                 subInfoText[i] = new JLabel(subInfoTitle[i]);
                 subInfoText[i].setFont(font);
                 subInfoTitlePanel[i].add(subInfoText[i]);
@@ -78,7 +85,9 @@ public class ChangeInformation extends JPanel {
             infoBagCon.gridx = 0;
             infoBagCon.gridy = 6;
             infoMainPanel.add(buttonPanel, infoBagCon);
-            buttonPanel.add(new ButtonType1(40, 6, 2, "수정하기", 16));
+            addButton = new ButtonType1(40, 6, 2, "등록하기", 16);
+            addButton.addActionListener(addProductEvent);
+            buttonPanel.add(addButton);
 
         //Info
             infoBagCon.anchor = GridBagConstraints.WEST;
@@ -102,17 +111,20 @@ public class ChangeInformation extends JPanel {
             infoMainPanel.add(subInfoTextPanel[i], infoBagCon);
 
             if (i == 0) {
-                subInfoTextPanel[i].add(new ButtonType1(20, 8, 2, "이미지 변경", 16));
+                imageButton = new ButtonType1(20, 8, 2, "이미지 등록", 16);
+                imageButton.addActionListener(addProductEvent);
+                subInfoTextPanel[i].add(imageButton);
             }
             if (i == 1) {
-                productInfo[0] = new TextAreaType1(17, 60, 1, Setup.selectProduct[2], 35);
+                productInfo[0] = new TextAreaType1(17, 60, 1, "", 35);
                 subInfoTextPanel[i].add(productInfo[0]);
             }
             if (i == 2) {
-                subInfoTextPanel[i].add(new ComboBoxType1(items, 130, Setup.selectProduct[0]));
+                category = new ComboBoxType1(items, 130, "패션의류");
+                subInfoTextPanel[i].add(category);
             }
             if (i == 3) {
-                productInfo[1] = new TextAreaType1(17, 40, 1, Setup.selectProduct[3], 10);
+                productInfo[1] = new TextAreaType1(17, 40, 1, "", 10);
                 productInfo[1].addKeyListener(new KeyAdapter() {
                     public void keyTyped(KeyEvent e) {
                         char caracter = e.getKeyChar();
@@ -125,7 +137,7 @@ public class ChangeInformation extends JPanel {
                 subInfoTextPanel[i].add(productInfo[1]);
             }
             if (i == 4) {
-                productInfo[2] = new TextAreaType1(17, 40, 1, Setup.selectProduct[5], 10);
+                productInfo[2] = new TextAreaType1(17, 40, 1, "", 10);
                 productInfo[2].addKeyListener(new KeyAdapter() {
                     public void keyTyped(KeyEvent e) {
                         char caracter = e.getKeyChar();
@@ -137,8 +149,62 @@ public class ChangeInformation extends JPanel {
                 });
                 subInfoTextPanel[i].add(productInfo[2]);
             }
-            if (i == 5) { subInfoTextPanel[i].add(new ComboBoxType1(stat, 130, Setup.selectProduct[4])); }
+            productStat = new ComboBoxType1(stat, 130, "판매대기");
+            if (i == 5) { subInfoTextPanel[i].add(productStat); }
         }
+    }
+
+    public String getProductName() {
+        return productInfo[0].getText();
+    }
+
+    public void focusProductName() {
+        productInfo[0].requestFocus();
+    }
+
+    public String getProductPrice() {
+        return productInfo[1].getText();
+    }
+
+    public void focusProductPrice() {
+        productInfo[1].requestFocus();
+    }
+
+    public String getProductStock() {
+        return productInfo[2].getText();
+    }
+
+    public void focusProductStock() {
+        productInfo[2].requestFocus();
+    }
+
+    public JButton getAddButton() {
+        return addButton;
+    }
+
+    public String getCategory() {
+        return (String) category.getSelectedItem();
+    }
+
+    public String getProductStat() {
+        return (String) productStat.getSelectedItem();
+    }
+
+    public JButton getImageButton() {
+        return imageButton;
+    }
+
+    public void setImage(String file) {
+        image.setIcon(Setup.imageSetSize(
+                new ImageIcon(file),260,260));
+    }
+
+    public void setImageStroke(int thickness) {
+        image.setBorder(BorderFactory.createLineBorder(Setup.magenta, thickness));
+    }
+
+    public String getText() {
+        return text;
     }
 }
 

@@ -91,11 +91,11 @@ public class AdminMenu extends JPanel implements MouseListener{
 		if(e.getSource() == adminPanel[0]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
 		}else if(e.getSource() == adminPanel[1]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new CustomerManagement(), textStr[1]);
+			Setup.changePanel(Frame.contentLayeredPanel, new CustomerManagement(""), textStr[1]);
 		}else if(e.getSource() == adminPanel[2]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new SellerManagement(), textStr[2]);
+			Setup.changePanel(Frame.contentLayeredPanel, new SellerManagement(""), textStr[2]);
 		}else if(e.getSource() == adminPanel[3]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new SellerApplicationManagement(), textStr[3]);
+			Setup.changePanel(Frame.contentLayeredPanel, new SellerApplicationManagement(""), textStr[3]);
 		}else if(e.getSource() == adminPanel[5]) {
 			Setup.CustomerNum = 0;
 			Setup.changePanel(Frame.menuLayeredPanel, new GuestMenu(), textStr[0]);

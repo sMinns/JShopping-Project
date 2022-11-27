@@ -5,17 +5,12 @@ import system.Setup;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class SearchBar extends JPanel implements MouseListener {
+public class SearchBar extends JPanel {
     private JComboBox combo;
     private JTextField TextField;
-    private String text;
+    private JLabel searchButtonLabel;
     public SearchBar(int size, int limit, String[] items, String text, int fontSize) {
         combo = new ComboBoxType1(items, 120, "뷰티");
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -39,12 +34,11 @@ public class SearchBar extends JPanel implements MouseListener {
         TextField = new SearchTextField(size, limit, text);
         searchTextPanel.add(TextField, searchBagCon);
 
-        JLabel searchButtonLabel = new JLabel();
+        searchButtonLabel = new JLabel();
         ImageIcon icon = new ImageIcon(SearchBar.class.getResource("/images/searchbutton.png"));
         searchButtonLabel.setIcon(icon);
         searchBagCon.gridx = 1;
         searchTextPanel.add(searchButtonLabel, searchBagCon);
-        searchButtonLabel.addMouseListener(this);
         this.add(searchTextPanel);
         this.setBorder(new EmptyBorder(2, 3, 2, 3));
     }
@@ -70,12 +64,11 @@ public class SearchBar extends JPanel implements MouseListener {
         TextField = new SearchTextField(size, limit, text);
         searchTextPanel.add(TextField, searchBagCon);
 
-        JLabel searchButtonLabel = new JLabel();
+        searchButtonLabel = new JLabel();
         ImageIcon icon = new ImageIcon(SearchBar.class.getResource("/images/searchbutton.png"));
         searchButtonLabel.setIcon(icon);
         searchBagCon.gridx = 1;
         searchTextPanel.add(searchButtonLabel, searchBagCon);
-        searchButtonLabel.addMouseListener(this);
         this.add(searchTextPanel);
         this.setBorder(new EmptyBorder(2, 3, 2, 3));
     }
@@ -92,12 +85,20 @@ public class SearchBar extends JPanel implements MouseListener {
         g2.drawRect(1, 1, width-3, height-4);
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) { }
-    public void mousePressed(MouseEvent e) { }
-    public void mouseReleased(MouseEvent e) { }
-    public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
-    public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
+    public JComboBox getCombo() {
+        return combo;
+    }
 
+    public JTextField getTextField() {
+        return TextField;
+    }
 
+    public void setTextField(String text) {
+        TextField.setForeground(Setup.darkGray);
+        TextField.setText(text);
+    }
+
+    public JLabel getSearchButtonLabel() {
+        return searchButtonLabel;
+    }
 }

@@ -172,12 +172,12 @@ public class SellerApplicationSubPanel extends JPanel implements ActionListener 
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == ok) {
                 if(SellerApplicationManagementDB.updatePassword(this.num)) {
-                    Setup.changePanel(Frame.contentLayeredPanel, new SellerApplicationManagement());
+                    Setup.changePanel(Frame.contentLayeredPanel, new SellerApplicationManagement(""));
                 }
             }
             if(e.getSource() == refuse) {
                 if(SellerApplicationManagementDB.deleteApplication(this.num)) {
-                    Setup.changePanel(Frame.contentLayeredPanel, new SellerApplicationManagement());
+                    Setup.changePanel(Frame.contentLayeredPanel, new SellerApplicationManagement(""));
                 }
             }
         }

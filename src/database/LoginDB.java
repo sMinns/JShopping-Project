@@ -24,7 +24,8 @@ public class LoginDB {
             e.printStackTrace();
         }finally {
             try {
-                r.close();
+                if(r != null)
+                    r.close();
                 s.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -50,7 +51,8 @@ public class LoginDB {
             e.printStackTrace();
         }finally {
             try {
-                r.close();
+                if(r != null)
+                    r.close();
                 s.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -78,7 +80,8 @@ public class LoginDB {
             e.printStackTrace();
         } finally {
             try {
-                r.close();
+                if(r != null)
+                    r.close();
                 s.close();
             } catch (SQLException e) {
                 e.printStackTrace();

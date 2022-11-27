@@ -2,7 +2,6 @@ package gui.contents.main;
 
 import custom.ButtonType1;
 import gui.common.Frame;
-import gui.contents.sub.DesDateCalendar;
 import gui.menu.CustomerMenu;
 import system.Setup;
 
@@ -59,19 +58,19 @@ public class TestPanel extends JPanel implements ActionListener {
             Setup.changePanel(Frame.contentLayeredPanel, new SellerApplication());
             Setup.lastClickReset();
         }else if (e.getSource() == button[10]) {
-            Setup.changePanel(Frame.contentLayeredPanel, new ProductManagement());
+            Setup.changePanel(Frame.contentLayeredPanel, new ProductManagement(""));
             Setup.lastClickReset();
         }else if (e.getSource() == button[11]) {
             Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement());
             Setup.lastClickReset();
         }else if (e.getSource() == button[12]) {
-            Setup.changePanel(Frame.contentLayeredPanel, new CustomerManagement());
+            Setup.changePanel(Frame.contentLayeredPanel, new CustomerManagement(""));
             Setup.lastClickReset();
         }else if (e.getSource() == button[13]) {
-            Setup.changePanel(Frame.contentLayeredPanel, new SellerManagement());
+            Setup.changePanel(Frame.contentLayeredPanel, new SellerManagement(""));
             Setup.lastClickReset();
         }else if (e.getSource() == button[14]) {
-            Setup.changePanel(Frame.contentLayeredPanel, new SellerApplicationManagement());
+            Setup.changePanel(Frame.contentLayeredPanel, new SellerApplicationManagement(""));
             Setup.lastClickReset();
         }
     }

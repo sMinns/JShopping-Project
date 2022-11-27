@@ -19,12 +19,15 @@ public class SellerApplicationManagement extends JPanel implements MouseListener
     private String[] applicantTitleText = {"고객번호", "신청자 이름", "연락처", "사업자등록번호", "신청일"};
     private JPanel lastClickApplication = null;
     private JLayeredPane subLayerPanel;
-    private List<List<String>> str = SellerApplicationManagementDB.sellerApplicationList();
-    private JPanel[] ApplicationInfoPanel = new JPanel[str.size()];
-    private JLabel[][] ApplicationInfo = new JLabel[str.size()][5];
+    private List<List<String>> str;
+    private JPanel[] ApplicationInfoPanel;
+    private JLabel[][] ApplicationInfo;
 
     String text = null;
-    public SellerApplicationManagement() {
+    public SellerApplicationManagement(String s) {
+        str = SellerApplicationManagementDB.sellerApplicationList();
+        ApplicationInfoPanel = new JPanel[str.size()];
+        ApplicationInfo = new JLabel[str.size()][5];
         //SellerApplicationManagement Layout
             GridBagLayout sellerAppManagementLayout = new GridBagLayout();
             sellerAppManagementLayout.columnWidths = new int[]{675, 0, 0};

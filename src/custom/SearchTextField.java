@@ -14,7 +14,7 @@ import java.awt.event.FocusListener;
 public class SearchTextField extends JTextField implements FocusListener {
     private String text;
     private Font defaultFont = new Font(Setup.font, Font.BOLD, 12);
-    private Font selectFont = new Font(Setup.font, Font.PLAIN, 14);
+    private Font selectFont = new Font(Setup.font, Font.PLAIN, 12);
     public SearchTextField(int Columns, int limit, String text) {
         this.text = text;
         this.setColumns(Columns);

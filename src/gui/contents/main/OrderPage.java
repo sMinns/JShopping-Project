@@ -39,7 +39,7 @@ public class OrderPage extends JPanel implements ActionListener, MouseListener {
 
 	private JLabel[] product_titleLabel = new JLabel[5], cardInfoLabel = new JLabel[4];
 	private String[] product_titleText = { "상품정보", "판매자", "배송비", "수량", "상품 금액" };
-	private int[] product_titleX = { 158, 388, 502, 613, 712 }, cardNumTextFieldX = { 151, 258, 365, 473 }, mobileTextFieldx = {151, 273, 395};
+	private int[] product_titleX = { 158, 388, 502, 613, 716 }, cardNumTextFieldX = { 151, 258, 365, 473 }, mobileTextFieldx = {151, 273, 395};
 
 	private JFormattedTextField[] cardNumberTextField = new JFormattedTextField[4], phoneNumTextField = new JFormattedTextField[3];
 	private JLabel calendarLabel;
@@ -299,7 +299,7 @@ public class OrderPage extends JPanel implements ActionListener, MouseListener {
 
 		calendarLabel = new JLabel("");
 		calendarLabel.setIcon(new ImageIcon(OrderPage.class.getResource("/images/calendar.png")));
-		calendarLabel.setBounds(300, 63, 24, 38);
+		calendarLabel.setBounds(301, 61, 40, 38);
 		delivery_panel.add(calendarLabel);
 		calendarLabel.addMouseListener(this);
 	}
