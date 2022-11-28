@@ -1,7 +1,11 @@
 package database;
 
-import java.sql.*;
 import system.Setup;
+
+import java.sql.Blob;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SubProductDetailDB {
     public static void addToShoppingBasket(int productNum) {
@@ -9,12 +13,18 @@ public class SubProductDetailDB {
         Statement s = null;
         try {
             s = Database.con.createStatement();
-            String sql = String.format("select * from ShoppingBasket where sb_cunum = %d and sb_prnum = %d", Setup.CustomerNum, productNum);
+            String sql = String.format("select sb_prnum, sb_count from ShoppingBasket where sb_cunum = %d", Setup.CustomerNum, productNum);
             r = s.executeQuery(sql);
-            if (!r.next()) {
-                sql = String.format("insert into ShoppingBasket values(%d, %d, %d)", Setup.CustomerNum, 1, productNum);
-                s.executeUpdate(sql);
+            while(r.next()) {
+                if(r.getInt("sb_prnum") == productNum) {
+                    sql = String.format("update ShoppingBasket set sb_count = %d " +
+                            "where sb_prnum = %d", r.getInt("sb_count") + 1, productNum);
+                    s.executeUpdate(sql);
+                    return;
+                }
             }
+            sql = String.format("insert into ShoppingBasket values(%d, %d, %d)", Setup.CustomerNum, 1, productNum);
+            s.executeUpdate(sql);
         } 
         catch (SQLException e) {
             e.printStackTrace();

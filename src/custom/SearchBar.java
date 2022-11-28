@@ -12,7 +12,7 @@ public class SearchBar extends JPanel {
     private JTextField TextField;
     private JLabel searchButtonLabel;
     public SearchBar(int size, int limit, String[] items, String text, int fontSize) {
-        combo = new ComboBoxType1(items, 120, "뷰티");
+        combo = new ComboBoxType1(items, 120, "전체");
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         Border lowered_bevelborder = BorderFactory.createLoweredBevelBorder();
         this.setBorder(lowered_bevelborder);

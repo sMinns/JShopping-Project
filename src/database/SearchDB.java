@@ -14,7 +14,8 @@ public class SearchDB {
         try {
             s = Database.con.createStatement();
             String sql = String.format("select * from Product join Category " +
-                    "on product_canum = category_num " + "where product_name like '%%%s%%'", text);
+                    "on product_canum = category_num " + "where product_name like '%%%s%%' AND " +
+                    "product_stat = '판매중'", text);
             r = s.executeQuery(sql);
             while (r.next()) {
                 List<String> arrRowItems = new ArrayList<>();

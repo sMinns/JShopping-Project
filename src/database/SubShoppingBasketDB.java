@@ -9,7 +9,7 @@ public class SubShoppingBasketDB {
         Statement s = null;
         ResultSet r = null;
         List<List<String>> arr = new ArrayList<>();
-        String[] col = { "product_num", "product_name", "product_price"};
+        String[] col = { "product_num", "product_name", "product_price", "sb_count"};
         try {
             s = Database.con.createStatement();
             String sql = String.format("select * from Product join ShoppingBasket " +
@@ -17,8 +17,8 @@ public class SubShoppingBasketDB {
             r = s.executeQuery(sql);
             while (r.next()) {
                 List<String> arrRowItems = new ArrayList<>();
-                for(int i = 0; i < 3; i++) {
-                    if(i == 2) {
+                for(int i = 0; i < 4; i++) {
+                    if(i == 2 || i == 3) {
                         arrRowItems.add(String.valueOf(r.getInt(col[i])));
                     }else {
                         arrRowItems.add(r.getString(col[i]));
@@ -82,5 +82,29 @@ public class SubShoppingBasketDB {
             }
         }
         return null;
+    }
+
+    public static boolean updateCount(int count, int prnum) {
+        Statement s = null;
+        try {
+            s = Database.con.createStatement();
+            String sql = String.format("update ShoppingBasket set sb_count = %d " +
+                    "where sb_prnum = %d", count, prnum);
+            int i = s.executeUpdate(sql);
+            if(i == 1) {
+                return true;
+            }else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                s.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 }

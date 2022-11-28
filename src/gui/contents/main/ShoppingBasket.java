@@ -141,7 +141,7 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 			productPanel[count].add(productDetail[count], productPanelDetail);
 			productDetail[count].add(productName[count], productPanelName);
 			productDetail[count].add(productPrice[count], productPanelPrice);
-			productDetail[count].add(new CountBox(), productPanelCountBox);
+			productDetail[count].add(new CountBox(0), productPanelCountBox);
 			productPanel[count].add(new ButtonType1(20, 5, 5, "주문하기", 15), productPanelButton);
 			productPanel[count].setBounds(59, y_axis, 870, 120);
 			listPanel.add(productPanel[count]);

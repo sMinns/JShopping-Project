@@ -1,30 +1,39 @@
 package gui.contents.sub;
 
-import javax.swing.*;
-import java.awt.*;
-import java.text.NumberFormat;
-import java.util.List;
-import java.awt.event.*;
-
 import custom.ButtonType1;
 import custom.CheckBoxType1;
 import custom.CountBox;
 import database.SubShoppingBasketDB;
+import gui.common.Frame;
+import gui.contents.main.OrderPage;
 import system.Setup;
 
-public class SubShoppingBasket extends JPanel implements ActionListener {
-	private int count = 0;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.NumberFormat;
+import java.util.List;
+
+public class SubShoppingBasket extends JPanel implements ActionListener, MouseListener {
+	private int count = 0, priceSum = 0;
 	private int productCount;
 	private JPanel[] productPanel;
 	private JLayeredPane layeredPanel;
 	private CheckBoxType1[] productCheckBox;
+	private JCheckBox selectCheckBox;
 	private JLabel[] productImage;
 	private JPanel[] productDetail;
 	private JLabel[] productName;
 	private JLabel[] productPrice;
 	private CountBox[] productCountBox;
 	private ButtonType1[] productDelButton;
+	private JButton orderButton;
+	private JLabel priceLabel;
 	private int[] productNum;
+	private List<List<String>> shoppingBasketList;
 
 	public SubShoppingBasket() { // 로그인 상태가 아닐 시 출력될 패널
 		GridBagLayout subPanelLayout = createGBL(new int[] {290}, new int[] {40, 630});
@@ -54,9 +63,8 @@ public class SubShoppingBasket extends JPanel implements ActionListener {
 	}
 	public SubShoppingBasket(int customerNum, JLayeredPane layeredPanel) { // 로그인 상태일 시 출력될 패널
 		this.layeredPanel = layeredPanel;
-		int priceSum = 0;
 		int y_axis = 0;
-		List<List<String>> shoppingBasketList = SubShoppingBasketDB.shoppingBasketList(customerNum);
+		shoppingBasketList = SubShoppingBasketDB.shoppingBasketList(customerNum);
 		String splitedProductName;
 
 		GridBagLayout gridBagLayout = createGBL(new int[] {290}, new int[] {40, 30, 550, 50});
@@ -83,13 +91,10 @@ public class SubShoppingBasket extends JPanel implements ActionListener {
 		titleNameLabel.setFont(new Font(Setup.font, Font.BOLD, 18));
 		titleNameLabel.setForeground(Setup.magenta);
 
-		JLabel selectAllLabel = new JLabel("전체 선택");
-		selectAllLabel.setFont(new Font(Setup.font, Font.BOLD, 12));
-
 		JLabel sumLabel = new JLabel("합계: ");
 		sumLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 
-		JLabel priceLabel = new JLabel("0원");
+		priceLabel = new JLabel("0원");
 		priceLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 
 		productCount = shoppingBasketList.size();
@@ -122,8 +127,9 @@ public class SubShoppingBasket extends JPanel implements ActionListener {
 		titlePanel.add(titleNameLabel);
 
 		add(checkPanel, checkPanelGBC);
-		checkPanel.add(new CheckBoxType1());
-		checkPanel.add(selectAllLabel);
+		selectCheckBox = new CheckBoxType1(" 전체 선택", new Font(Setup.font, Font.BOLD, 12));
+		selectCheckBox.addActionListener(this);
+		checkPanel.add(selectCheckBox);
 	
 		contentPanel.setLayout(new BorderLayout());
 		contentPanel.add(scrollPane);
@@ -145,7 +151,9 @@ public class SubShoppingBasket extends JPanel implements ActionListener {
 			productPrice[count] = new JLabel();
 			productPrice[count].setFont(new Font(Setup.font, Font.BOLD, 12));
 			productPrice[count].setForeground(Setup.magenta);
-			productCountBox[count] = new CountBox();
+			productCountBox[count] = new CountBox(Integer.parseInt(shoppingBasketList.get(count).get(3)));
+			productCountBox[count].getMinusButton().addMouseListener(this);
+			productCountBox[count].getPlusButton().addMouseListener(this);
 			productDelButton[count] = new ButtonType1(15, 4, 5, "삭 제", 10);
 			productDelButton[count].addActionListener(this);
 			priceSum += Integer.parseInt(shoppingBasketList.get(count).get(2)) * productCountBox[count].getCount();
@@ -176,7 +184,9 @@ public class SubShoppingBasket extends JPanel implements ActionListener {
 		pricePanel.add(sumLabel, sumLabelGBC);
 		priceLabel.setText(String.format("%s원", NumberFormat.getInstance().format(priceSum)));
 		pricePanel.add(priceLabel, priceLabelGBC);
-		resultPanel.add(new ButtonType1(0, 0, 0, "구 매 하 기", 16));
+		orderButton = new ButtonType1(0, 0, 0, "구 매 하 기", 16);
+		orderButton.addActionListener(this);
+		resultPanel.add(orderButton);
 
 		scrollPane.setBorder(null);
 		Setup.changeScrollBar(scrollPane);
@@ -210,5 +220,47 @@ public class SubShoppingBasket extends JPanel implements ActionListener {
 				if (SubShoppingBasketDB.deleteShoppingBasketList(Setup.CustomerNum, productNum[i]));
 					Setup.changePanel(layeredPanel, new SubShoppingBasket(Setup.CustomerNum, layeredPanel));
 		}
+
+		if(e.getSource() == selectCheckBox) {
+			for (int i = 0; i < count; i++) {
+				productCheckBox[i].setSelected(selectCheckBox.isSelected());
+			}
+		}
+
+		if(e.getSource() == orderButton) {
+			if(!priceLabel.getText().equals("0원")) {
+				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage());
+			}
+		}
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int prnum, prcount;
+		for (int i = 0; i < productCount; i++) {
+			if(e.getSource() == productCountBox[i].getPlusButton()) {
+				prnum = Integer.parseInt(shoppingBasketList.get(i).get(0));
+				prcount = Integer.parseInt(shoppingBasketList.get(i).get(3));
+				if(prcount == 10) { return; }
+				SubShoppingBasketDB.updateCount(prcount + 1, prnum);
+				shoppingBasketList.get(i).set(3, String.valueOf(prcount+1));
+				productCountBox[i].setCountLabel(prcount + 1 + "");
+				priceSum += Integer.parseInt(shoppingBasketList.get(i).get(2));
+				priceLabel.setText(String.format("%s원", NumberFormat.getInstance().format(priceSum)));
+			}else if(e.getSource() == productCountBox[i].getMinusButton()) {
+				prnum = Integer.parseInt(shoppingBasketList.get(i).get(0));
+				prcount = Integer.parseInt(shoppingBasketList.get(i).get(3));
+				if(prcount == 1) { return; }
+				SubShoppingBasketDB.updateCount(prcount - 1, prnum);
+				shoppingBasketList.get(i).set(3, String.valueOf(prcount-1));
+				productCountBox[i].setCountLabel(prcount - 1 + "");
+				priceSum -= Integer.parseInt(shoppingBasketList.get(i).get(2));
+				priceLabel.setText(String.format("%s원", NumberFormat.getInstance().format(priceSum)));
+			}
+		}
+	}
+	public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
+	public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
 }

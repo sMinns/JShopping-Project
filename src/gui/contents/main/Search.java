@@ -34,7 +34,7 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 
 	public Search(String text) {
 		this.text = text;
-		search = new SearchBar(45, 50, new String[]{"가", "나", "다"}, "검색하고 싶은 제품을 입력하세요.", 15);
+		search = new SearchBar(45, 50, new String[]{"가", "나", "다"}, "검색하고 싶은 상품을 입력하세요.", 15);
 		productList = SearchDB.productList(text);
 		productCount = productList.size();
 		int count = 0;
@@ -200,7 +200,10 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if(e.getSource() == search.getSearchButtonLabel()) {
-            text = search.getTextField().getText();
+			if(search.getTextField().getText().equals("검색하고 싶은 상품을 입력하세요."))
+				text = "";
+			else
+				text = search.getTextField().getText();
 			Setup.changePanel(Frame.contentLayeredPanel, new Search(text));
         }
     }
@@ -213,7 +216,10 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == search.getTextField()) {
-            text = search.getTextField().getText();
+			if(search.getTextField().getText().equals("검색하고 싶은 상품을 입력하세요."))
+				text = "";
+			else
+				text = search.getTextField().getText();
             Setup.changePanel(Frame.contentLayeredPanel, new Search(text));
         }
 	}

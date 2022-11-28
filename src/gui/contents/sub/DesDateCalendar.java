@@ -187,8 +187,8 @@ public class DesDateCalendar extends JPanel implements ActionListener, MouseList
 			calenderPanel.add(pan[i]);
 		}
 		if(selectMonth == month + 1 && selectYear == year) {
-			days[selectDay-1].setForeground(Setup.white);
-			pan[selectDay-1].setBackground(Setup.magenta);
+			days[selectDay-2].setForeground(Setup.white);
+			pan[selectDay-2].setBackground(Setup.magenta);
 		}
 	}
 
