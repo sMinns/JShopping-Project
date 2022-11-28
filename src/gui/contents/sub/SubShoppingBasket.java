@@ -1,26 +1,31 @@
 package gui.contents.sub;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+import java.awt.*;
+import java.text.NumberFormat;
+import java.util.List;
+import java.awt.event.*;
 
 import custom.ButtonType1;
 import custom.CheckBoxType1;
 import custom.CountBox;
+import database.SubShoppingBasketDB;
 import system.Setup;
 
-import java.awt.*;
-import java.awt.GridBagLayout;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.text.NumberFormat;
+public class SubShoppingBasket extends JPanel implements ActionListener {
+	private int count = 0;
+	private int productCount;
+	private JPanel[] productPanel;
+	private JLayeredPane layeredPanel;
+	private CheckBoxType1[] productCheckBox;
+	private JLabel[] productImage;
+	private JPanel[] productDetail;
+	private JLabel[] productName;
+	private JLabel[] productPrice;
+	private CountBox[] productCountBox;
+	private ButtonType1[] productDelButton;
+	private int[] productNum;
 
-public class SubShoppingBasket extends JPanel {
 	public SubShoppingBasket() { // 로그인 상태가 아닐 시 출력될 패널
 		GridBagLayout subPanelLayout = createGBL(new int[] {290}, new int[] {40, 630});
 		setLayout(subPanelLayout);
@@ -47,12 +52,15 @@ public class SubShoppingBasket extends JPanel {
 		contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 300));
 		contentPanel.add(contentName);
 	}
-	public SubShoppingBasket(String productLists[][]) { // 로그인 상태일 시 출력될 패널
+	public SubShoppingBasket(int customerNum, JLayeredPane layeredPanel) { // 로그인 상태일 시 출력될 패널
+		this.layeredPanel = layeredPanel;
+		int priceSum = 0;
 		int y_axis = 0;
-		int count = 0;
+		List<List<String>> shoppingBasketList = SubShoppingBasketDB.shoppingBasketList(customerNum);
+		String splitedProductName;
 
 		GridBagLayout gridBagLayout = createGBL(new int[] {290}, new int[] {40, 30, 550, 50});
-		GridBagLayout pricePanelLayout = createGBL(new int[] {55, 90}, new int[] {50});
+		GridBagLayout pricePanelLayout = createGBL(new int[] {42, 103}, new int[] {50});
 		GridBagLayout productLayout = createGBL(new int[] {25, 75, 190}, new int[] {81});
 		GridBagLayout productDetailLayout = createGBL(new int[] {190}, new int[] {20, 20, 40});
 		setLayout(gridBagLayout);
@@ -67,7 +75,7 @@ public class SubShoppingBasket extends JPanel {
 
 		titlePanel.setBackground(Setup.white);
 		checkPanel.setBackground(Setup.white);
-		contentPanel.setBackground(Setup.white);
+		productListPanel.setBackground(Setup.white);
 		pricePanel.setBackground(Setup.white);
 		resultPanel.setBackground(Setup.white);
 
@@ -79,20 +87,21 @@ public class SubShoppingBasket extends JPanel {
 		selectAllLabel.setFont(new Font(Setup.font, Font.BOLD, 12));
 
 		JLabel sumLabel = new JLabel("합계: ");
-		sumLabel.setFont(new Font(Setup.font, Font.BOLD, 16));
+		sumLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 
-		JLabel priceLabel = new JLabel("174,900원");
-		priceLabel.setFont(new Font(Setup.font, Font.BOLD, 16));
+		JLabel priceLabel = new JLabel("0원");
+		priceLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
 
-		int productNum = productLists.length;
-		JPanel[] productPanel = new JPanel[productNum];
-		CheckBoxType1[] productCheckBox = new CheckBoxType1[productNum];
-		JLabel[] productImage = new JLabel[productNum];
-		JPanel[] productDetail = new JPanel[productNum];
-		JLabel[] productName = new JLabel[productNum];
-		JLabel[] productPrice = new JLabel[productNum];
-		CountBox[] productCountBox = new CountBox[productNum];
-		ButtonType1[] productDelButton = new ButtonType1[productNum];
+		productCount = shoppingBasketList.size();
+		productPanel = new JPanel[productCount];
+		productCheckBox = new CheckBoxType1[productCount];
+		productImage = new JLabel[productCount];
+		productDetail = new JPanel[productCount];
+		productName = new JLabel[productCount];
+		productPrice = new JLabel[productCount];
+		productCountBox = new CountBox[productCount];
+		productDelButton = new ButtonType1[productCount];
+		productNum = new int[productCount];
 		// 사용할 패널들의 GBC 설정
 		GridBagConstraints productPanelCheckBox = createGBC(0, 0, new int[]{0, 5, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints productPanelImage = createGBC(1, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
@@ -122,7 +131,7 @@ public class SubShoppingBasket extends JPanel {
 		productListPanel.setLayout(null);
 		add(contentPanel, productListPanelGBC);
 
-		for (count = 0; count < productNum; count++) { //패널 초기화
+		for (count = 0; count < productCount; count++) { //패널 및 변수 설정/초기화
 			productPanel[count] = new JPanel();
 			productPanel[count].setLayout(productLayout);
 			productPanel[count].setBackground(Setup.white);
@@ -138,11 +147,17 @@ public class SubShoppingBasket extends JPanel {
 			productPrice[count].setForeground(Setup.magenta);
 			productCountBox[count] = new CountBox();
 			productDelButton[count] = new ButtonType1(15, 4, 5, "삭 제", 10);
+			productDelButton[count].addActionListener(this);
+			priceSum += Integer.parseInt(shoppingBasketList.get(count).get(2)) * productCountBox[count].getCount();
 		}
-		for (count = 0; count < productNum; count++) {
-			productImage[count].setIcon(Setup.imageSetSize(new ImageIcon(SubShoppingBasket.class.getResource(productLists[count][0])), 70, 70));
-			productName[count].setText(productLists[count][1]);
-			productPrice[count].setText(String.format("%s원", NumberFormat.getInstance().format(Integer.parseInt(productLists[count][4]))));
+		for (count = 0; count < productCount; count++) {
+			productNum[count] = Integer.parseInt(shoppingBasketList.get(count).get(0));
+			productImage[count].setIcon(Setup.imageSetSize(new ImageIcon(SubShoppingBasketDB.productImageLoad(productNum[count])), 70, 70));
+			if ((splitedProductName = shoppingBasketList.get(count).get(1)).length() >= 25)
+				productName[count].setText(splitedProductName.substring(0, 24) + "...");
+			else
+				productName[count].setText(splitedProductName);
+			productPrice[count].setText(String.format("%s원", NumberFormat.getInstance().format(Integer.parseInt(shoppingBasketList.get(count).get(2)))));
 			productPanel[count].add(productCheckBox[count], productPanelCheckBox);
 			productPanel[count].add(productImage[count], productPanelImage);
 			productPanel[count].add(productDetail[count], productPanelDetail);
@@ -159,6 +174,7 @@ public class SubShoppingBasket extends JPanel {
 		add(resultPanel, resultPanelGBC);
 		resultPanel.add(pricePanel);
 		pricePanel.add(sumLabel, sumLabelGBC);
+		priceLabel.setText(String.format("%s원", NumberFormat.getInstance().format(priceSum)));
 		pricePanel.add(priceLabel, priceLabelGBC);
 		resultPanel.add(new ButtonType1(0, 0, 0, "구 매 하 기", 16));
 
@@ -186,5 +202,13 @@ public class SubShoppingBasket extends JPanel {
 		gbl.columnWidths = columnWidths;
 		gbl.rowHeights = rowHeights;
 		return gbl;
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for (int i = 0; i < count; i++)
+			if (e.getSource() == productDelButton[i]) {
+				if (SubShoppingBasketDB.deleteShoppingBasketList(Setup.CustomerNum, productNum[i]));
+					Setup.changePanel(layeredPanel, new SubShoppingBasket(Setup.CustomerNum, layeredPanel));
+		}
 	}
 }

@@ -43,7 +43,7 @@ public class TestPanel extends JPanel implements ActionListener {
             Setup.changePanel(Frame.contentLayeredPanel, new Login());
             Setup.lastClickReset();
         }else if (e.getSource() == button[5]) {
-            Setup.changePanel(Frame.contentLayeredPanel, new Search());
+            Setup.changePanel(Frame.contentLayeredPanel, new Search(""));
             Setup.lastClickReset();
         }else if (e.getSource() == button[6]) {
             Setup.changePanel(Frame.contentLayeredPanel, new OrderList());

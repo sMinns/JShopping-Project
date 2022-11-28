@@ -87,7 +87,7 @@ public class CustomerMenu extends JPanel implements MouseListener{
 		if(e.getSource() == customerPanel[0]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
 		}else if(e.getSource() == customerPanel[1]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new Search(), textStr[1]);
+			Setup.changePanel(Frame.contentLayeredPanel, new Search(""), textStr[1]);
 		}else if(e.getSource() == customerPanel[2]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new OrderList(), textStr[2]);
 		}else if(e.getSource() == customerPanel[3]) {
