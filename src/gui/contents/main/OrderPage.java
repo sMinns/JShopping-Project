@@ -27,11 +27,11 @@ public class OrderPage extends JPanel {
 	private JRadioButton credit_card_RadioButton, mobile_phone_payment_RadioButton;
 	private CardLayout cl_paytype_panel;
 	private JButton agreement;
-	private List<List<String>> str = OrderPageDB.orderProductList(Setup.CustomerNum);
-	private JPanel[] productPanel = new JPanel[str.size()];
-	private JPanel[][] productInfoPanel = new JPanel[str.size()][6];
-	private JLabel[][] productInfoLabel = new JLabel[str.size()][6];
-	private JTextArea[] productNameTextArea = new JTextArea[str.size()];
+	private List<List<String>> str;
+	private JPanel[] productPanel;
+	private JPanel[][] productInfoPanel;
+	private JLabel[][] productInfoLabel;
+	private JTextArea[] productNameTextArea;
 
 	private Font[] font = { new Font(Setup.font, Font.BOLD, 12), new Font(Setup.font, Font.BOLD, 15),
 			new Font(Setup.font, Font.BOLD, 16),new Font(Setup.font, Font.BOLD, 17), new Font(Setup.font, Font.PLAIN, 15)};
@@ -44,7 +44,14 @@ public class OrderPage extends JPanel {
 	private boolean openCalendar = false;
 	OrderPageEvent orderPageEvent;
 	JScrollPane oder_page_scroll_panel;
-	public OrderPage() {
+	private List<Integer> prnum;
+	public OrderPage(List<Integer> prnum) {
+		this.prnum = prnum;
+		str = OrderPageDB.orderProductList(Setup.CustomerNum, prnum);
+		productPanel = new JPanel[str.size()];
+		productInfoPanel = new JPanel[str.size()][6];
+		productInfoLabel = new JLabel[str.size()][6];
+		productNameTextArea = new JTextArea[str.size()];
 		orderPageEvent = new OrderPageEvent(this);
 		Setup.changeInsets(10,10,10,6);
 		setSize(new Dimension(975, 670));
@@ -594,5 +601,13 @@ public class OrderPage extends JPanel {
 
 	public String getShopping_Request_textField() {
 		return shopping_Request_textField.getText();
+	}
+
+	public List<List<String>> getStr() {
+		return str;
+	}
+
+	public List<Integer> getPrnum() {
+		return prnum;
 	}
 }

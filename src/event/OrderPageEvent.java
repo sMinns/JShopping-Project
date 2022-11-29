@@ -58,15 +58,20 @@ private OrderPage o;
             }
 
             LocalDate now = LocalDate.now();
+            String orderDateNum = String.format("%03d", OrderPageDB.returnOrderNum(String.valueOf(now)) + 1);
+            String orderNum = String.valueOf(now).replace("-", "") + orderDateNum;
             String phonenum = o.getPhoneNumTextField1() + " " + o.getPhoneNumTextField2() + " " + o.getPhoneNumTextField3();
             String address = o.getAddress_textField_1() + " " + o.getAddress_textField_2();
             String date = o.getDelivery_desired_date_textField().getText().replace(". ", "-");
 
-            String[] str = { o.getRecipient_textField(), phonenum, address, o.getShopping_Request_textField(),
+            String[] str = { orderNum, o.getRecipient_textField(), phonenum, address, o.getShopping_Request_textField(),
                     date, String.valueOf(Setup.CustomerNum), String.valueOf(now)};
 
             if(OrderPageDB.InsertOrder(str)) {
-                Setup.changePanel(Frame.contentLayeredPanel, new FinishOrderPanel());
+                if(OrderPageDB.InsertOrderProduct(o.getStr(), orderNum)) {
+                    OrderPageDB.clearShoppingBasket(Setup.CustomerNum, o.getPrnum());
+                    Setup.changePanel(Frame.contentLayeredPanel, new FinishOrderPanel());
+                }
             }
         }
     }

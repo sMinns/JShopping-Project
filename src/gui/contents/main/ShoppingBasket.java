@@ -3,7 +3,6 @@ package gui.contents.main;
 import custom.ButtonType1;
 import custom.CheckBoxType1;
 import custom.CountBox;
-import gui.common.Frame;
 import system.Setup;
 
 import javax.swing.*;
@@ -162,8 +161,8 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(), "주문 / 결제");
-		Setup.lastClickReset();
+		//Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(), "주문 / 결제");
+		//Setup.lastClickReset();
 	}
 	// GridBagConstraints를 만들기 위한 함수
 	private GridBagConstraints createGBC(int gridx, int gridy, int[] insets, int fill, int anchor) {

@@ -2,7 +2,7 @@ package gui.contents.sub;
 
 import custom.ButtonType1;
 import custom.CheckBoxType1;
-import custom.CountBox;
+import custom.MiniCountBox;
 import database.SubShoppingBasketDB;
 import gui.common.Frame;
 import gui.contents.main.OrderPage;
@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SubShoppingBasket extends JPanel implements ActionListener, MouseListener {
@@ -28,7 +29,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 	private JPanel[] productDetail;
 	private JLabel[] productName;
 	private JLabel[] productPrice;
-	private CountBox[] productCountBox;
+	private MiniCountBox[] productCountBox;
 	private ButtonType1[] productDelButton;
 	private JButton orderButton;
 	private JLabel priceLabel;
@@ -104,7 +105,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		productDetail = new JPanel[productCount];
 		productName = new JLabel[productCount];
 		productPrice = new JLabel[productCount];
-		productCountBox = new CountBox[productCount];
+		productCountBox = new MiniCountBox[productCount];
 		productDelButton = new ButtonType1[productCount];
 		productNum = new int[productCount];
 		// 사용할 패널들의 GBC 설정
@@ -129,6 +130,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		add(checkPanel, checkPanelGBC);
 		selectCheckBox = new CheckBoxType1(" 전체 선택", new Font(Setup.font, Font.BOLD, 12));
 		selectCheckBox.addActionListener(this);
+		selectCheckBox.setSelected(true);
 		checkPanel.add(selectCheckBox);
 	
 		contentPanel.setLayout(new BorderLayout());
@@ -142,6 +144,8 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 			productPanel[count].setLayout(productLayout);
 			productPanel[count].setBackground(Setup.white);
 			productCheckBox[count] = new CheckBoxType1();
+			productCheckBox[count].setSelected(true);
+			productCheckBox[count].addActionListener(this);
 			productImage[count] = new JLabel("");
 			productDetail[count] = new JPanel();
 			productDetail[count].setLayout(productDetailLayout);
@@ -151,7 +155,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 			productPrice[count] = new JLabel();
 			productPrice[count].setFont(new Font(Setup.font, Font.BOLD, 12));
 			productPrice[count].setForeground(Setup.magenta);
-			productCountBox[count] = new CountBox(Integer.parseInt(shoppingBasketList.get(count).get(3)));
+			productCountBox[count] = new MiniCountBox(Integer.parseInt(shoppingBasketList.get(count).get(3)));
 			productCountBox[count].getMinusButton().addMouseListener(this);
 			productCountBox[count].getPlusButton().addMouseListener(this);
 			productDelButton[count] = new ButtonType1(15, 4, 5, "삭 제", 10);
@@ -215,21 +219,61 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (int i = 0; i < count; i++)
+		for (int i = 0; i < count; i++) {
 			if (e.getSource() == productDelButton[i]) {
-				if (SubShoppingBasketDB.deleteShoppingBasketList(Setup.CustomerNum, productNum[i]));
+				if (SubShoppingBasketDB.deleteShoppingBasketList(Setup.CustomerNum, productNum[i])) {
 					Setup.changePanel(layeredPanel, new SubShoppingBasket(Setup.CustomerNum, layeredPanel));
+				}
+			}
+			if(e.getSource() == productCheckBox[i]) {
+				if(productCheckBox[i].isSelected()) {
+					priceSum += Integer.parseInt(shoppingBasketList.get(i).get(2)) * Integer.parseInt(shoppingBasketList.get(i).get(3));
+					priceLabel.setText(String.format("%s원", NumberFormat.getInstance().format(priceSum)));
+				}else {
+					priceSum -= Integer.parseInt(shoppingBasketList.get(i).get(2)) * Integer.parseInt(shoppingBasketList.get(i).get(3));
+					priceLabel.setText(String.format("%s원", NumberFormat.getInstance().format(priceSum)));
+				}
+
+				for(int j = 0; j < count; j++) {
+					if(selectCheckBox.isSelected()) {
+						if(!productCheckBox[j].isSelected()) {
+							selectCheckBox.setSelected(false);
+							return;
+						}
+					}else {
+						if(!productCheckBox[j].isSelected()) { return; }
+						if(j == count-1) { selectCheckBox.setSelected(true); }
+					}
+				}
+			}
 		}
 
 		if(e.getSource() == selectCheckBox) {
 			for (int i = 0; i < count; i++) {
-				productCheckBox[i].setSelected(selectCheckBox.isSelected());
+				if(selectCheckBox.isSelected()) {
+					if(!productCheckBox[i].isSelected()) {
+						priceSum += Integer.parseInt(shoppingBasketList.get(i).get(2)) * Integer.parseInt(shoppingBasketList.get(i).get(3));
+						productCheckBox[i].setSelected(true);
+					}
+				}else {
+					if(productCheckBox[i].isSelected()) {
+						priceSum -= Integer.parseInt(shoppingBasketList.get(i).get(2)) * Integer.parseInt(shoppingBasketList.get(i).get(3));
+						productCheckBox[i].setSelected(false);
+					}
+				}
 			}
+			priceLabel.setText(String.format("%s원", NumberFormat.getInstance().format(priceSum)));
 		}
 
 		if(e.getSource() == orderButton) {
 			if(!priceLabel.getText().equals("0원")) {
-				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage());
+				List<Integer> prnum = new ArrayList<>();
+				for (int i = 0; i < count; i++) {
+					if(productCheckBox[i].isSelected()) {
+						prnum.add(Integer.valueOf(shoppingBasketList.get(i).get(0)));
+					}
+				}
+				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(prnum));
 			}
 		}
 	}
