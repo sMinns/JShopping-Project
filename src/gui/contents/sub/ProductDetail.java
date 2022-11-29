@@ -1,14 +1,26 @@
 package gui.contents.sub;
 
 import custom.ButtonType1;
-import gui.contents.main.ProductManagement;
+import database.SearchDB;
+import database.SubProductDetailDB;
 import system.Setup;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.text.NumberFormat;
+import java.util.List;
 
-public class ProductDetail extends JPanel {
-    public ProductDetail() {
+public class ProductDetail extends JPanel implements ActionListener {
+    private ButtonType1 addToBasketButton, buyButton; 
+    private List<String> str;
+    private JLayeredPane layeredPanel;
+    private JPanel selectPanel;
+
+    public ProductDetail(List<String> str, JLayeredPane layeredPanel, JPanel selectPanel) {
+        this.str = str;
+        this.layeredPanel = layeredPanel;
+        this.selectPanel = selectPanel;
         GridBagLayout detailLayout = new GridBagLayout();
         detailLayout.columnWidths = new int[]{0, 0};
         detailLayout.rowHeights = new int[]{275, 185, 0};
@@ -26,8 +38,7 @@ public class ProductDetail extends JPanel {
         this.add(imagePanel, productBagCon);
 
         JLabel image = new JLabel();
-        image.setIcon(Setup.imageSetSize(
-                new ImageIcon(ProductManagement.class.getResource("/images/nullimage.png")),260,260));
+        image.setIcon(Setup.imageSetSize(new ImageIcon(SearchDB.productImageLoad(Integer.parseInt(str.get(0)))), 260, 260));
         imagePanel.add(image);
 
         //Info Panel
@@ -51,7 +62,7 @@ public class ProductDetail extends JPanel {
 
         JTextArea productName = new JTextArea(1, 15);
         productName.setEditable(false);
-        productName.setText("상품명3D 트리볼라 인체공학 디자인 축구화 풋살화 족구화");
+        productName.setText(str.get(1));
         productName.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         productName.setOpaque(false);
         productName.setLineWrap(true);
@@ -75,7 +86,7 @@ public class ProductDetail extends JPanel {
         productBagCon.gridy = 2;
         productInfoPanel.add(categoryPanel, productBagCon);
 
-        JLabel cate = new JLabel("신발");
+        JLabel cate = new JLabel(str.get(2));
         cate.setFont(new Font(Setup.font, Font.PLAIN, 15));
         categoryPanel.add(cate);
 
@@ -86,7 +97,7 @@ public class ProductDetail extends JPanel {
         productBagCon.gridy = 3;
         productInfoPanel.add(productdatePanel, productBagCon);
 
-        JLabel date = new JLabel("등록일 : 2022. 06. 25");
+        JLabel date = new JLabel(String.format("등록일 : %s", str.get(3).replace('-', '.')));
         date.setFont(new Font(Setup.font, Font.PLAIN, 15));
         productdatePanel.add(date);
 
@@ -96,8 +107,9 @@ public class ProductDetail extends JPanel {
         productBagCon.gridy = 4;
         productInfoPanel.add(productPricePanel, productBagCon);
 
-        JLabel price = new JLabel("29, 800원");
+        JLabel price = new JLabel(String.format("%s원", NumberFormat.getInstance().format(Integer.parseInt(str.get(4)))));
         price.setFont(new Font(Setup.font, Font.BOLD, 18));
+        price.setForeground(Setup.magenta);
         productPricePanel.add(price);
 
 
@@ -108,9 +120,12 @@ public class ProductDetail extends JPanel {
         productBagCon.gridy = 5;
         productInfoPanel.add(buttonPanel, productBagCon);
 
-        buttonPanel.add(new ButtonType1(12, 6, 2, "장바구니 담기", 16));
-        buttonPanel.add(new ButtonType1(28, 6, 2, "바로 구매", 16));
-
+        if (Setup.CustomerNum != 0) { // 로그인이 되어 있는 경우에만 버튼 표시
+            buttonPanel.add(addToBasketButton = new ButtonType1(12, 6, 2, "장바구니 담기", 16));
+            buttonPanel.add(buyButton = new ButtonType1(28, 6, 2, "바로 구매", 16));
+            addToBasketButton.addActionListener(this);
+            buyButton.addActionListener(this);
+        }
 
         JPanel reviewPanel = new JPanel();
         reviewPanel.setBackground(Setup.bgLightGray);
@@ -143,5 +158,14 @@ public class ProductDetail extends JPanel {
         reviewBagCon.insets = new Insets(0, 0, 0, 0);
         reviewBagCon.gridy = 2;
         reviewPanel.add(reviewButtonPanel, reviewBagCon);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == addToBasketButton) {
+            SubProductDetailDB.addToShoppingBasket(Integer.parseInt(str.get(0)));
+            selectPanel.setBorder(null);
+            Setup.changePanel(layeredPanel, new SubShoppingBasket(Setup.CustomerNum, layeredPanel));
+        }
     }
 }

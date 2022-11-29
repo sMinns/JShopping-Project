@@ -1,19 +1,26 @@
 package gui.contents.main;
 
 import custom.SearchBar;
+import gui.common.Frame;
 import gui.contents.sub.ProductDetail;
 import gui.contents.sub.SubShoppingBasket;
 import system.Setup;
+import database.SearchDB;
+import database.CategoryDB;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.List;
+import java.awt.event.*;
 import java.text.NumberFormat;
 
-public class Search extends JPanel implements MouseListener {
+public class Search extends JPanel implements ActionListener, MouseListener {
+	private List<List<String>> productList;
+    private List<String> items = CategoryDB.categoryList();
+	
+	private int[] productNum;
 	private JPanel[] productPanel;
-	private int productNum;
+	private int productCount;
 	private JPanel[] productDetail;
 	private JLabel[] productImage;
 	private JLabel[] productName;
@@ -21,23 +28,26 @@ public class Search extends JPanel implements MouseListener {
 	private JLabel[] productRegDate;
 	private JLabel[] productPrice;
 	private JLayeredPane layeredPanel;
+	private String text = "";
+	private SearchBar search;
 	JPanel selectPanel = null;
-	private String[][] productLists = {{"/images/nullimage.png", "상품 1", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 2", "신발", "2022-06-25", "29800"},
-			{"/images/nullimage.png", "상품 3", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 4", "신발", "2022-06-25", "29800"},
-			{"/images/nullimage.png", "상품 5", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 6", "신발", "2022-06-25", "29800"},
-			{"/images/nullimage.png", "상품 7", "신발", "2022-06-25", "29800"}, {"/images/nullimage.png", "상품 8", "신발", "2022-06-25", "29800"}};
-	public Search() {
-		productNum = productLists.length;
+
+	public Search(String text) {
+		this.text = text;
+		search = new SearchBar(45, 50, new String[]{"가", "나", "다"}, "검색하고 싶은 상품을 입력하세요.", 15);
+		productList = SearchDB.productList(text);
+		productCount = productList.size();
 		int count = 0;
 		int y_axis = 0;
 
-		productPanel = new JPanel[productNum];
-		productDetail = new JPanel[productNum];
-		productImage = new JLabel[productNum];
-		productName = new JLabel[productNum];
-		productCategory = new JLabel[productNum];
-		productRegDate = new JLabel[productNum];
-		productPrice = new JLabel[productNum];
+		productNum = new int[productCount];
+		productPanel = new JPanel[productCount];
+		productDetail = new JPanel[productCount];
+		productImage = new JLabel[productCount];
+		productName = new JLabel[productCount];
+		productCategory = new JLabel[productCount];
+		productRegDate = new JLabel[productCount];
+		productPrice = new JLabel[productCount];
 
 		// 사용할 패널의 레이아웃 생성
 		GridBagLayout mainPanelLayout = createGBL(new int[] {675, 290}, new int[] {670, 0});
@@ -89,11 +99,14 @@ public class Search extends JPanel implements MouseListener {
 		topPanel.add(resultPanel, resultPanelGBC);
 		topPanel.add(middlePanel, middlePanelGBC);
 
-		searchBarPanel.add(new SearchBar(45, 50, new String[]{"가", "나", "다"}, "검색하고 싶은 제품을 입력하세요.", 15));
+		searchBarPanel.add(search);
+		search.getTextField().addActionListener(this);
+		search.getSearchButtonLabel().addMouseListener(this);
 
 		resultPanel.add(resultLabelPanel, resultLabelPanelGBC);
 		resultLabelPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		resultLabel.setText(String.format("'%s'에 대한 검색결과", "축구화"));
+		if (text != "")
+			resultLabel.setText(String.format("'%s'에 대한 검색결과", text));
 		resultLabel.setFont(new Font(Setup.font, Font.BOLD, 15));
 		resultLabelPanel.add(resultLabel);
 		resultPanel.add(orderOptionsPanel, orderOptionsPanelGBC);
@@ -109,7 +122,7 @@ public class Search extends JPanel implements MouseListener {
 		middlePanel.add(scrollPane);
 		productPanelList.setLayout(null);
 		// 패널 초기화
-		for (count = 0; count < productNum; count++) {
+		for (count = 0; count < productCount; count++) {
 			productPanel[count] = new JPanel();
 			productPanel[count].setLayout(productPanelLayout);
 			productPanel[count].addMouseListener(this);
@@ -129,12 +142,13 @@ public class Search extends JPanel implements MouseListener {
 			productPrice[count].setForeground(Setup.magenta);
 		}
 		// 패널 추가
-		for (count = 0; count < productNum; count++) {
-			productImage[count].setIcon(Setup.imageSetSize(new ImageIcon(Search.class.getResource(productLists[count][0])), 110, 110));
-			productName[count].setText(productLists[count][1]);
-			productCategory[count].setText(productLists[count][2]);
-			productRegDate[count].setText(productLists[count][3]);
-			productPrice[count].setText(String.format("%s원", NumberFormat.getInstance().format(Integer.parseInt(productLists[count][4]))));
+		for (count = 0; count < productCount; count++) {
+			productNum[count] = Integer.parseInt(productList.get(count).get(0));
+			productImage[count].setIcon(Setup.imageSetSize(new ImageIcon(SearchDB.productImageLoad(productNum[count])), 110, 110));
+			productName[count].setText(productList.get(count).get(1));
+			productCategory[count].setText(productList.get(count).get(2));
+			productRegDate[count].setText(String.format("등록일 : %s", productList.get(count).get(3).replace('-', '.')));
+			productPrice[count].setText(String.format("%s원", NumberFormat.getInstance().format(Integer.parseInt(productList.get(count).get(4)))));
 			productPanel[count].add(productImage[count], productPanelImage);
 			productPanel[count].add(productDetail[count], productPanelDetail);
 			productDetail[count].add(productName[count], productPanelName);
@@ -155,15 +169,15 @@ public class Search extends JPanel implements MouseListener {
 		scrollPane.setBorder(BorderFactory.createLineBorder(Setup.white, 1));
 
 		add(layeredPanel, layeredPanelGBC);
-		if (Setup.CustomerNum == 0) // 로그인되어 있지 않은 경우
+		if (Setup.CustomerNum != 0) // 로그인 된 경우
+			layeredPanel.add(new SubShoppingBasket(Setup.CustomerNum, layeredPanel));
+		else // 로그인되지 않은 경우
 			layeredPanel.add(new SubShoppingBasket());
-		else // 로그인 된 경우
-			layeredPanel.add(new SubShoppingBasket(productLists));
 		layeredPanel.setLayout(new CardLayout(0, 0));
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		for (int i = 0; i < productNum; i++) {
+		for (int i = 0; i < productCount; i++) {
 			if(e.getSource() == productPanel[i]) {
 				if (e.getSource() == selectPanel) {
 					selectPanel.setBorder(null);
@@ -171,25 +185,44 @@ public class Search extends JPanel implements MouseListener {
 					if (Setup.CustomerNum == 0) // 로그인되어 있지 않은 경우
 						Setup.changePanel(layeredPanel, new SubShoppingBasket());
 					else // 로그인 된 경우
-						Setup.changePanel(layeredPanel, new SubShoppingBasket(productLists));
-				}else {
-					if(selectPanel != null) { selectPanel.setBorder(null); }
+						Setup.changePanel(layeredPanel, new SubShoppingBasket(Setup.CustomerNum, layeredPanel));
+				}
+				else {
+					if (selectPanel != null) 
+						selectPanel.setBorder(null);
 					selectPanel = productPanel[i];
 					productPanel[i].setBorder(BorderFactory.createLineBorder(Setup.magenta, 1));
-					Setup.changePanel(layeredPanel, new ProductDetail());
-					return;
+					Setup.changePanel(layeredPanel, new ProductDetail(productList.get(i), layeredPanel, selectPanel));
 				}
 			}
 		}
 	}
 	@Override
-	public void mousePressed(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {
+		if(e.getSource() == search.getSearchButtonLabel()) {
+			if(search.getTextField().getText().equals("검색하고 싶은 상품을 입력하세요."))
+				text = "";
+			else
+				text = search.getTextField().getText();
+			Setup.changePanel(Frame.contentLayeredPanel, new Search(text));
+        }
+    }
 	@Override
 	public void mouseReleased(MouseEvent e) {}
 	@Override
 	public void mouseEntered(MouseEvent e) {}
 	@Override
 	public void mouseExited(MouseEvent e) {}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == search.getTextField()) {
+			if(search.getTextField().getText().equals("검색하고 싶은 상품을 입력하세요."))
+				text = "";
+			else
+				text = search.getTextField().getText();
+            Setup.changePanel(Frame.contentLayeredPanel, new Search(text));
+        }
+	}
 	// GridBagConstraints를 만들기 위한 함수
 	private GridBagConstraints createGBC(int gridx, int gridy, int[] insets, int fill, int anchor) {
 		GridBagConstraints gbc = new GridBagConstraints();
