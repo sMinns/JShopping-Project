@@ -69,7 +69,7 @@ public class GuestMenu extends JPanel implements MouseListener{
 		if(e.getSource() == GuestPanel[0]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
 		}else if(e.getSource() == GuestPanel[1]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new Search(""), textStr[1]);
+			Setup.changePanel(Frame.contentLayeredPanel, new Search("", 0), textStr[1]);
 		}else if(e.getSource() == GuestPanel[2]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new SignUp(), textStr[2]);
 		}else if(e.getSource() == GuestPanel[3]) {

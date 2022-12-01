@@ -225,24 +225,26 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 					Setup.changePanel(layeredPanel, new SubShoppingBasket(Setup.CustomerNum, layeredPanel));
 				}
 			}
-			if(e.getSource() == productCheckBox[i]) {
-				if(productCheckBox[i].isSelected()) {
+			if (e.getSource() == productCheckBox[i]) {
+				if (productCheckBox[i].isSelected()) {
 					priceSum += Integer.parseInt(shoppingBasketList.get(i).get(2)) * Integer.parseInt(shoppingBasketList.get(i).get(3));
 					priceLabel.setText(String.format("%s원", NumberFormat.getInstance().format(priceSum)));
-				}else {
+				}
+				else {
 					priceSum -= Integer.parseInt(shoppingBasketList.get(i).get(2)) * Integer.parseInt(shoppingBasketList.get(i).get(3));
 					priceLabel.setText(String.format("%s원", NumberFormat.getInstance().format(priceSum)));
 				}
 
-				for(int j = 0; j < count; j++) {
-					if(selectCheckBox.isSelected()) {
-						if(!productCheckBox[j].isSelected()) {
+				for (int j = 0; j < count; j++) {
+					if (selectCheckBox.isSelected()) {
+						if (!productCheckBox[j].isSelected()) {
 							selectCheckBox.setSelected(false);
 							return;
 						}
-					}else {
-						if(!productCheckBox[j].isSelected()) { return; }
-						if(j == count-1) { selectCheckBox.setSelected(true); }
+					}
+					else {
+						if (!productCheckBox[j].isSelected()) { return; }
+						if (j == count-1) { selectCheckBox.setSelected(true); }
 					}
 				}
 			}

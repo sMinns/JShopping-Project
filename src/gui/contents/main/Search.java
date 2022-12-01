@@ -17,25 +17,28 @@ import java.text.NumberFormat;
 public class Search extends JPanel implements ActionListener, MouseListener {
 	private List<List<String>> productList;
     private List<String> items = CategoryDB.categoryList();
-	
+	private String[] itemsArray = items.toArray(new String[items.size()]);
 	private int[] productNum;
-	private JPanel[] productPanel;
 	private int productCount;
+	private int orderType = 0;
+	private JPanel[] productPanel;
 	private JPanel[] productDetail;
 	private JLabel[] productImage;
 	private JLabel[] productName;
 	private JLabel[] productCategory;
 	private JLabel[] productRegDate;
 	private JLabel[] productPrice;
+	private JLabel[] sortOptions;
 	private JLayeredPane layeredPanel;
 	private String text = "";
 	private SearchBar search;
 	JPanel selectPanel = null;
 
-	public Search(String text) {
+	public Search(String text, int orderType) {
 		this.text = text;
-		search = new SearchBar(45, 50, new String[]{"가", "나", "다"}, "검색하고 싶은 상품을 입력하세요.", 15);
-		productList = SearchDB.productList(text);
+		this.orderType = orderType;
+		search = new SearchBar(45, 50, itemsArray, "검색하고 싶은 상품을 입력하세요.", 15);
+		productList = SearchDB.productList(text, orderType);
 		productCount = productList.size();
 		int count = 0;
 		int y_axis = 0;
@@ -60,7 +63,7 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 		JPanel searchBarPanel = new JPanel();
 		JPanel resultPanel = new JPanel();
 		JPanel resultLabelPanel = new JPanel();
-		JPanel orderOptionsPanel = new JPanel();
+		JPanel sortOptionsPanel = new JPanel();
 		JPanel middlePanel = new JPanel();
 		JPanel productPanelList = new JPanel();
 		layeredPanel = new JLayeredPane();
@@ -68,12 +71,12 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 
 		JLabel resultLabel = new JLabel();
 		String[] sortOptionsName = {"리뷰 많은순", "높은 가격순", "낮은 가격순", "최신순"};
-		JLabel[] sortOptions = new JLabel[4];
+		sortOptions = new JLabel[4];
 		//패널의 배경색 설정
 		searchBarPanel.setBackground(Setup.white);
 		resultPanel.setBackground(Setup.white);
 		resultLabelPanel.setBackground(Setup.white);
-		orderOptionsPanel.setBackground(Setup.white);
+		sortOptionsPanel.setBackground(Setup.white);
 
 		setLayout(mainPanelLayout);
 		topPanel.setLayout(topPanelLayout);
@@ -83,7 +86,7 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 		GridBagConstraints searchBarPanelGBC = createGBC(0, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints resultPanelGBC = createGBC(0, 1, new int[]{0, 0, 1, 0}, GridBagConstraints.BOTH, GridBagConstraints.WEST);
 		GridBagConstraints resultLabelPanelGBC = createGBC(0, 0, new int[]{0, 10, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
-		GridBagConstraints orderOptionsPanelGBC = createGBC(1, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER);
+		GridBagConstraints sortOptionsPanelGBC = createGBC(1, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER);
 		GridBagConstraints middlePanelGBC = createGBC(0, 2, new int[]{0, 0, 3, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints layeredPanelGBC = createGBC(1, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		// productPanel 내부의 레이블과 패널에 대한 GBC 설정
@@ -109,12 +112,13 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 			resultLabel.setText(String.format("'%s'에 대한 검색결과", text));
 		resultLabel.setFont(new Font(Setup.font, Font.BOLD, 15));
 		resultLabelPanel.add(resultLabel);
-		resultPanel.add(orderOptionsPanel, orderOptionsPanelGBC);
-		orderOptionsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+		resultPanel.add(sortOptionsPanel, sortOptionsPanelGBC);
+		sortOptionsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 		for (int i = 0; i < 4; i++) {
 			sortOptions[i] = new JLabel(sortOptionsName[i]);
 			sortOptions[i].setFont(new Font(Setup.font, Font.BOLD, 12));
-			orderOptionsPanel.add(sortOptions[i]);
+			sortOptions[i].addMouseListener(this);
+			sortOptionsPanel.add(sortOptions[i]);
 		}
 
 		middlePanel.setLayout(new BorderLayout());
@@ -199,13 +203,21 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(e.getSource() == search.getSearchButtonLabel()) {
+		if (e.getSource() == search.getSearchButtonLabel()) {
 			if(search.getTextField().getText().equals("검색하고 싶은 상품을 입력하세요."))
 				text = "";
 			else
 				text = search.getTextField().getText();
-			Setup.changePanel(Frame.contentLayeredPanel, new Search(text));
+			Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType));
         }
+		for (orderType = 0; orderType < 4; orderType++) {
+			if (e.getSource() == sortOptions[orderType]) {
+				System.out.println(SearchDB.productList(text, orderType));
+				System.out.println(orderType);
+				Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType));
+			}
+
+		}				
     }
 	@Override
 	public void mouseReleased(MouseEvent e) {}
@@ -220,7 +232,7 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 				text = "";
 			else
 				text = search.getTextField().getText();
-            Setup.changePanel(Frame.contentLayeredPanel, new Search(text));
+            Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType));
         }
 	}
 	// GridBagConstraints를 만들기 위한 함수

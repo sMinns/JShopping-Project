@@ -4,37 +4,22 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchDB {
-    //정렬이 포함된 검색
-    public static List<List<String>> productList(String text, int orderType) {
+public class ShoppingBasketDB {
+    public static List<List<String>> shoppingBasketList(int CustomerNum) {
         Statement s = null;
         ResultSet r = null;
-        String order = null;
-
         List<List<String>> arr = new ArrayList<>();
-        String[] col = { "product_num", "product_name", "category_name",
-                         "product_date", "product_price"};
+        String[] col = { "customer_name", "product_num", "product_name", "product_price", "sb_count"};
         try {
             s = Database.con.createStatement();
-        
-            if (orderType == 0)
-            order = "count(*) desc";
-        else if (orderType == 1)
-            order = "product_price desc";
-        else if (orderType == 2)
-            order = "product_price asc";
-        else if (orderType == 3)
-            order = "product_date desc";
-            String sql = String.format("select product_num, product_name, category_name, "+
-                                        "product_date, product_price from Product " + 
-                                        "left outer join Review on (product_num = Review.reivew_prnum) left outer join Category on (product_canum = category_num) " +
-                                        "where product_name like '%%%s%%' and product_stat = '판매중'" + 
-                                        "group by product_num order by %s", text, order);
+            String sql = String.format("select * from Product join ShoppingBasket on (product_num = sb_prnum) " +
+                                       "join Customer on (customer_num = product_cunum) " + 
+                                       "where sb_cunum = %d", CustomerNum);
             r = s.executeQuery(sql);
             while (r.next()) {
                 List<String> arrRowItems = new ArrayList<>();
                 for(int i = 0; i < 5; i++) {
-                    if(i == 4) {
+                    if(i == 1 || i == 3 || i == 4) {
                         arrRowItems.add(String.valueOf(r.getInt(col[i])));
                     }else {
                         arrRowItems.add(r.getString(col[i]));
@@ -55,6 +40,23 @@ public class SearchDB {
             }
         }
         return arr;
+    }
+    public static boolean deleteShoppingBasketList(int CustomerNum, int productNum) {
+        Statement s = null;
+        int isDeleted;
+        try {
+            s = Database.con.createStatement();
+            String sql = String.format("delete from ShoppingBasket where sb_cunum = %d and sb_prnum = %d", CustomerNum, productNum);
+            isDeleted = s.executeUpdate(sql);
+            s.close();
+            if (isDeleted != 0)
+                return true;
+            else
+                return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     public static byte[] productImageLoad(int prnum) {
         Statement s = null;
@@ -82,5 +84,28 @@ public class SearchDB {
         }
         return null;
     }
-}
 
+    public static boolean updateCount(int count, int prnum) {
+        Statement s = null;
+        try {
+            s = Database.con.createStatement();
+            String sql = String.format("update ShoppingBasket set sb_count = %d " +
+                    "where sb_prnum = %d", count, prnum);
+            int i = s.executeUpdate(sql);
+            if(i == 1) {
+                return true;
+            }else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                s.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+}
