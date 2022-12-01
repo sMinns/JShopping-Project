@@ -3,8 +3,10 @@ package gui.contents.main;
 import custom.ButtonType1;
 import custom.CheckBoxType1;
 import custom.CountBox;
+import database.ShoppingBasketDB;
 import system.Setup;
 
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,21 +14,28 @@ import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 
 public class ShoppingBasket extends JPanel implements ActionListener {
+	private List<List<String>> shoppingBasketList;
+	private JPanel[] productPanel;
+	private JPanel[] sellerPanel;
+	private JLabel[] sellerNameLabels;
+	private JLabel[] productImage;
+	private JPanel[] productDetail;
+	private JLabel[] productName;
+	private JLabel[] productPrice;
+
 	public ShoppingBasket() {
-		String[][] productLists = {{"가나다라", "/images/nullimage.png", "상품 1", "29800"}, {"가나다라", "/images/nullimage.png", "상품 2", "29800"}, 
-								   {"asdsadasd", "/images/nullimage.png", "상품 3", "38000"}, {"asdsadasd", "/images/nullimage.png", "상품 4", "40000"},
-								   {"삼성전자", "/images/nullimage.png", "상품 5", "2590000"}, {"ABC마트", "/images/nullimage.png", "상품 6", "1200000"}};
+		shoppingBasketList = ShoppingBasketDB.shoppingBasketList(Setup.CustomerNum);
 		int count = 0;
 		int y_axis = 0;
-		int productNum = productLists.length;
+		int productCount = shoppingBasketList.size();
 
-		JPanel[] productPanel = new JPanel[productNum];
-		JPanel[] sellerPanel = new JPanel[productNum];
-		JLabel[] sellerNameLabels = new JLabel[productNum];
-		JLabel[] productImage = new JLabel[productNum];
-		JPanel[] productDetail = new JPanel[productNum];
-		JLabel[] productName = new JLabel[productNum];
-		JLabel[] productPrice = new JLabel[productNum];
+		productPanel = new JPanel[productCount];
+		sellerPanel = new JPanel[productCount];
+		sellerNameLabels = new JLabel[productCount];
+		productImage = new JLabel[productCount];
+		productDetail = new JPanel[productCount];
+		productName = new JLabel[productCount];
+		productPrice = new JLabel[productCount];
 
 		//각 패널에 사용할 레이아웃 설정
 		GridBagLayout mainPanelLayout = createGBL(new int[]{986, 0}, new int[] {55, 560, 70});
@@ -93,7 +102,7 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		listPanel.setLayout(null);
 		middlePanel.add(listPanel);
 		
-		while (count < productNum) { // 패널 사용 전 초기화
+		for (count = 0; count < productCount; count++) { // 패널 사용 전 초기화
 			productPanel[count] = new JPanel();
 			productPanel[count].setBackground(Setup.white);
 			productPanel[count].setLayout(productPanelLayout);
@@ -111,30 +120,28 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 			sellerPanel[count].setLayout(new FlowLayout(FlowLayout.LEFT, 20, 3));
 			sellerNameLabels[count] = new JLabel();
 			sellerNameLabels[count].setFont(new Font(Setup.font, Font.BOLD, 20));
-			count++;
 		}
-		count = 0;
-		while (count < productNum) { // productLists 배열에 있는 상품들을 모두 출력하기 위한 반복문
+		for (count = 0; count < productCount; count++) { // productLists 배열에 있는 상품들을 모두 출력하기 위한 반복문
 			if (count == 0) {
-				sellerNameLabels[count].setText(String.format("판매자 : %s", productLists[count][0]));
+				sellerNameLabels[count].setText(String.format("판매자 : %s", shoppingBasketList.get(count).get(0)));
 				sellerPanel[count].add(sellerNameLabels[count]);
 				sellerPanel[count].setBounds(59, y_axis, 870, 35);
 				listPanel.add(sellerPanel[count]);
 				y_axis += 36;
 			}
 			else {
-				if (!productLists[count - 1][0].equals(productLists[count][0])) { // 이전의 판매자와 다른 판매자일 경우 판매자 패널 생성
+				if (!shoppingBasketList.get(count - 1).get(0).equals(shoppingBasketList.get(count).get(0))) { // 이전의 판매자와 다른 판매자일 경우 판매자 패널 생성
 					y_axis += 5;
-					sellerNameLabels[count].setText(String.format("판매자 : %s", productLists[count][0]));
+					sellerNameLabels[count].setText(String.format("판매자 : %s", shoppingBasketList.get(count).get(0)));
 					sellerPanel[count].add(sellerNameLabels[count]);
 					sellerPanel[count].setBounds(59, y_axis, 870, 35);
 					listPanel.add(sellerPanel[count]);
 					y_axis += 36;
 				}
 			}
-			productImage[count].setIcon(Setup.imageSetSize(new ImageIcon(ShoppingBasket.class.getResource(productLists[count][1])), 100, 100));
-			productName[count].setText(productLists[count][2]);
-			productPrice[count].setText(String.format("%s원", NumberFormat.getInstance().format(Integer.parseInt(productLists[count][3]))));
+			productImage[count].setIcon(Setup.imageSetSize(new ImageIcon(ShoppingBasketDB.productImageLoad(Integer.parseInt(shoppingBasketList.get(count).get(1)))), 100, 100));
+			productName[count].setText(shoppingBasketList.get(count).get(2));
+			productPrice[count].setText(String.format("%s원", NumberFormat.getInstance().format(Integer.parseInt(shoppingBasketList.get(count).get(3)))));
 			productPanel[count].add(new CheckBoxType1(), productPanelCheckBox);
 			productPanel[count].add(productImage[count], productPanelImage);
 			productPanel[count].add(productDetail[count], productPanelDetail);
@@ -145,7 +152,6 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 			productPanel[count].setBounds(59, y_axis, 870, 120);
 			listPanel.add(productPanel[count]);
 			y_axis += 121;
-			count++;
 		}
 
 		// ScrollPane을 middlePanel에 붙이고 listPanel의 크기 지정하는 작업
