@@ -11,8 +11,8 @@ public class SearchBar extends JPanel {
     private JComboBox combo;
     private JTextField TextField;
     private JLabel searchButtonLabel;
-    public SearchBar(int size, int limit, String[] items, String text, int fontSize) {
-        combo = new ComboBoxType1(items, 120, "전체");
+    public SearchBar(int size, int limit, String[] items, String text, String combodefault, int fontSize) {
+        combo = new ComboBoxType1(items, 120, combodefault);
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         Border lowered_bevelborder = BorderFactory.createLoweredBevelBorder();
         this.setBorder(lowered_bevelborder);

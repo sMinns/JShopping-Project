@@ -69,6 +69,7 @@ private OrderPage o;
 
             if(OrderPageDB.InsertOrder(str)) {
                 if(OrderPageDB.InsertOrderProduct(o.getStr(), orderNum)) {
+                    OrderPageDB.updateProductStock(o.getPrnum(), o.getCount());
                     OrderPageDB.clearShoppingBasket(Setup.CustomerNum, o.getPrnum());
                     Setup.changePanel(Frame.contentLayeredPanel, new FinishOrderPanel());
                 }
@@ -79,15 +80,17 @@ private OrderPage o;
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == o.getCalendarLabel() || e.getSource() == o.getDelivery_desired_date_textField()) {
-            o.setOpenCalendar(true);
-            Setup.changePanel(o.getCalender_panel(), new DesDateCalendar(o.getDelivery_desired_date_textField(), o.getCalender_panel()));
-            o.getCalender_panel().setVisible(true);
+            if(!o.isOpenCalendar()) {
+                o.setOpenCalendar(true);
+                Setup.changePanel(o.getCalender_panel(), new DesDateCalendar(o.getDelivery_desired_date_textField(), o.getCalender_panel()));
+                o.getCalender_panel().setVisible(true);
+            }
         }
     }
-    public void mousePressed(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) { }
     public void mouseReleased(MouseEvent e) { }
-    public void mouseEntered(MouseEvent e) { }
-    public void mouseExited(MouseEvent e) { }
+    public void mouseEntered(MouseEvent e) { o.setCursor(new Cursor(Cursor.HAND_CURSOR)); }
+    public void mouseExited(MouseEvent e) { o.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
 
 class FinishOrderPanel extends JPanel {
     Font font = new Font(Setup.font, Font.BOLD, 24);
@@ -97,7 +100,7 @@ class FinishOrderPanel extends JPanel {
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 270));
         this.add(panel1);
 
-        JLabel label1 = new JLabel("주문해주셔서");
+        JLabel label1 = new JLabel("주문해주셔서 ");
         label1.setFont(font);
         label1.setForeground(Setup.darkGray);
         panel1.add(label1);

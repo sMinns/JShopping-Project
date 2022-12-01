@@ -12,6 +12,7 @@ import system.Setup;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -41,10 +42,11 @@ public class OrderPage extends JPanel {
 
 	private JFormattedTextField[] cardNumberTextField = new JFormattedTextField[4], phoneNumTextField = new JFormattedTextField[3];
 	private JLabel calendarLabel;
-	private boolean openCalendar = false;
+	private static boolean openCalendar = false;
 	OrderPageEvent orderPageEvent;
 	JScrollPane oder_page_scroll_panel;
 	private List<Integer> prnum;
+	private int[] count;
 	public OrderPage(List<Integer> prnum) {
 		this.prnum = prnum;
 		str = OrderPageDB.orderProductList(Setup.CustomerNum, prnum);
@@ -53,6 +55,7 @@ public class OrderPage extends JPanel {
 		productInfoLabel = new JLabel[str.size()][6];
 		productNameTextArea = new JTextArea[str.size()];
 		orderPageEvent = new OrderPageEvent(this);
+		count = new int[str.size()];
 		Setup.changeInsets(10,10,10,6);
 		setSize(new Dimension(975, 670));
 		JPanel contentPane = new JPanel();
@@ -72,11 +75,12 @@ public class OrderPage extends JPanel {
 		oder_page_panel.setLayout(null);
 
 		calender_panel = new JPanel();
-		calender_panel.setBounds(215, 414+(str.size()*91), 270, 240);
-		calender_panel.setPreferredSize(new Dimension(190, 210));
+		calender_panel.setBounds(215, 414+(str.size()*91), 500, 500);
+		calender_panel.setOpaque(false);
 		oder_page_panel.add(calender_panel);
 		calender_panel.setVisible(false);
 		calender_panel.setLayout(null);
+		calender_panel.addMouseListener((MouseListener) orderPageEvent);
 
 		productInfo();
 		order_list_Panel.setPreferredSize(new Dimension(order_list_Panel.getWidth(),91*str.size()-1));
@@ -121,6 +125,7 @@ public class OrderPage extends JPanel {
 						productInfoLabel[i][j].setText("무료");
 				}else if(j == 4) {
 					productInfoLabel[i][j].setText(str.get(i).get(j-1));
+					count[i] = Integer.parseInt(str.get(i).get(j-1));
 				}else if(j == 5) {
 					String text = formatter.format(Integer.parseInt(str.get(i).get(j-1)));
 					productInfoLabel[i][j].setFont(font[2]);
@@ -244,7 +249,6 @@ public class OrderPage extends JPanel {
 
 		int a = 6;
 		for(int i = 0; i < str.size(); i++) {
-
 			productPanel[i] = new JPanel();
 			productPanel[i].setBounds(0, 10, 673, 90);
 			order_list_Panel.add(productPanel[i]);
@@ -519,8 +523,8 @@ public class OrderPage extends JPanel {
 		return openCalendar;
 	}
 
-	public void setOpenCalendar(boolean f) {
-		this.openCalendar = f;
+	public static void setOpenCalendar(boolean f) {
+		openCalendar = f;
 	}
 
 	public JRadioButton getCredit_card_RadioButton() {
@@ -609,5 +613,9 @@ public class OrderPage extends JPanel {
 
 	public List<Integer> getPrnum() {
 		return prnum;
+	}
+
+	public int[] getCount() {
+		return count;
 	}
 }

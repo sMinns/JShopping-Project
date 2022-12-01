@@ -89,7 +89,7 @@ public class SellerMenu extends JPanel implements MouseListener{
 		}else if(e.getSource() == sellerPanel[3]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new ShoppingBasket(), textStr[3]);
 		}else if(e.getSource() == sellerPanel[4]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement(), textStr[4]);
+			Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement(true), textStr[4]);
 		}else if (e.getSource() == sellerPanel[5]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new ProductManagement(""), textStr[5]);
 		}else if(e.getSource() == sellerPanel[7]) {

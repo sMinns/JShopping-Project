@@ -3,6 +3,7 @@ package gui.contents.sub;
 import custom.ButtonType1;
 import custom.ButtonType2;
 import custom.ButtonType3;
+import gui.contents.main.OrderPage;
 import system.Setup;
 
 import javax.swing.*;
@@ -187,8 +188,8 @@ public class DesDateCalendar extends JPanel implements ActionListener, MouseList
 			calenderPanel.add(pan[i]);
 		}
 		if(selectMonth == month + 1 && selectYear == year) {
-			days[selectDay-2].setForeground(Setup.white);
-			pan[selectDay-2].setBackground(Setup.magenta);
+			days[selectDay-1].setForeground(Setup.white);
+			pan[selectDay-1].setBackground(Setup.magenta);
 		}
 	}
 
@@ -259,10 +260,12 @@ public class DesDateCalendar extends JPanel implements ActionListener, MouseList
 		}
 		if (e.getSource() == ok) {
 			outPanel.setVisible(false);
+			OrderPage.setOpenCalendar(false);
 		}
 		if (e.getSource() == cancel) {
 			outPanel.setVisible(false);
 			tf.setText(defaultYear + ". " + defaultMonth + ". " + defaultDay);
+			OrderPage.setOpenCalendar(false);
 		}
 	}
 

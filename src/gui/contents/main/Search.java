@@ -37,7 +37,7 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 	public Search(String text, int orderType) {
 		this.text = text;
 		this.orderType = orderType;
-		search = new SearchBar(45, 50, itemsArray, "검색하고 싶은 상품을 입력하세요.", 15);
+		search = new SearchBar(45, 50, itemsArray, "검색하고 싶은 상품을 입력하세요.", "전체", 15);
 		productList = SearchDB.productList(text, orderType);
 		productCount = productList.size();
 		int count = 0;
