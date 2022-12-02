@@ -78,6 +78,7 @@ public class SellerMenu extends JPanel implements MouseListener{
 		if(Setup.lastClickPanel != null) { Setup.lastClickPanel.setBackground(Setup.darkGray); }
 		Setup.lastClickPanel = (JPanel) e.getSource();
 		Setup.lastClickPanel.setBackground(Setup.magenta);
+		OrderPage.setOpenCalendar(false);
 
 		Setup.changeInsets(10, 10, 10, 10);
 		if(e.getSource() == sellerPanel[0]) {
@@ -89,7 +90,7 @@ public class SellerMenu extends JPanel implements MouseListener{
 		}else if(e.getSource() == sellerPanel[3]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new ShoppingBasket(), textStr[3]);
 		}else if(e.getSource() == sellerPanel[4]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement(true), textStr[4]);
+			Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement(true, "", "주문번호"), textStr[4]);
 		}else if (e.getSource() == sellerPanel[5]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new ProductManagement(""), textStr[5]);
 		}else if(e.getSource() == sellerPanel[7]) {

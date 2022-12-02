@@ -1,25 +1,28 @@
 package gui.contents.sub;
 
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import database.HomeDB;
+import gui.common.Frame;
+import gui.contents.main.Search;
+import system.Setup;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
-import system.Setup;
-
 public class HomeProduct extends JPanel implements MouseListener {
 	private String text;
-	public HomeProduct(JTextArea textArea, String text, boolean top) {
+	private ImageIcon image;
+	private int prnum;
+	public HomeProduct(JTextArea textArea, int prnum, String text, boolean top) {
+		this.prnum = prnum;
 		this.text = text;
 		this.setOpaque(false);
-		
+		if(prnum == 0) {
+			image = new ImageIcon(HomeProduct.class.getResource("/images/nullimage.png"));
+		}else {
+			image = new ImageIcon(HomeDB.productImageLoad(prnum));
+		}
 		//Layout
 			GridBagLayout gbl_panel_11 = new GridBagLayout();
 			if(top) {
@@ -42,9 +45,9 @@ public class HomeProduct extends JPanel implements MouseListener {
 			gbc_panel_16.gridy = 1;
 			this.add(imagePanel, gbc_panel_16);
 			
-			JLabel imageLabel = new JLabel("");
+			JLabel imageLabel = new JLabel();
 			imagePanel.add(imageLabel);
-			imageLabel.setIcon(Setup.imageSetSize(new ImageIcon(HomeProduct.class.getResource("/images/nullimage.png")),150,150));
+			imageLabel.setIcon(Setup.imageSetSize(image, 150, 150));
 			imageLabel.addMouseListener(this);
 		
 		//Text
@@ -58,6 +61,7 @@ public class HomeProduct extends JPanel implements MouseListener {
 			this.add(textPanel, gbc_panel_21);
 			
 			textArea.setFont(new Font(Setup.font, Font.BOLD, 12));
+			textArea.setText(text);
 			textArea.setEditable(false);
 			textArea.setLineWrap(true);
 			textArea.setBounds(20, 5, 150, 56);
@@ -67,11 +71,11 @@ public class HomeProduct extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(text + "Click");
+		if(prnum != 0)
+			Setup.changePanel(Frame.contentLayeredPanel, new Search(text, 0), "상품검색");
 	}
-	
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) { if(prnum != 0) setCursor(new Cursor(Cursor.HAND_CURSOR)); }
+	public void mouseExited(MouseEvent e) { if(prnum != 0) setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
 }

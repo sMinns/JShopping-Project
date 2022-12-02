@@ -11,14 +11,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class OrderManagement extends JPanel implements ActionListener {
+public class OrderManagement extends JPanel implements ActionListener, MouseListener {
 	private DecimalFormat formatter = new DecimalFormat("###,###");
 	private List<List<String>> data;
 	//검색창의 콤보박스 문자열배열
-	private String[] SCombolist = {"주문번호","주문자이름","상품평"};
+	private String[] SCombolist = {"주문번호","주문자이름","상품명"};
 	//상품의 콤보박스 문자열배열
 	private String[] PCombolist = {"결제완료","상품준비중","배송중","배송완료"};
 	//주문번호 분류의 문자열 배열
@@ -35,10 +37,22 @@ public class OrderManagement extends JPanel implements ActionListener {
 	private JCheckBox checkBox;
 	private Font font1 = new Font(Setup.font, Font.BOLD, 17);
 	private Font font2 = new Font(Setup.font, Font.BOLD, 16);
+	private SearchBar searchBar;
+	private String text, combo;
 	int ysize=0;
 
-	public OrderManagement(boolean check) {
-		data = OrderManagementDB.productList(Setup.CustomerNum, "", check);
+
+	public OrderManagement(boolean check, String text, String combo) {
+		this.text = text; this.combo = combo;
+		String temp = null;
+		if(combo.equals("주문번호")) {
+			temp = "orpd_ornum";
+		}else if(combo.equals("주문자이름")) {
+			temp = "order_orderer";
+		}else if(combo.equals("상품명")) {
+			temp = "product_name";
+		}
+		data = OrderManagementDB.productList(Setup.CustomerNum, text, check, temp);
 		buttons = new JComboBox[data.size()];
 		orderinfoPanel = new JPanel[data.size()][9];
 		orderinfoLabel = new JLabel[data.size()][9];
@@ -179,7 +193,12 @@ public class OrderManagement extends JPanel implements ActionListener {
 
 		topPanel.add(searchBarPanel, searchBarBagCon);
 		//SearchBar//SearchBar(int size, int limit, String[] items, String text, int fontSize)
-		JPanel searchBar = new SearchBar(45, 70, SCombolist," ", "주문번호",15);
+		searchBar = new SearchBar(45, 70, SCombolist," ", combo,15);
+		searchBar.getTextField().addActionListener(this);
+		searchBar.getSearchButtonLabel().addMouseListener(this);
+		if(!text.equals("")) {
+			searchBar.getTextField().setText(text);
+		}
 		searchBarPanel.add(searchBar);
 
 		//Add Product
@@ -283,6 +302,17 @@ public class OrderManagement extends JPanel implements ActionListener {
 				orderscp.add(orderlistPanel[i]);
 				orderlistPanel[i].setBounds(20, ysize, 945, 90);
 				ysize+=91;
+				if(i == data.size() - 1) {
+					ysize++;
+					orderAddressPanel[k] = new JPanel(new CardLayout());
+					orderAddressPanel[k].setBackground(Setup.white);
+					orderAddressPanel[k].setBounds(23, ysize, 939, 30);
+					orderscp.add(orderAddressPanel[k]);
+					ysize += 30;
+					orderAddressLabel[k] = new JLabel(" 배송지: " + OrderManagementDB.returnOrderAddress(data.get(i).get(0)));
+					orderAddressLabel[k].setFont(new Font(Setup.font, Font.BOLD, 16));
+					orderAddressPanel[k].add(orderAddressLabel[k]);
+				}
 			}
 		}
 		orderscp.setPreferredSize(new Dimension(orderscp.getWidth(), ysize));
@@ -295,15 +325,33 @@ public class OrderManagement extends JPanel implements ActionListener {
 				OrderManagementDB.updateOrderProductStat((String) buttons[i].getSelectedItem(), Integer.parseInt(data.get(i).get(1)),
 						data.get(i).get(0));
 				if(!checkBox.isSelected() || ((String) buttons[i].getSelectedItem()).equals("배송완료")) {
-					Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement(checkBox.isSelected()));
+					Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement(checkBox.isSelected(), text, combo));
 				}
 			}
 		}
 
 		if(e.getSource() == checkBox) {
-			Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement(checkBox.isSelected()));
+			Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement(checkBox.isSelected(), text, combo));
+		}
+
+		if (e.getSource() == searchBar.getTextField()) {
+			Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement(checkBox.isSelected(),
+					searchBar.getTextField().getText(), (String) searchBar.getCombo().getSelectedItem()));
 		}
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getSource() == searchBar.getSearchButtonLabel()) {
+			Setup.changePanel(Frame.contentLayeredPanel, new OrderManagement(checkBox.isSelected(),
+					searchBar.getTextField().getText(), (String) searchBar.getCombo().getSelectedItem()));
+		}
+	}
+	public void mousePressed(MouseEvent e) { }
+	public void mouseReleased(MouseEvent e) { }
+	public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }
+	public void mouseExited(MouseEvent e) { setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
+
 }
 
 

@@ -8,30 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderManagementDB {
-    public static List<List<String>> productList(int cunum, String text, boolean checkBox) {
+    public static List<List<String>> productList(int cunum, String text, boolean checkBox, String combo) {
         Statement s = null;
         ResultSet r = null;
-        String sql = null;
+        String stat = null;
         List<List<String>> arr = new ArrayList<>();
         String[] col = { "orpd_ornum", "product_num", "product_name",
                 "order_orderer", "order_phonenum", "orpd_count", "product_price",
                 "order_desireddate", "orpd_stat" };
         try {
             s = Database.con.createStatement();
-            if(checkBox) {
-                sql = String.format("select * from `Order` join OrderProduct " +
+                String sql = String.format("select * from `Order` join OrderProduct " +
                         "on order_num = orpd_ornum " +
                         "join Product " +
                         "on orpd_prnum = product_num " +
                         "where product_cunum = %d", cunum);
-            }else {
-                sql = String.format("select * from `Order` join OrderProduct " +
-                        "on order_num = orpd_ornum " +
-                        "join Product " +
-                        "on orpd_prnum = product_num " +
-                        "where product_cunum = %d AND " +
-                        "not orpd_stat = '배송완료'", cunum);
-            }
+            if(!checkBox)
+                sql += " AND not orpd_stat = '배송완료'";
+            if(!text.equals("") || !text.equals(" "))
+                sql += " AND " + combo + " like '%" + text + "%'";
             r = s.executeQuery(sql);
             while (r.next()) {
                 List<String> arrRowItems = new ArrayList<>();

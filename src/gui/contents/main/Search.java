@@ -103,6 +103,10 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 		topPanel.add(middlePanel, middlePanelGBC);
 
 		searchBarPanel.add(search);
+		if(!text.equals("")) {
+			search.setTextField(text);
+			search.getTextField().setFont(new Font(Setup.font, Font.PLAIN, 12));
+		}
 		search.getTextField().addActionListener(this);
 		search.getSearchButtonLabel().addMouseListener(this);
 

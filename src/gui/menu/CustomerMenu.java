@@ -82,6 +82,7 @@ public class CustomerMenu extends JPanel implements MouseListener{
 		if(Setup.lastClickPanel != null) { Setup.lastClickPanel.setBackground(Setup.darkGray); }
 		Setup.lastClickPanel = (JPanel) e.getSource();
 		Setup.lastClickPanel.setBackground(Setup.magenta);
+		OrderPage.setOpenCalendar(false);
 
 		Setup.changeInsets(10, 10, 10, 10);
 		if(e.getSource() == customerPanel[0]) {

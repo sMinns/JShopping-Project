@@ -1,32 +1,27 @@
 package gui.contents.main;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
-
+import database.CategoryDB;
+import database.HomeDB;
 import gui.contents.sub.HomeProduct;
 import gui.contents.sub.HomeStatistics;
 import gui.contents.sub.Statistics;
 import system.Setup;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
 public class Home extends JPanel {
-	private JPanel thisPanel = Setup.lastClickPanel;
+	private JPanel thisPanel = Setup.lastClickPanel, ProductPanel, topProducts, bottomProducts;
 	private JLabel homeTitleText;
 	private JTextArea[] productNames = new JTextArea[6];
-	private final int loopDelay = 1000;
+	private final int loopDelay = 3000;
 	private int categorynum = 0;
 	public static JPanel statPanel;
-	private String[] categorys = {"패션의류", "뷰티", "출산/유아동", "식품", "주방용품", "생활용품", "홈인테리어",
-			"가전디지털", "스포츠/레저", "자동차용품", "도서/음반/DVD", "완구/취미", "문구/오피스", "반려동물용품", "헬스/건강식품" };
+	private List<Integer> homeProductList;
+	private List<String> productNametext;
+	private ImageIcon[] images = new ImageIcon[6];
+	private String[] categorys = CategoryDB.categoryList().toArray(new String[0]);
 	private int[][] nums = new int[15][5];
 	private int[] maxnum = new int[15];
 	public Home() {
@@ -35,10 +30,15 @@ public class Home extends JPanel {
 				nums[i][j] = (int) (Math.random() * 15);
 				if(nums[i][j] > maxnum[i]) { maxnum[i] = nums[i][j]; }
 			}
-			
 		}
+		homeProductList = HomeDB.homeProductList(categorynum+1);
+		productNametext = HomeDB.returnHomeProductName(homeProductList);
+		for (int i = 0; i < 6; i++) {
+			images[i] = new ImageIcon(HomeProduct.class.getResource("/images/nullimage.png"));
+		}
+
 		this.setOpaque(false);
-		this.setBackground(new Color(255, 255, 255));
+		this.setBackground(Setup.white);
 		
 		//homePanel Layout
 			GridBagLayout homePanelLayout = new GridBagLayout();
@@ -58,8 +58,7 @@ public class Home extends JPanel {
 			JPanel title = new TitleBar();
 			this.add(title, HomeBagCon);
 			title.setLayout(new CardLayout(0, 0));
-		
-			
+
 		//SideBarPanel ( 추천상품 )
 			HomeBagCon.gridwidth = 1;
 			HomeBagCon.gridheight = 2;
@@ -68,13 +67,15 @@ public class Home extends JPanel {
 			JPanel side = new SideBar();
 			this.add(side, HomeBagCon);
 			side.setLayout(new CardLayout(0, 0));
-		
-			
+
 		//ProductsPanel ( 상품목록패널 )
 			HomeBagCon.insets = new Insets(0, 0, 0, 5);
 			HomeBagCon.gridx = 1;
-			JPanel ProductPanel = new ProductHome();
-			this.add(ProductPanel, HomeBagCon);
+			JLayeredPane layer = new JLayeredPane();
+			layer.setLayout(new CardLayout());
+			this.add(layer, HomeBagCon);
+			ProductPanel = new ProductHome();
+			layer.add(ProductPanel);
 			ProductPanel.setLayout(new GridLayout(2, 1, 2, 2));
 		
 		//statPanel ( 통계 패널 )
@@ -87,14 +88,17 @@ public class Home extends JPanel {
 				public void run() {
 					try {
 						while(Setup.lastClickPanel == thisPanel) {
+							//delay
+							Thread.sleep(loopDelay);
 							categorynum++;
 							if(categorynum == 15) { categorynum = 0; }
 							//stat
 								Setup.changePanel(statPanel, new Statistics(nums[categorynum], maxnum[categorynum]));
 							//product
 								productRotaion();
-							//delay
-				        	 Thread.sleep(loopDelay);
+							ProductPanel = new ProductHome();
+							ProductPanel.setLayout(new GridLayout(2, 1, 2, 2));
+							Setup.changePanel(layer, ProductPanel);
 				         }
 				      }catch(Exception a) {
 				      }
@@ -102,17 +106,13 @@ public class Home extends JPanel {
 			}
 			Thread rotationThread = new RotationThread();
 			rotationThread.start();
-			
-			
-		
 	}
 	
 	private void productRotaion() {
-		String testName = categorys[categorynum] + categorys[categorynum] + categorys[categorynum] + categorys[categorynum];
+		homeProductList = HomeDB.homeProductList(categorynum+1);
+		productNametext = HomeDB.returnHomeProductName(homeProductList);
 		homeTitleText.setText(categorys[categorynum]);
-		for(int i = 0; i < 6; i++) {
-			productNames[i].setText(testName + (int)(Math.random() * 20));
-		}
+
 	}
 	
 	private class ProductHome extends JPanel {
@@ -120,25 +120,26 @@ public class Home extends JPanel {
 			this.setOpaque(false);
 			this.setBackground(Setup.white);
 			//TopProducts Panel ( 위쪽 3개 )
-				JPanel topProducts = new JPanel();
+				topProducts = new JPanel();
 				topProducts.setBackground(Setup.white);
 				this.add(topProducts);
 				topProducts.setLayout(new GridLayout(1, 0, 0, 0));
 			
 			//BottomProducts Panel ( 아래쪽 3개 )
-				JPanel bottomProducts = new JPanel();
+				bottomProducts = new JPanel();
 				bottomProducts.setBackground(Setup.white);
 				this.add(bottomProducts);
 				bottomProducts.setLayout(new GridLayout(1, 0, 0, 0));
-		
+
 			//상품 추가
-				String productName = categorys[categorynum] + categorys[categorynum] + categorys[categorynum] + categorys[categorynum];
-				for(int i = 0; i < 3; i++) {
-					productNames[i] = new JTextArea();
-					productNames[i+3] = new JTextArea();
-					topProducts.add(new HomeProduct(productNames[i], productName + (int)(Math.random() * 20), true));
-					bottomProducts.add(new HomeProduct(productNames[i+3], productName + (int)(Math.random() * 20), false));
+			for(int i = 0; i < 6; i++) {
+				productNames[i] = new JTextArea();
+				if(i < 3) {
+					topProducts.add(new HomeProduct(productNames[i], homeProductList.get(i), productNametext.get(i), true));
+				}else {
+					bottomProducts.add(new HomeProduct(productNames[i], homeProductList.get(i), productNametext.get(i), false));
 				}
+			}
 		}
 	}
 	
@@ -148,11 +149,10 @@ public class Home extends JPanel {
 			this.setLayout(new CardLayout(0, 0));
 		
 			homeTitleText = new JLabel(categorys[categorynum]);
-			homeTitleText.setBackground(new Color(255, 255, 255));
+			homeTitleText.setBackground(Setup.white);
 			homeTitleText.setFont(new Font(Setup.font, Font.BOLD, 36));
 			homeTitleText.setHorizontalAlignment(SwingConstants.CENTER);
 			this.add(homeTitleText);
-		
 		}
 	}
 	
