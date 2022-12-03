@@ -16,7 +16,7 @@ import java.awt.event.MouseListener;
 public class CustomerMenu extends JPanel implements MouseListener{
 	public static JPanel[] customerPanel = new JPanel[8];
 	private String[] imgStr = { "/images/home.png", "/images/search.png", "/images/orderlist.png", "/images/shoppingbasket.png", "/images/sellerapplication.png", "/images/profile.png", "/images/logout.png", "/images/exit.png" };
-	private String[] textStr = { "홈", "상품검색", "주문목록", "장바구니", "판매자 신청", " 님", "로그아웃", "테스트" };
+	private String[] textStr = { "홈", "상품검색", "주문목록", "장바구니", "판매자 신청", " 님", "로그아웃", "종료" };
 	private int j = 0;
 	public CustomerMenu(String name) {;
 		this.setBackground(new Color(24, 24, 24));
@@ -104,8 +104,7 @@ public class CustomerMenu extends JPanel implements MouseListener{
 			Setup.changePanel(Frame.menuLayeredPanel, new GuestMenu(), textStr[0]);
 			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
 		}else if(e.getSource() == customerPanel[7]) {
-			//Setup.exit();
-			Setup.changePanel(Frame.contentLayeredPanel, new TestPanel(), "테스트");
+			Setup.exit();
 		}
 	}
 

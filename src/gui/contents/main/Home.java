@@ -14,25 +14,18 @@ import java.util.List;
 public class Home extends JPanel {
 	private JPanel thisPanel = Setup.lastClickPanel, ProductPanel, topProducts, bottomProducts;
 	private JLabel homeTitleText;
-	private JTextArea[] productNames = new JTextArea[6];
 	private final int loopDelay = 3000;
 	private int categorynum = 0;
-	public static JPanel statPanel;
+	private JPanel statPanel;
 	private List<Integer> homeProductList;
-	private List<String> productNametext;
+	private List<Integer> homeStatisticsCount;
+	private HomeStatistics homestat;
 	private ImageIcon[] images = new ImageIcon[6];
 	private String[] categorys = CategoryDB.categoryList().toArray(new String[0]);
-	private int[][] nums = new int[15][5];
-	private int[] maxnum = new int[15];
+	private HomeProduct[] homeProducts = new HomeProduct[6];
 	public Home() {
-		for(int i = 0; i < 15; i++) {
-			for(int j = 0; j < 5; j++) {
-				nums[i][j] = (int) (Math.random() * 15);
-				if(nums[i][j] > maxnum[i]) { maxnum[i] = nums[i][j]; }
-			}
-		}
-		homeProductList = HomeDB.homeProductList(categorynum+1);
-		productNametext = HomeDB.returnHomeProductName(homeProductList);
+		homeStatisticsCount = HomeDB.homeStatistics(1);
+		homeProductList = HomeDB.homeProductList(1);
 		for (int i = 0; i < 6; i++) {
 			images[i] = new ImageIcon(HomeProduct.class.getResource("/images/nullimage.png"));
 		}
@@ -81,7 +74,8 @@ public class Home extends JPanel {
 		//statPanel ( 통계 패널 )
 			HomeBagCon.insets = new Insets(0, 0, 0, 5);
 			HomeBagCon.gridx = 2;
-			this.add(new HomeStatistics(nums[0], maxnum[0]), HomeBagCon);
+			homestat = new HomeStatistics(homeStatisticsCount);
+			this.add(homestat, HomeBagCon);
 			
 		// ChangePanel MultiThread
 			class RotationThread extends Thread {
@@ -92,14 +86,11 @@ public class Home extends JPanel {
 							Thread.sleep(loopDelay);
 							categorynum++;
 							if(categorynum == 15) { categorynum = 0; }
-							//stat
-								Setup.changePanel(statPanel, new Statistics(nums[categorynum], maxnum[categorynum]));
 							//product
 								productRotaion();
-							ProductPanel = new ProductHome();
-							ProductPanel.setLayout(new GridLayout(2, 1, 2, 2));
-							Setup.changePanel(layer, ProductPanel);
-				         }
+							//stat
+							Setup.changePanel(homestat.getStatPanel(), new Statistics(homeStatisticsCount));
+						}
 				      }catch(Exception a) {
 				      }
 				}
@@ -109,10 +100,21 @@ public class Home extends JPanel {
 	}
 	
 	private void productRotaion() {
+		String str;
+		homeStatisticsCount = HomeDB.homeStatistics(categorynum+1);
 		homeProductList = HomeDB.homeProductList(categorynum+1);
-		productNametext = HomeDB.returnHomeProductName(homeProductList);
 		homeTitleText.setText(categorys[categorynum]);
-
+		for (int i = 0; i < 6; i++) {
+			if(homeProductList.get(i) == 0) {
+				images[i] = new ImageIcon(HomeProduct.class.getResource("/images/nullimage.png"));
+				str = "상품이 부족합니다.";
+			}else {
+				images[i] = new ImageIcon(HomeDB.productImageLoad(homeProductList.get(i)));
+				str = HomeDB.returnHomeProductName(homeProductList.get(i));
+			}
+			homeProducts[i].setImageLabel(images[i]);
+			homeProducts[i].setTextArea(str);
+		}
 	}
 	
 	private class ProductHome extends JPanel {
@@ -133,11 +135,12 @@ public class Home extends JPanel {
 
 			//상품 추가
 			for(int i = 0; i < 6; i++) {
-				productNames[i] = new JTextArea();
 				if(i < 3) {
-					topProducts.add(new HomeProduct(productNames[i], homeProductList.get(i), productNametext.get(i), true));
+					homeProducts[i] = new HomeProduct(homeProductList.get(i), true);
+					topProducts.add(homeProducts[i]);
 				}else {
-					bottomProducts.add(new HomeProduct(productNames[i], homeProductList.get(i), productNametext.get(i), false));
+					homeProducts[i] = new HomeProduct(homeProductList.get(i), false);
+					bottomProducts.add(homeProducts[i]);
 				}
 			}
 		}

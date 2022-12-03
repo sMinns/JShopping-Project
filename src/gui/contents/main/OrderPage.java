@@ -63,6 +63,7 @@ public class OrderPage extends JPanel {
 		this.setLayout(null);
 
 		oder_page_panel = new JPanel();
+		oder_page_panel.setBackground(Setup.bgLightGray);
 		oder_page_panel.setBounds(0, 0, 189, 210);
 		oder_page_panel.setPreferredSize(new Dimension(500, 1080+(str.size()*91)));
 		oder_page_panel.setLayout(null);
@@ -100,6 +101,7 @@ public class OrderPage extends JPanel {
 
 		agreement = new ButtonType1(22, 2, 5, "주문하기", 18);
 		agreement.addActionListener(orderPageEvent);
+		agreement.addMouseListener(orderPageEvent);
 		agreement.setBounds(399, 971+(str.size()*91), 132, 44);
 		oder_page_panel.add(agreement);
 	}

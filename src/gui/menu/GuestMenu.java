@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
 public class GuestMenu extends JPanel implements MouseListener{
 	public static JPanel[] GuestPanel = new JPanel[5];
 	private String[] imgStr = { "/images/home.png", "/images/search.png", "/images/signup.png", "/images/login.png", "/images/exit.png" };
-	private String[] textStr = { "홈", "상품검색", "회원가입", "로그인", "테스트" };
+	private String[] textStr = { "홈", "상품검색", "회원가입", "로그인", "종료" };
 	private int j = 0;
 	public GuestMenu() {;
 		this.setBackground(new Color(24, 24, 24));
@@ -75,8 +75,7 @@ public class GuestMenu extends JPanel implements MouseListener{
 		}else if(e.getSource() == GuestPanel[3]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Login(), textStr[3]);
 		}else if(e.getSource() == GuestPanel[4]) {
-			//Setup.exit();
-			Setup.changePanel(Frame.contentLayeredPanel, new TestPanel(), "테스트");
+			Setup.exit();
 		}
 	}
 	public void mouseEntered(MouseEvent e) { setCursor(new Cursor(Cursor.HAND_CURSOR)); }

@@ -1,33 +1,26 @@
 package gui.contents.sub;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import system.Setup;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.util.Collections;
+import java.util.List;
+
 public class Statistics extends JPanel {
-	public Statistics(int[] nums, int maxnum) {
-			this.setLayout(new GridLayout());
-			this.setBackground(Setup.white);
-			for(int i = 0; i < 5; i++) {
-				this.add(new StatGraph(Setup.statColor[i], nums[i], maxnum));
+	public Statistics(List<Integer> nums) {
+		this.setLayout(new GridLayout());
+		this.setBackground(Setup.white);
+		for(int i = 0; i < 5; i++) {
+			this.add(new StatGraph(Setup.statColor[i], nums.get(i), Collections.max(nums)));
 		}
 	}
 	private class StatGraph extends JPanel {
 		private float height;
 		private Color color;
 		private StatGraph(Color color, int num, int maxnum) {
+			if(maxnum == 0 ) { maxnum++; }
 			height = ( 430 / maxnum ) * (maxnum - num);
 			this.color = color;
 			this.setBackground(Setup.white);
@@ -62,10 +55,6 @@ public class Statistics extends JPanel {
 			g2.fill(new Rectangle2D.Float(20, height, 20, 430-height));
 			g2.setPaint(Setup.bgLightGray);
 			g2.draw(new Rectangle2D.Float(20, height, 20, 430-height));
-			
-	}
-	
-  }
-	
-	
+		}
+  	}
 }

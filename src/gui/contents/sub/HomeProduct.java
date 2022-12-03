@@ -11,12 +11,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class HomeProduct extends JPanel implements MouseListener {
-	private String text;
 	private ImageIcon image;
+	private String name;
 	private int prnum;
-	public HomeProduct(JTextArea textArea, int prnum, String text, boolean top) {
+	private JTextArea textArea;
+	JLabel imageLabel;
+	public HomeProduct(int prnum, boolean top) {
 		this.prnum = prnum;
-		this.text = text;
+		name = HomeDB.returnHomeProductName(prnum);
 		this.setOpaque(false);
 		if(prnum == 0) {
 			image = new ImageIcon(HomeProduct.class.getResource("/images/nullimage.png"));
@@ -34,7 +36,7 @@ public class HomeProduct extends JPanel implements MouseListener {
 			gbl_panel_11.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 			gbl_panel_11.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 			this.setLayout(gbl_panel_11);
-		
+
 		//Image
 			JPanel imagePanel = new JPanel();
 			imagePanel.setOpaque(false);
@@ -44,12 +46,12 @@ public class HomeProduct extends JPanel implements MouseListener {
 			gbc_panel_16.gridx = 0;
 			gbc_panel_16.gridy = 1;
 			this.add(imagePanel, gbc_panel_16);
-			
-			JLabel imageLabel = new JLabel();
+
+			imageLabel = new JLabel();
 			imagePanel.add(imageLabel);
 			imageLabel.setIcon(Setup.imageSetSize(image, 150, 150));
 			imageLabel.addMouseListener(this);
-		
+
 		//Text
 			JPanel textPanel = new JPanel();
 			textPanel.setLayout(null);
@@ -59,9 +61,10 @@ public class HomeProduct extends JPanel implements MouseListener {
 			gbc_panel_21.gridx = 0;
 			gbc_panel_21.gridy = 2;
 			this.add(textPanel, gbc_panel_21);
-			
+
+			textArea = new JTextArea();
 			textArea.setFont(new Font(Setup.font, Font.BOLD, 12));
-			textArea.setText(text);
+			textArea.setText(name);
 			textArea.setEditable(false);
 			textArea.setLineWrap(true);
 			textArea.setBounds(20, 5, 150, 56);
@@ -72,10 +75,18 @@ public class HomeProduct extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(prnum != 0)
-			Setup.changePanel(Frame.contentLayeredPanel, new Search(text, 0), "상품검색");
+			Setup.changePanel(Frame.contentLayeredPanel, new Search(name, 0), "상품검색");
 	}
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) { if(prnum != 0) setCursor(new Cursor(Cursor.HAND_CURSOR)); }
 	public void mouseExited(MouseEvent e) { if(prnum != 0) setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
+
+	public void setImageLabel(ImageIcon image) {
+		imageLabel.setIcon(Setup.imageSetSize(image, 150, 150));
+	}
+
+	public void setTextArea(String str) {
+		textArea.setText(str);
+	}
 }

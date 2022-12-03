@@ -1,23 +1,16 @@
 package gui.contents.sub;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import gui.contents.main.Home;
 import system.Setup;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 public class HomeStatistics extends JPanel {
 	private JPanel[] agePanel = new JPanel[5];
 	private JLabel[] ageLabel = new JLabel[5];
-	public HomeStatistics(int[] nums, int maxnum) {
+	private JPanel statPanel;
+	public HomeStatistics(List<Integer> nums) {
 		this.setBackground(Setup.bgLightGray);
 		
 		GridBagLayout gbl_this = new GridBagLayout();
@@ -50,13 +43,13 @@ public class HomeStatistics extends JPanel {
 		
 		//Blank Panel
 			JPanel BlankPanel1 = new JPanel();
-			BlankPanel1.setBackground(new Color(255, 255, 255));
+			BlankPanel1.setBackground(Setup.white);
 			homeStatCon.gridwidth = 1;
 			homeStatCon.gridy = 1;
 			this.add(BlankPanel1, homeStatCon);
 			
 			JPanel blankPanel2 = new JPanel();
-			blankPanel2.setBackground(new Color(255, 255, 255));
+			blankPanel2.setBackground(Setup.white);
 			homeStatCon.gridx = 6;
 			this.add(blankPanel2, homeStatCon);
 		
@@ -78,12 +71,12 @@ public class HomeStatistics extends JPanel {
 		//Stat
 			homeStatCon.gridx = 1;
 			homeStatCon.gridwidth = 5;
-			Home.statPanel = new Statistics(nums, maxnum);
-			this.add(Home.statPanel, homeStatCon);
+			statPanel = new Statistics(nums);
+			this.add(statPanel, homeStatCon);
 			
 		//연령 표시 age Panel
 			JPanel ageblankPanel1 = new JPanel();
-			ageblankPanel1.setBackground(new Color(255, 255, 255));
+			ageblankPanel1.setBackground(Setup.white);
 			homeStatCon.gridwidth = 1;
 			homeStatCon.insets = new Insets(0, 0, 0, 0);
 			homeStatCon.gridx = 0;
@@ -107,5 +100,8 @@ public class HomeStatistics extends JPanel {
 			homeStatCon.gridx = 6;
 			this.add(ageblankPanel2, homeStatCon);
 	}
-	
+
+	public JPanel getStatPanel() {
+		return statPanel;
+	}
 }

@@ -59,6 +59,8 @@ public class Setup {
 	public static void changePanel(JPanel layer, JPanel panel) {
 		layer.removeAll();
 		layer.add(panel);
+		layer.repaint();
+		layer.revalidate();
 	}
 	
 	public static void lastClickReset() {

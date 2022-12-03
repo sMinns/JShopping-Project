@@ -89,9 +89,16 @@ private OrderPage o;
     }
     public void mousePressed(MouseEvent e) { }
     public void mouseReleased(MouseEvent e) { }
-    public void mouseEntered(MouseEvent e) { o.setCursor(new Cursor(Cursor.HAND_CURSOR)); }
-    public void mouseExited(MouseEvent e) { o.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
-
+    public void mouseEntered(MouseEvent e) {
+        if (e.getSource() != o.getCalender_panel()) {
+            o.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
+    }
+    public void mouseExited(MouseEvent e) {
+        if (e.getSource() != o.getCalender_panel()) {
+            o.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        }
+    }
 class FinishOrderPanel extends JPanel {
     Font font = new Font(Setup.font, Font.BOLD, 24);
     public FinishOrderPanel() {

@@ -44,30 +44,18 @@ public class HomeDB {
         return arr;
     }
 
-    public static List<String> returnHomeProductName(List<Integer> prnums) {
+    public static String returnHomeProductName(int prnum) {
         Statement s = null;
         ResultSet r = null;
-        List<String> arr = new ArrayList<>();
         String list = "";
         try {
             s = Database.con.createStatement();
-            for (int i = 0; i < prnums.size(); i++) {
-                list += prnums.get(i);
-                if (i != prnums.size() - 1) {
-                    list += ", ";
-                }
-            }
             String sql = String.format("SELECT product_name from Product " +
-                            "where product_num in (%s)", list);
+                            "where product_num = %d", prnum);
             r = s.executeQuery(sql);
-            for (int i = 0; i < 6; i++) {
-                if (r.next()) {
-                    arr.add(r.getString("product_name"));
-                } else {
-                    arr.add("상품이 부족합니다.");
-                }
+            if (r.next()) {
+                return r.getString(1);
             }
-            return arr;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -79,7 +67,7 @@ public class HomeDB {
                 e.printStackTrace();
             }
         }
-        return arr;
+        return null;
     }
 
     public static byte[] productImageLoad(int prnum) {
@@ -107,5 +95,46 @@ public class HomeDB {
             }
         }
         return null;
+    }
+
+    public static List<Integer> homeStatistics(int canum) {
+        Statement s = null;
+        ResultSet r = null;
+        List<Integer> arr = new ArrayList<>();
+        try {
+            s = Database.con.createStatement();
+            String sql = String.format("SELECT FLOOR(CEILING((TO_DAYS(NOW()) - (TO_DAYS(customer_birth))) / 365) / 10) * 10 AS age, " +
+                    "COUNT(orpd_count) FROM Product LEFT OUTER JOIN OrderProduct " +
+                    "ON orpd_prnum = product_num " +
+                    "JOIN `Order` ON orpd_ornum = order_num " +
+                    "JOIN Customer ON order_cunum = customer_num " +
+                    "where product_canum = %d " +
+                    "GROUP BY age " +
+                    "order by age", canum);
+            r = s.executeQuery(sql);
+            for (int i = 1; i < 6; i++) {
+                if (r.next()) {
+                    while(r.getInt("age") != i*10) {
+                        arr.add(0);
+                        i++;
+                    }
+                    arr.add(r.getInt("COUNT(orpd_count)"));
+                } else {
+                    arr.add(0);
+                }
+            }
+            return arr;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (r != null)
+                    r.close();
+                s.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return arr;
     }
 }
