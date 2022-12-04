@@ -68,7 +68,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		shoppingBasketList = SubShoppingBasketDB.shoppingBasketList(customerNum);
 		String splitedProductName;
 
-		GridBagLayout gridBagLayout = createGBL(new int[] {290}, new int[] {40, 30, 550, 50});
+		GridBagLayout gridBagLayout = createGBL(new int[] {290}, new int[] {40, 30, 545, 50});
 		GridBagLayout pricePanelLayout = createGBL(new int[] {42, 103}, new int[] {50});
 		GridBagLayout productLayout = createGBL(new int[] {25, 75, 190}, new int[] {81});
 		GridBagLayout productDetailLayout = createGBL(new int[] {190}, new int[] {20, 20, 40});

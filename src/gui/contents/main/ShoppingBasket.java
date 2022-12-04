@@ -1,20 +1,26 @@
 package gui.contents.main;
 
+import gui.common.Frame;
+import gui.menu.CustomerMenu;
+import gui.menu.SellerMenu;
 import custom.ButtonType1;
 import custom.CheckBoxType1;
 import custom.CountBox;
+import database.LoginDB;
 import database.ShoppingBasketDB;
 import system.Setup;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.text.NumberFormat;
 
-public class ShoppingBasket extends JPanel implements ActionListener {
+public class ShoppingBasket extends JPanel implements ActionListener, MouseListener {
 	private List<List<String>> shoppingBasketList;
+	private int productCount;
 	private JPanel[] productPanel;
 	private JPanel[] sellerPanel;
 	private JLabel[] sellerNameLabels;
@@ -22,12 +28,22 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 	private JPanel[] productDetail;
 	private JLabel[] productName;
 	private JLabel[] productPrice;
+	private JLabel orderPrice;
+	private CheckBoxType1[] productCheckBox;
+	private CheckBoxType1 selectAll;
+	private ButtonType1 selectDelete;
+	private CountBox[] productCountBox;
+	private ButtonType1[] productOrderButton;
+	private ButtonType1 order;
+	private ButtonType1 shopping;
+	private int priceSum;
 
 	public ShoppingBasket() {
 		shoppingBasketList = ShoppingBasketDB.shoppingBasketList(Setup.CustomerNum);
 		int count = 0;
 		int y_axis = 0;
-		int productCount = shoppingBasketList.size();
+		priceSum = 0;
+		productCount = shoppingBasketList.size();
 
 		productPanel = new JPanel[productCount];
 		sellerPanel = new JPanel[productCount];
@@ -36,6 +52,9 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		productDetail = new JPanel[productCount];
 		productName = new JLabel[productCount];
 		productPrice = new JLabel[productCount];
+		productCheckBox = new CheckBoxType1[productCount];
+		productCountBox = new CountBox[productCount];
+		productOrderButton = new ButtonType1[productCount];
 
 		//각 패널에 사용할 레이아웃 설정
 		GridBagLayout mainPanelLayout = createGBL(new int[]{986, 0}, new int[] {55, 560, 70});
@@ -69,10 +88,13 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		topPanel.setBackground(Setup.white);
 		add(topPanel, gbc_topPanel);
 		
-		CheckBoxType1 selectAll = new CheckBoxType1("전체선택", new Font(Setup.font, Font.BOLD, 16));
+		selectAll = new CheckBoxType1("전체선택", new Font(Setup.font, Font.BOLD, 16));
+		selectAll.addActionListener(this);
+		selectAll.setSelected(true);
 		topPanel.add(selectAll, topPanelSelectAll);
 		
-		ButtonType1 selectDelete = new ButtonType1(20, 6, 5, "X 선택삭제", 16);
+		selectDelete = new ButtonType1(20, 6, 5, "X 선택삭제", 16);
+		selectDelete.addActionListener(this);
 		topPanel.add(selectDelete, topPanelSelectDelete);
 		
 		JPanel bottomPanel = new JPanel();
@@ -80,8 +102,7 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		bottomPanel.setBackground(Setup.white);
 		add(bottomPanel, gbc_bottomPanel);
 
-		JLabel orderPrice = new JLabel();
-		orderPrice.setText(String.format("총 주문금액 : %s원", NumberFormat.getInstance().format(123456)));
+		orderPrice = new JLabel();
 		orderPrice.setFont(new Font(Setup.font, Font.BOLD, 22));
 		bottomPanel.add(orderPrice, bottomPanelPrice);
 
@@ -90,8 +111,10 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		bottomButtonPanel.setBackground(Setup.white);
 		bottomPanel.add(bottomButtonPanel, bottomButtonBagcon);
 
-		ButtonType1 order = new ButtonType1(25, 8, 5, "주문하기", 16);
-		ButtonType1 shopping = new ButtonType1(30, 8, 5, "계속 쇼핑하기", 16);
+		order = new ButtonType1(25, 8, 5, "주문하기", 16);
+		order.addActionListener(this);
+		shopping = new ButtonType1(30, 8, 5, "계속 쇼핑하기", 16);
+		shopping.addActionListener(this);
 		bottomButtonPanel.add(order);
 		bottomButtonPanel.add(shopping);
 
@@ -115,11 +138,19 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 			productDetail[count] = new JPanel();
 			productDetail[count].setLayout(productDetailLayout);
 			productDetail[count].setBackground(Setup.white);
+			productCheckBox[count] = new CheckBoxType1();
+			productCheckBox[count].addActionListener(this);
+			productCheckBox[count].setSelected(true);
+			productCountBox[count] = new CountBox(Integer.parseInt(shoppingBasketList.get(count).get(4)));
+			productCountBox[count].getMinusButton().addMouseListener(this);
+			productCountBox[count].getPlusButton().addMouseListener(this);
 			sellerPanel[count] = new JPanel();
 			sellerPanel[count].setBackground(Setup.white);
 			sellerPanel[count].setLayout(new FlowLayout(FlowLayout.LEFT, 20, 3));
 			sellerNameLabels[count] = new JLabel();
 			sellerNameLabels[count].setFont(new Font(Setup.font, Font.BOLD, 20));
+			productOrderButton[count] = new ButtonType1(20, 5, 5, "주문하기", 15);
+			productOrderButton[count].addActionListener(this);
 		}
 		for (count = 0; count < productCount; count++) { // productLists 배열에 있는 상품들을 모두 출력하기 위한 반복문
 			if (count == 0) {
@@ -141,18 +172,20 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 			}
 			productImage[count].setIcon(Setup.imageSetSize(new ImageIcon(ShoppingBasketDB.productImageLoad(Integer.parseInt(shoppingBasketList.get(count).get(1)))), 100, 100));
 			productName[count].setText(shoppingBasketList.get(count).get(2));
+			priceSum += Integer.parseInt(shoppingBasketList.get(count).get(3)) * Integer.parseInt(shoppingBasketList.get(count).get(4));
 			productPrice[count].setText(String.format("%s원", NumberFormat.getInstance().format(Integer.parseInt(shoppingBasketList.get(count).get(3)))));
-			productPanel[count].add(new CheckBoxType1(), productPanelCheckBox);
+			productPanel[count].add(productCheckBox[count], productPanelCheckBox);
 			productPanel[count].add(productImage[count], productPanelImage);
 			productPanel[count].add(productDetail[count], productPanelDetail);
 			productDetail[count].add(productName[count], productPanelName);
 			productDetail[count].add(productPrice[count], productPanelPrice);
-			productDetail[count].add(new CountBox(0), productPanelCountBox);
-			productPanel[count].add(new ButtonType1(20, 5, 5, "주문하기", 15), productPanelButton);
+			productDetail[count].add(productCountBox[count], productPanelCountBox);
+			productPanel[count].add(productOrderButton[count], productPanelButton);
 			productPanel[count].setBounds(59, y_axis, 870, 120);
 			listPanel.add(productPanel[count]);
 			y_axis += 121;
 		}
+		orderPrice.setText(String.format("총 주문금액 : %s원", NumberFormat.getInstance().format(priceSum)));
 
 		// ScrollPane을 middlePanel에 붙이고 listPanel의 크기 지정하는 작업
 		JScrollPane scrollPane = new JScrollPane();
@@ -169,6 +202,78 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		//Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(), "주문 / 결제");
 		//Setup.lastClickReset();
+		for (int i = 0; i < productCount; i++) {
+
+			if (e.getSource() == productCheckBox[i]) {
+				boolean isAllSelected = true;
+				for (int j = 0; j < productCount; j++)
+					if (!productCheckBox[j].isSelected())
+						isAllSelected = false;
+
+				if (!productCheckBox[i].isSelected()) {
+					selectAll.setSelected(false);
+					priceSum -= Integer.parseInt(shoppingBasketList.get(i).get(3)) * Integer.parseInt(shoppingBasketList.get(i).get(4));
+				}
+				else {
+					priceSum += Integer.parseInt(shoppingBasketList.get(i).get(3)) * Integer.parseInt(shoppingBasketList.get(i).get(4));
+				}
+				if (isAllSelected)
+					selectAll.setSelected(true);
+				orderPrice.setText(String.format("총 주문금액 : %s원", NumberFormat.getInstance().format(priceSum)));
+			}
+			
+			if (e.getSource() == selectDelete) {
+				if (productCheckBox[i].isSelected())
+					ShoppingBasketDB.deleteShoppingBasketList(Setup.CustomerNum, Integer.parseInt(shoppingBasketList.get(i).get(1)));
+				Setup.changePanel(Frame.contentLayeredPanel, new ShoppingBasket());
+			}
+		}
+
+		for (int count = 0; count < productCount; count++) {
+			int prnum;
+			if (e.getSource() == productOrderButton[count]) {
+				prnum = Integer.parseInt(shoppingBasketList.get(count).get(1));
+				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(Arrays.asList(prnum)));
+			}
+		}
+
+		if (e.getSource() == selectAll) {
+			if (selectAll.isSelected())
+				for (int count = 0; count < productCount; count++) {
+					if (!productCheckBox[count].isSelected()) {
+						priceSum += Integer.parseInt(shoppingBasketList.get(count).get(3)) * Integer.parseInt(shoppingBasketList.get(count).get(4));
+						productCheckBox[count].setSelected(true);
+					}
+				}
+			else {
+				for (int count = 0; count < productCount; count++) {
+					if (productCheckBox[count].isSelected()) {
+						priceSum -= Integer.parseInt(shoppingBasketList.get(count).get(3)) * Integer.parseInt(shoppingBasketList.get(count).get(4));
+						productCheckBox[count].setSelected(false);
+					}
+				}
+			}
+			orderPrice.setText(String.format("총 주문금액 : %s원", NumberFormat.getInstance().format(priceSum)));
+		}
+		if (e.getSource() == shopping) {
+			if (LoginDB.sellerCheck(Setup.CustomerNum)) {
+				//SellerMenu.sellerPanel[1].setBackground(Setup.magenta);
+				SellerMenu.sellerPanel[3].setBackground(Setup.darkGray);
+			}
+			else 
+			Setup.changePanel(Frame.contentLayeredPanel, new Search("", 0, "전체"), "상품검색");
+		}
+		if(e.getSource() == order) {
+			if(!orderPrice.getText().equals("총 주문금액 : 0원")) {
+				List<Integer> prnum = new ArrayList<>();
+				for (int count = 0; count < productCount; count++) {
+					if(productCheckBox[count].isSelected()) {
+						prnum.add(Integer.valueOf(shoppingBasketList.get(count).get(1)));
+					}
+				}
+				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(prnum));
+			}
+		}
 	}
 	// GridBagConstraints를 만들기 위한 함수
 	private GridBagConstraints createGBC(int gridx, int gridy, int[] insets, int fill, int anchor) {
@@ -187,4 +292,43 @@ public class ShoppingBasket extends JPanel implements ActionListener {
 		gbl.rowHeights = rowHeights;
 		return gbl;
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int prnum, prcount;
+		for (int i = 0; i < productCount; i++) {
+			if (e.getSource() == productCountBox[i].getPlusButton()) {
+				prnum = Integer.parseInt(shoppingBasketList.get(i).get(1));
+				prcount = Integer.parseInt(shoppingBasketList.get(i).get(4));
+				if(prcount == 10) { return; }
+				ShoppingBasketDB.updateCount(prcount + 1, prnum);
+				shoppingBasketList.get(i).set(4, String.valueOf(prcount+1));
+				productCountBox[i].setCountLabel(prcount + 1 + "");
+				priceSum += Integer.parseInt(shoppingBasketList.get(i).get(3));
+				orderPrice.setText(String.format("총 주문금액 : %s원", NumberFormat.getInstance().format(priceSum)));
+			}
+			else if (e.getSource() == productCountBox[i].getMinusButton()) {
+				prnum = Integer.parseInt(shoppingBasketList.get(i).get(1));
+				prcount = Integer.parseInt(shoppingBasketList.get(i).get(4));
+				if(prcount == 1) { return; }
+				ShoppingBasketDB.updateCount(prcount - 1, prnum);
+				shoppingBasketList.get(i).set(4, String.valueOf(prcount-1));
+				productCountBox[i].setCountLabel(prcount - 1 + "");
+				priceSum -= Integer.parseInt(shoppingBasketList.get(i).get(3));
+				orderPrice.setText(String.format("총 주문금액 : %s원", NumberFormat.getInstance().format(priceSum)));
+			}
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }

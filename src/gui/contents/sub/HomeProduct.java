@@ -75,7 +75,7 @@ public class HomeProduct extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(prnum != 0)
-			Setup.changePanel(Frame.contentLayeredPanel, new Search(name, 0), "상품검색");
+			Setup.changePanel(Frame.contentLayeredPanel, new Search(name, 0, "전체"), "상품검색");
 	}
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
