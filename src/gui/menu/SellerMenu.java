@@ -84,7 +84,7 @@ public class SellerMenu extends JPanel implements MouseListener{
 		if(e.getSource() == sellerPanel[0]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new Home(), "(홈) 카테고리별 추천상품 및 통계");
 		}else if(e.getSource() == sellerPanel[1]) {
-			Setup.changePanel(Frame.contentLayeredPanel, new Search("", 0), textStr[1]);
+			Setup.changePanel(Frame.contentLayeredPanel, new Search("", 0, "전체"), textStr[1]);
 		}else if(e.getSource() == sellerPanel[2]) {
 			Setup.changePanel(Frame.contentLayeredPanel, new OrderList(), textStr[2]);
 		}else if(e.getSource() == sellerPanel[3]) {

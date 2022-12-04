@@ -31,14 +31,17 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 	private JLabel[] sortOptions;
 	private JLayeredPane layeredPanel;
 	private String text = "";
+	private String categoryName = "전체";
 	private SearchBar search;
 	JPanel selectPanel = null;
 
-	public Search(String text, int orderType) {
+	public Search(String text, int orderType, String categoryName) {
+		Setup.changeInsets(0, 0, 0, 5);
 		this.text = text;
 		this.orderType = orderType;
-		search = new SearchBar(45, 50, itemsArray, "검색하고 싶은 상품을 입력하세요.", "전체", 15);
-		productList = SearchDB.productList(text, orderType);
+		this.categoryName = categoryName;
+		search = new SearchBar(45, 50, itemsArray, "검색하고 싶은 상품을 입력하세요.", categoryName, 15);
+		productList = SearchDB.productList(text, orderType, categoryName);
 		productCount = productList.size();
 		int count = 0;
 		int y_axis = 0;
@@ -103,17 +106,17 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 		topPanel.add(middlePanel, middlePanelGBC);
 
 		searchBarPanel.add(search);
-		if(!text.equals("")) {
+		if (!text.equals("")) {
 			search.setTextField(text);
 			search.getTextField().setFont(new Font(Setup.font, Font.PLAIN, 12));
+			resultLabel.setText(String.format("'%s'에 대한 검색결과", text));
 		}
 		search.getTextField().addActionListener(this);
 		search.getSearchButtonLabel().addMouseListener(this);
+		search.getCombo().addActionListener(this);
 
 		resultPanel.add(resultLabelPanel, resultLabelPanelGBC);
 		resultLabelPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		if (text != "")
-			resultLabel.setText(String.format("'%s'에 대한 검색결과", text));
 		resultLabel.setFont(new Font(Setup.font, Font.BOLD, 15));
 		resultLabelPanel.add(resultLabel);
 		resultPanel.add(sortOptionsPanel, sortOptionsPanelGBC);
@@ -124,6 +127,7 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 			sortOptions[i].addMouseListener(this);
 			sortOptionsPanel.add(sortOptions[i]);
 		}
+		sortOptions[orderType].setForeground(Setup.magenta);
 
 		middlePanel.setLayout(new BorderLayout());
 		middlePanel.add(productPanelList, BorderLayout.CENTER);
@@ -212,23 +216,26 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 				text = "";
 			else
 				text = search.getTextField().getText();
-			Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType));
+			categoryName = (String) search.getCombo().getSelectedItem();
+			Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType, categoryName));
         }
-		for (orderType = 0; orderType < 4; orderType++) {
-			if (e.getSource() == sortOptions[orderType]) {
-				System.out.println(SearchDB.productList(text, orderType));
-				System.out.println(orderType);
-				Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType));
+		for (int i = 0; i < 4; i++) {
+			if (e.getSource() == sortOptions[i]) {
+				orderType = i;
+				Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType, categoryName));
 			}
-
 		}				
     }
 	@Override
 	public void mouseReleased(MouseEvent e) {}
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
+	}
 	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == search.getTextField()) {
@@ -236,8 +243,13 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 				text = "";
 			else
 				text = search.getTextField().getText();
-            Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType));
+			categoryName = (String) search.getCombo().getSelectedItem();
+            Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType, categoryName));
         }
+		if (e.getSource() == search.getCombo()) {
+			categoryName = (String) search.getCombo().getSelectedItem();
+            Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType, categoryName));
+		}
 	}
 	// GridBagConstraints를 만들기 위한 함수
 	private GridBagConstraints createGBC(int gridx, int gridy, int[] insets, int fill, int anchor) {

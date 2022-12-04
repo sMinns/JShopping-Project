@@ -6,10 +6,11 @@ import java.util.List;
 
 public class SearchDB {
     //정렬이 포함된 검색
-    public static List<List<String>> productList(String text, int orderType) {
+    public static List<List<String>> productList(String text, int orderType, String categoryName) {
         Statement s = null;
         ResultSet r = null;
         String order = null;
+        String category = "";
 
         List<List<String>> arr = new ArrayList<>();
         String[] col = { "product_num", "product_name", "category_name",
@@ -25,11 +26,13 @@ public class SearchDB {
             order = "product_price asc";
         else if (orderType == 3)
             order = "product_date desc";
+        if (!categoryName.equals("전체"))
+            category = String.format(" and category_name = '%s'", categoryName);
             String sql = String.format("select product_num, product_name, category_name, "+
                                         "product_date, product_price from Product " + 
                                         "left outer join Review on (product_num = Review.reivew_prnum) left outer join Category on (product_canum = category_num) " +
-                                        "where product_name like '%%%s%%' and product_stat = '판매중'" + 
-                                        "group by product_num order by %s", text, order);
+                                        "where product_name like '%%%s%%' and product_stat = '판매중' %s" + 
+                                        "group by product_num order by %s", text, category, order);
             r = s.executeQuery(sql);
             while (r.next()) {
                 List<String> arrRowItems = new ArrayList<>();
