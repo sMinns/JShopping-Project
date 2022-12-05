@@ -113,7 +113,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		GridBagConstraints productPanelImage = createGBC(1, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints productPanelDetail = createGBC(2, 0, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints productPanelName = createGBC(0, 0, new int[]{10, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
-		GridBagConstraints productPanelPrice = createGBC(0, 1, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);	
+		GridBagConstraints productPanelPrice = createGBC(0, 1, new int[]{0, 0, 0, 0}, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 		GridBagConstraints productPanelCountBox = createGBC(0, 2, new int[]{0, 0, 10, 0}, GridBagConstraints.NONE, GridBagConstraints.WEST);
 		GridBagConstraints productPanelDelButton = createGBC(0, 2, new int[]{0, 0, 5, 10}, GridBagConstraints.NONE, GridBagConstraints.EAST);
 		// productPanel 내부의 레이블과 패널에 대한 GBC 설정
@@ -132,10 +132,10 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		selectCheckBox.addActionListener(this);
 		selectCheckBox.setSelected(true);
 		checkPanel.add(selectCheckBox);
-	
+
 		contentPanel.setLayout(new BorderLayout());
 		contentPanel.add(scrollPane);
-		
+
 		productListPanel.setLayout(null);
 		add(contentPanel, productListPanelGBC);
 
@@ -275,6 +275,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 						prnum.add(Integer.valueOf(shoppingBasketList.get(i).get(0)));
 					}
 				}
+				Setup.lastClickReset();
 				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(prnum));
 			}
 		}

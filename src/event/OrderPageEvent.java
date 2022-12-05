@@ -1,12 +1,14 @@
 package event;
 
 import custom.ButtonType1;
+import database.LoginDB;
 import database.OrderPageDB;
 import gui.common.Frame;
 import gui.contents.main.OrderList;
 import gui.contents.main.OrderPage;
 import gui.contents.sub.DesDateCalendar;
-import gui.menu.GuestMenu;
+import gui.menu.CustomerMenu;
+import gui.menu.SellerMenu;
 import system.Setup;
 
 import javax.swing.*;
@@ -125,10 +127,13 @@ class FinishOrderPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(LoginDB.sellerCheck(Setup.CustomerNum)) {
+                    Setup.selectMenuPanel(SellerMenu.sellerPanel[2]);
+                }else {
+                    Setup.selectMenuPanel(CustomerMenu.customerPanel[2]);
+                }
                 Setup.changePanel(Frame.contentLayeredPanel, new OrderList(), "주문 목록");
-                Setup.lastClickReset();
-                Setup.selectMenuPanel(GuestMenu.GuestPanel[3]);
-            }
+           }
         });
     }
 }
