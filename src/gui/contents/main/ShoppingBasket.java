@@ -200,8 +200,6 @@ public class ShoppingBasket extends JPanel implements ActionListener, MouseListe
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(), "주문 / 결제");
-		//Setup.lastClickReset();
 		for (int i = 0; i < productCount; i++) {
 
 			if (e.getSource() == productCheckBox[i]) {
@@ -233,7 +231,7 @@ public class ShoppingBasket extends JPanel implements ActionListener, MouseListe
 			int prnum;
 			if (e.getSource() == productOrderButton[count]) {
 				prnum = Integer.parseInt(shoppingBasketList.get(count).get(1));
-				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(Arrays.asList(prnum)));
+				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(Arrays.asList(prnum)), "주문 / 결제");
 			}
 		}
 
@@ -257,10 +255,14 @@ public class ShoppingBasket extends JPanel implements ActionListener, MouseListe
 		}
 		if (e.getSource() == shopping) {
 			if (LoginDB.sellerCheck(Setup.CustomerNum)) {
-				//SellerMenu.sellerPanel[1].setBackground(Setup.magenta);
+				Setup.selectMenuPanel(SellerMenu.sellerPanel[1]);
 				SellerMenu.sellerPanel[3].setBackground(Setup.darkGray);
 			}
-			else 
+			else {
+				Setup.selectMenuPanel(CustomerMenu.customerPanel[1]);
+				CustomerMenu.customerPanel[3].setBackground(Setup.darkGray);
+			}
+			
 			Setup.changePanel(Frame.contentLayeredPanel, new Search("", 0, "전체"), "상품검색");
 		}
 		if(e.getSource() == order) {
@@ -271,7 +273,8 @@ public class ShoppingBasket extends JPanel implements ActionListener, MouseListe
 						prnum.add(Integer.valueOf(shoppingBasketList.get(count).get(1)));
 					}
 				}
-				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(prnum));
+				Setup.lastClickReset();
+				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(prnum), "주문 / 결제");
 			}
 		}
 	}

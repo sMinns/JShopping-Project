@@ -23,6 +23,7 @@ public class Setup {
 	public static Color Gray = new Color(140, 140, 140);
 	public static Color textGray = new Color(177, 177, 177);
 	public static Color checkBoxBorderColor = new Color(210, 210, 210);
+	public static Color starYellow = new Color(255, 168, 0);
 	public static String font = "맑은 고딕";
 	public static JPanel lastClickPanel = null;
 	public static Color[] statColor = { new Color(255, 177, 1), new Color(246, 101, 1), new Color(171, 181, 54), new Color(1, 163, 255), new Color(193, 48, 56) }; 

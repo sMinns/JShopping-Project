@@ -6,6 +6,8 @@ import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.ArrayList;
 
 public class SubProductDetailDB {
     public static void addToShoppingBasket(int productNum) {
@@ -59,6 +61,43 @@ public class SubProductDetailDB {
                     r.close();
                 s.close();
             } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+    public static List<List<String>> reviewListLoad(int productNum) {
+        Statement s = null;
+        ResultSet r = null;
+        List<List<String>> arr = new ArrayList<>();
+        String[] col = {"review_num", "review_post", "review_date", "review_star", "review_prnum", "review_cunum", "customer_nick"};
+        try {
+            s = Database.con.createStatement();
+            String sql = String.format("select review_num, review_post, review_date, review_star, review_prnum, review_cunum, "
+                                        + "customer_nick from Review, Customer where customer_num = review_cunum and review_prnum = %d "
+                                        + "order by review_date desc", productNum);
+            r = s.executeQuery(sql);
+            while (r.next()) {
+                List<String> arrRowItems = new ArrayList<>();
+                for(int i = 0; i < 7; i++) {
+                    if(i == 0 || i == 3 || i == 4 || i == 5) {
+                        arrRowItems.add(String.valueOf(r.getInt(col[i])));
+                    }else {
+                        arrRowItems.add(r.getString(col[i]));
+                    }
+                }
+                arr.add(arrRowItems);
+            }
+            return arr;
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        } 
+        finally {
+            try {
+                s.close();
+            } 
+            catch (SQLException e) {
                 e.printStackTrace();
             }
         }

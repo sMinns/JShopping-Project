@@ -72,6 +72,7 @@ private OrderPage o;
             if(OrderPageDB.InsertOrder(str)) {
                 if(OrderPageDB.InsertOrderProduct(o.getStr(), orderNum)) {
                     OrderPageDB.updateProductStock(o.getPrnum(), o.getCount());
+                    OrderPageDB.changeProductStatus(o.getPrnum());
                     OrderPageDB.clearShoppingBasket(Setup.CustomerNum, o.getPrnum());
                     Setup.changePanel(Frame.contentLayeredPanel, new FinishOrderPanel());
                 }
