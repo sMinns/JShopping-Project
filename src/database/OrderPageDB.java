@@ -180,4 +180,25 @@ public class OrderPageDB {
             }
         }
     }
+
+    public static void changeProductStatus(List<Integer> prnum) {
+        Statement s = null;
+        String sql = "";
+        try {
+            s = Database.con.createStatement();
+            for (int i = 0; i < prnum.size(); i++) {
+                sql = String.format("update Product set product_stat = '판매대기', product_stock = 0 " +
+                        "where product_num = %d and product_stock <= 0", prnum.get(i));
+                s.executeUpdate(sql);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                s.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

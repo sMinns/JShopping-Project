@@ -37,7 +37,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 	private List<List<String>> shoppingBasketList;
 
 	public SubShoppingBasket() { // 로그인 상태가 아닐 시 출력될 패널
-		GridBagLayout subPanelLayout = createGBL(new int[] {290}, new int[] {40, 630});
+		GridBagLayout subPanelLayout = createGBL(new int[] {290}, new int[] {42, 630});
 		setLayout(subPanelLayout);
 
 		JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -68,7 +68,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		shoppingBasketList = SubShoppingBasketDB.shoppingBasketList(customerNum);
 		String splitedProductName;
 
-		GridBagLayout gridBagLayout = createGBL(new int[] {290}, new int[] {40, 30, 545, 50});
+		GridBagLayout gridBagLayout = createGBL(new int[] {290}, new int[] {42, 30, 545, 50});
 		GridBagLayout pricePanelLayout = createGBL(new int[] {42, 103}, new int[] {50});
 		GridBagLayout productLayout = createGBL(new int[] {25, 75, 190}, new int[] {81});
 		GridBagLayout productDetailLayout = createGBL(new int[] {190}, new int[] {20, 20, 40});
@@ -276,7 +276,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 					}
 				}
 				Setup.lastClickReset();
-				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(prnum));
+				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(prnum), "주문 / 결제");
 			}
 		}
 	}
