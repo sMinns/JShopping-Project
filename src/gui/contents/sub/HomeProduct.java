@@ -18,12 +18,13 @@ public class HomeProduct extends JPanel implements MouseListener {
 	JLabel imageLabel;
 	public HomeProduct(int prnum, boolean top) {
 		this.prnum = prnum;
-		name = HomeDB.returnHomeProductName(prnum);
 		this.setOpaque(false);
 		if(prnum == 0) {
 			image = new ImageIcon(HomeProduct.class.getResource("/images/nullimage.png"));
+			name = "상품이 부족합니다.";
 		}else {
 			image = new ImageIcon(HomeDB.productImageLoad(prnum));
+			name = HomeDB.returnHomeProductName(prnum);
 		}
 		//Layout
 			GridBagLayout gbl_panel_11 = new GridBagLayout();

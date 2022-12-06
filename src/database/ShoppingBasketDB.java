@@ -14,7 +14,7 @@ public class ShoppingBasketDB {
             s = Database.con.createStatement();
             String sql = String.format("select * from Product join ShoppingBasket on (product_num = sb_prnum) " +
                                        "join Customer on (customer_num = product_cunum) " + 
-                                       "where sb_cunum = %d", CustomerNum);
+                                       "where sb_cunum = %d order by product_cunum", CustomerNum);
             r = s.executeQuery(sql);
             while (r.next()) {
                 List<String> arrRowItems = new ArrayList<>();

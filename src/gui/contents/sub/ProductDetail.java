@@ -300,7 +300,7 @@ public class ProductDetail extends JPanel implements ActionListener {
             reviewBagCon.insets = new Insets(0, 0, 0, 0);
             reviewBagCon.gridy = 2;
             reviewPanel.add(reviewButtonPanel, reviewBagCon);
-            reviewButton = new ButtonType4(0, 0, 0, "상품평 전체 보기", 12);
+            reviewButton = new ButtonType4(0, 0, 0, String.format("상품평 %d개 전체 보기", reviewCount), 12);
             reviewButton.addActionListener(this);
             reviewButtonPanel.add(reviewButton);
         }
