@@ -1,8 +1,12 @@
 package gui.contents.sub;
 
 import database.HomeDB;
+import database.LoginDB;
 import gui.common.Frame;
 import gui.contents.main.Search;
+import gui.menu.CustomerMenu;
+import gui.menu.GuestMenu;
+import gui.menu.SellerMenu;
 import system.Setup;
 
 import javax.swing.*;
@@ -75,8 +79,21 @@ public class HomeProduct extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(prnum != 0)
+		if(prnum != 0) {
+			if(Setup.CustomerNum == 0) {
+				Setup.lastClickReset();
+				Setup.selectMenuPanel(GuestMenu.GuestPanel[1]);
+			}else if(LoginDB.sellerCheck(Setup.CustomerNum)) {
+				Setup.lastClickReset();
+				Setup.selectMenuPanel(SellerMenu.sellerPanel[1]);
+			}else if(Setup.CustomerNum == -1) {
+				return;
+			}else {
+				Setup.lastClickReset();
+				Setup.selectMenuPanel(CustomerMenu.customerPanel[1]);
+			}
 			Setup.changePanel(Frame.contentLayeredPanel, new Search(name, 0, "전체"), "상품검색");
+		}
 	}
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
@@ -90,4 +107,6 @@ public class HomeProduct extends JPanel implements MouseListener {
 	public void setTextArea(String str) {
 		textArea.setText(str);
 	}
+
+	public void setName(String str) { name = str; }
 }

@@ -109,6 +109,10 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 		if (!text.equals("")) {
 			search.setTextField(text);
 			search.getTextField().setFont(new Font(Setup.font, Font.PLAIN, 12));
+			if (text.length() >= 20) {
+				text = text.substring(0, 15);
+				text += "...";
+			}
 			resultLabel.setText(String.format("'%s'에 대한 검색결과", text));
 		}
 		search.getTextField().addActionListener(this);
@@ -224,7 +228,7 @@ public class Search extends JPanel implements ActionListener, MouseListener {
 				orderType = i;
 				Setup.changePanel(Frame.contentLayeredPanel, new Search(text, orderType, categoryName));
 			}
-		}				
+		}
     }
 	@Override
 	public void mouseReleased(MouseEvent e) {}

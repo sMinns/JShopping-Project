@@ -114,6 +114,7 @@ public class Home extends JPanel {
 			}
 			homeProducts[i].setImageLabel(images[i]);
 			homeProducts[i].setTextArea(str);
+			homeProducts[i].setName(str);
 		}
 	}
 	
