@@ -89,11 +89,11 @@ public class OrderPageDB {
         ResultSet r = null;
         try {
             s = Database.con.createStatement();
-            String sql = String.format("select count(*) from `Order` " +
+            String sql = String.format("select SUBSTR(MAX(order_num), -3) from `Order` " +
                     "where order_date = '%s'", date);
             r = s.executeQuery(sql);
             if (r.next()) {
-                return r.getInt(1);
+                return Integer.parseInt(r.getString(1)) + 1;
             }
         } catch (SQLException e) {
             e.printStackTrace();
