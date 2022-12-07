@@ -21,6 +21,7 @@ import java.util.List;
 public class SubShoppingBasket extends JPanel implements ActionListener, MouseListener {
 	private int count = 0, priceSum = 0;
 	private int productCount;
+	private JPanel checkPanel;
 	private JPanel[] productPanel;
 	private JLayeredPane layeredPanel;
 	private CheckBoxType1[] productCheckBox;
@@ -34,6 +35,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 	private JButton orderButton;
 	private JLabel priceLabel;
 	private int[] productNum;
+	private JLabel noProductLabel;
 	private List<List<String>> shoppingBasketList;
 
 	public SubShoppingBasket() { // 로그인 상태가 아닐 시 출력될 패널
@@ -75,7 +77,6 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		setLayout(gridBagLayout);
 
 		JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		JPanel checkPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel contentPanel = new JPanel();
 		JPanel productListPanel = new JPanel();
 		JPanel pricePanel = new JPanel(pricePanelLayout);
@@ -83,6 +84,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		JScrollPane scrollPane = new JScrollPane();
 
 		titlePanel.setBackground(Setup.white);
+		checkPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		checkPanel.setBackground(Setup.white);
 		productListPanel.setBackground(Setup.white);
 		pricePanel.setBackground(Setup.white);
@@ -97,6 +99,10 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 
 		priceLabel = new JLabel("0원");
 		priceLabel.setFont(new Font(Setup.font, Font.BOLD, 14));
+
+		noProductLabel = new JLabel();
+		noProductLabel.setFont(new Font(Setup.font, Font.BOLD, 12));
+		noProductLabel.setForeground(Setup.magenta);
 
 		productCount = shoppingBasketList.size();
 		productPanel = new JPanel[productCount];
@@ -132,6 +138,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		selectCheckBox.addActionListener(this);
 		selectCheckBox.setSelected(true);
 		checkPanel.add(selectCheckBox);
+		checkPanel.add(noProductLabel);
 
 		contentPanel.setLayout(new BorderLayout());
 		contentPanel.add(scrollPane);
@@ -165,8 +172,8 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		for (count = 0; count < productCount; count++) {
 			productNum[count] = Integer.parseInt(shoppingBasketList.get(count).get(0));
 			productImage[count].setIcon(Setup.imageSetSize(new ImageIcon(SubShoppingBasketDB.productImageLoad(productNum[count])), 70, 70));
-			if ((splitedProductName = shoppingBasketList.get(count).get(1)).length() >= 25)
-				productName[count].setText(splitedProductName.substring(0, 24) + "...");
+			if ((splitedProductName = shoppingBasketList.get(count).get(1)).length() >= 16)
+				productName[count].setText(splitedProductName.substring(0, 16) + "...");
 			else
 				productName[count].setText(splitedProductName);
 			productPrice[count].setText(String.format("%s원", NumberFormat.getInstance().format(Integer.parseInt(shoppingBasketList.get(count).get(2)))));
@@ -226,6 +233,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 				}
 			}
 			if (e.getSource() == productCheckBox[i]) {
+				noProductLabel.setText("");
 				if (productCheckBox[i].isSelected()) {
 					priceSum += Integer.parseInt(shoppingBasketList.get(i).get(2)) * Integer.parseInt(shoppingBasketList.get(i).get(3));
 					priceLabel.setText(String.format("%s원", NumberFormat.getInstance().format(priceSum)));
@@ -251,6 +259,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 		}
 
 		if(e.getSource() == selectCheckBox) {
+			noProductLabel.setText("");
 			for (int i = 0; i < count; i++) {
 				if(selectCheckBox.isSelected()) {
 					if(!productCheckBox[i].isSelected()) {
@@ -269,6 +278,7 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 
 		if(e.getSource() == orderButton) {
 			if(!priceLabel.getText().equals("0원")) {
+				noProductLabel.setText("");
 				List<Integer> prnum = new ArrayList<>();
 				for (int i = 0; i < count; i++) {
 					if(productCheckBox[i].isSelected()) {
@@ -277,6 +287,9 @@ public class SubShoppingBasket extends JPanel implements ActionListener, MouseLi
 				}
 				Setup.lastClickReset();
 				Setup.changePanel(Frame.contentLayeredPanel, new OrderPage(prnum), "주문 / 결제");
+			}
+			else {
+				noProductLabel.setText("* 상품을 선택해주세요.");
 			}
 		}
 	}
