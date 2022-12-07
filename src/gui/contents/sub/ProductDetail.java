@@ -43,7 +43,7 @@ public class ProductDetail extends JPanel implements ActionListener {
 
         GridBagLayout detailLayout = new GridBagLayout();
         detailLayout.columnWidths = new int[]{0, 0};
-        detailLayout.rowHeights = new int[]{245, 185, 0};
+        detailLayout.rowHeights = new int[]{245, 175, 0};
         detailLayout.columnWeights = new double[]{1.0};
         detailLayout.rowWeights = new double[]{0.0, 0.0, 1.0};
         this.setLayout(detailLayout);
@@ -69,7 +69,7 @@ public class ProductDetail extends JPanel implements ActionListener {
 
         GridBagLayout productInfoLayout = new GridBagLayout();
         productInfoLayout.columnWidths = new int[]{0, 0};
-        productInfoLayout.rowHeights = new int[]{45, 25, 25, 25, 30, 35};
+        productInfoLayout.rowHeights = new int[]{55, 25, 15, 15, 30, 35};
         productInfoLayout.columnWeights = new double[]{1.0};
         productInfoLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         productInfoPanel.setLayout(productInfoLayout);
@@ -186,7 +186,7 @@ public class ProductDetail extends JPanel implements ActionListener {
         else {
             GridBagLayout reviewLayout = new GridBagLayout();
             reviewLayout.columnWidths = new int[]{0, 0};
-            reviewLayout.rowHeights = new int[]{45, 110, 30, 0};
+            reviewLayout.rowHeights = new int[]{40, 110, 30};
             reviewLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
             reviewLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
             reviewPanel.setLayout(reviewLayout);  

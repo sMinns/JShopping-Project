@@ -51,7 +51,7 @@ public class SellerApplicationEvent implements ActionListener {
             }
 
             if (s.getEmailtextField().equals("")) {
-                s.setEmailDesLabel("* 상호 / 대표자를 입력해주세요.");
+                s.setEmailDesLabel("* 이메일을 입력해주세요.");
                 s.focusEmailtextField();
                 return;
             } else {
@@ -60,7 +60,7 @@ public class SellerApplicationEvent implements ActionListener {
 
             if (s.getBusinessnumtextField().equals("") || s.getBusinessnumtextField2().equals("") ||
                     s.getBusinessnumtextField3().equals("")) {
-                s.setBusinessnumDesLabel("* 연락처를 입력해주세요.");
+                s.setBusinessnumDesLabel("* 사업자 등록 번호를 입력해주세요.");
                 s.focusBusinessnumtextField();
                 return;
             } else {
