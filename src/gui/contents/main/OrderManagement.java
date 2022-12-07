@@ -177,7 +177,6 @@ public class OrderManagement extends JPanel implements ActionListener, MouseList
 		topBagCon.gridx = 0;
 		topBagCon.gridy = 0;
 		OrderMainPanel.add(topPanel, topBagCon);
-		//System.out.print("해줘요");
 		GridBagLayout topPanelLayout = new GridBagLayout();
 		topPanelLayout.columnWidths = new int[]{735, 250};
 		topPanel.setLayout(topPanelLayout);
