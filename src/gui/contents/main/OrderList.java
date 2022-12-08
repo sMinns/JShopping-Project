@@ -54,7 +54,7 @@ public class OrderList extends JPanel implements ActionListener, MouseListener{
 		for(int i=0;i<Ordersize;i++) {
 			if (selectPanel != -1) {
 				if (e.getSource() == listpanel[selectPanel]) {
-						Setup.changePanel(p2, new GuideSubPanel("상품을 선택해서 정보를 변경할 수 있습니다."));
+						Setup.changePanel(p2, new GuideSubPanel("상품을 선택해서 리뷰를 작성할 수 있습니다."));
 						listpanel[selectPanel].setBorder(null);
 						selectPanel = -1;
 						return;
@@ -166,7 +166,7 @@ public class OrderList extends JPanel implements ActionListener, MouseListener{
 
 			p = new JPanel(); // 메인
 			p2 = new JPanel(); //서브
-			p3 = new GuideSubPanel("상품을 선택해서 정보를 변경할 수 있습니다.");
+			p3 = new GuideSubPanel("상품을 선택해서 리뷰를 작성할 수 있습니다.");
 			p2.add(p3);
 			GridBagConstraints productBagCon = new GridBagConstraints();
 			productBagCon.insets = new Insets(0, 0, 0, 5);
@@ -176,7 +176,6 @@ public class OrderList extends JPanel implements ActionListener, MouseListener{
 			this.add(p, productBagCon);
 			productBagCon.gridx=1;
 			this.add(p2, productBagCon);
-			p2.add(new JLabel("상품을 클릭하여 리뷰를 작성해"),productBagCon);
 			p2.setLayout(new CardLayout());
 			p.setLayout(new CardLayout());
 

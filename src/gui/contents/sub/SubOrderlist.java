@@ -158,7 +158,7 @@ public class SubOrderlist extends JPanel implements ActionListener, MouseListene
                     }
                     JLabel saler =new JLabel();
                     saler.setFont(new Font(Setup.font, Font.BOLD, 15));
-                    saler.setText(String.format("판매자 : %s                   ", OrderListDB.sllername(Integer.parseInt(select[7]))));
+                    saler.setText(String.format("판매자: %s                   ", OrderListDB.sllername(Integer.parseInt(select[7]))));
                     under[2].add(saler);
                     un3[0].add(saler);
                     un3[1].add(del);
@@ -301,7 +301,7 @@ public class SubOrderlist extends JPanel implements ActionListener, MouseListene
                 if(i==2) {
                     JLabel saler =new JLabel();
                     saler.setFont(new Font(Setup.font, Font.BOLD, 15));
-                    saler.setText("판매자 :"+OrderListDB.sllername(Integer.parseInt(select[7]))) ;
+                    saler.setText("판매자: "+OrderListDB.sllername(Integer.parseInt(select[7]))) ;
                     under[2].add(saler);
                 }
                 if(i==3) {
