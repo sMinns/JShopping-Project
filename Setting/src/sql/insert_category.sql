@@ -1,0 +1,15 @@
+INSERT INTO category (category_name) VALUES ('패션의류');
+INSERT INTO category (category_name) VALUES ('뷰티');
+INSERT INTO category (category_name) VALUES ('출산/유아동');
+INSERT INTO category (category_name) VALUES ('식품');
+INSERT INTO category (category_name) VALUES ('주방용품');
+INSERT INTO category (category_name) VALUES ('생활용품');
+INSERT INTO category (category_name) VALUES ('홈인테리어');
+INSERT INTO category (category_name) VALUES ('가전디지털');
+INSERT INTO category (category_name) VALUES ('스포츠/레저');
+INSERT INTO category (category_name) VALUES ('자동차용품');
+INSERT INTO category (category_name) VALUES ('도서/음반/DVD');
+INSERT INTO category (category_name) VALUES ('완구/취미');
+INSERT INTO category (category_name) VALUES ('문구/오피스');
+INSERT INTO category (category_name) VALUES ('반려동물용품');
+INSERT INTO category (category_name) VALUES ('헬스/건강식품');

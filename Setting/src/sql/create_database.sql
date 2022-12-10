@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS `jshopping`;
+CREATE DATABASE `jshopping`;
